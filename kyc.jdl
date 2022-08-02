@@ -1,8 +1,9 @@
 
 entity Applicant {
-  createdAt Instant,
+  createdAt Instant
   createdBy Long,
   modifiedAt Instant
+  platform Platform
 }
 
 entity IpInfo {
@@ -149,7 +150,6 @@ relationship ManyToOne {
   Country{applicants} to ApplicantInfo{countryOfBirth} 
   Country{phones} to ApplicantPhone{phoneCountry} 
   ApplicantLevel{applicant} to Applicant{applicantLevel}
-  Platform{applicant} to Applicant{applicantPlatform}
 } 
 
 relationship ManyToMany {

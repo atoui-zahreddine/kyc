@@ -1,0 +1,61 @@
+{
+  "applications": "*",
+  "changelogDate": "20220802105134",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "applicant",
+  "fields": [
+    {
+      "fieldName": "createdAt",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "modifiedAt",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "platform",
+      "fieldType": "Platform",
+      "fieldValues": "API,WEB,ANDROID,IOS"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Applicant",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "applicantInfo",
+      "otherEntityRelationshipName": "applicant",
+      "ownerSide": false,
+      "relationshipName": "applicantInfo",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "ipInfo",
+      "otherEntityRelationshipName": "applicant",
+      "ownerSide": false,
+      "relationshipName": "ipInfo",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "userAgentInfo",
+      "otherEntityRelationshipName": "applicant",
+      "ownerSide": false,
+      "relationshipName": "userAgentInfo",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "applicantLevel",
+      "otherEntityRelationshipName": "applicant",
+      "relationshipName": "applicantLevel",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

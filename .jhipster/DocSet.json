@@ -1,0 +1,38 @@
+{
+  "applications": "*",
+  "changelogDate": "20220802105144",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "doc_set",
+  "fields": [
+    {
+      "fieldName": "idDocSetType",
+      "fieldType": "IdDocSetType",
+      "fieldValues": "IDENTITY,SELFIE,PROOF_OF_RESIDENCE,EMAIL_VERIFICATION,PHONE_VERIFICATION"
+    },
+    {
+      "fieldName": "subTypes",
+      "fieldType": "SubType",
+      "fieldValues": "FRONT_SIDE,BACK_SIDE"
+    },
+    {
+      "fieldName": "types",
+      "fieldType": "TypeDoc",
+      "fieldValues": "ID_CARD,PASSPORT,RESIDENCE_PERMIT,DRIVERS,SELFIE"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "DocSet",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "step",
+      "otherEntityRelationshipName": "docSet",
+      "relationshipName": "step",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

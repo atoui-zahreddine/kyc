@@ -1,0 +1,54 @@
+{
+  "applications": "*",
+  "changelogDate": "20220802105143",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "step",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdAt",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "modifiedAt",
+      "fieldType": "Instant"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Step",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "applicantLevel",
+      "otherEntityRelationshipName": "step",
+      "ownerSide": true,
+      "relationshipName": "applicantLevel",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "docSet",
+      "otherEntityRelationshipName": "step",
+      "relationshipName": "docSet",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

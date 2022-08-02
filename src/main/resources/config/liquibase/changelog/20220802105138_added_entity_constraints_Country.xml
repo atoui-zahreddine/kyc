@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <!--
+        Added the constraints for entity Country.
+    -->
+    <changeSet id="20220802105138-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="addresses_id"
+                                 baseTableName="country"
+                                 constraintName="fk_country__addresses_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="applicant_addresse"/>
+
+        <addForeignKeyConstraint baseColumnNames="docs_id"
+                                 baseTableName="country"
+                                 constraintName="fk_country__docs_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="applicant_docs"/>
+
+        <addForeignKeyConstraint baseColumnNames="applicants_id"
+                                 baseTableName="country"
+                                 constraintName="fk_country__applicants_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="applicant_info"/>
+
+        <addForeignKeyConstraint baseColumnNames="phones_id"
+                                 baseTableName="country"
+                                 constraintName="fk_country__phones_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="applicant_phone"/>
+    </changeSet>
+</databaseChangeLog>

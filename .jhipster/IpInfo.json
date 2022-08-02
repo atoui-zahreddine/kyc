@@ -1,0 +1,52 @@
+{
+  "applications": "*",
+  "changelogDate": "20220802105135",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "ip_info",
+  "fields": [
+    {
+      "fieldName": "asn",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "asnOrg",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "countryCode2",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "countryCode3",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ip",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lat",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "lon",
+      "fieldType": "Double"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "IpInfo",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "applicant",
+      "otherEntityRelationshipName": "ipInfo",
+      "ownerSide": true,
+      "relationshipName": "applicant",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

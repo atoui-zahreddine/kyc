@@ -1,0 +1,67 @@
+{
+  "applications": "*",
+  "changelogDate": "20220802105139",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "applicant_docs",
+  "fields": [
+    {
+      "fieldName": "docType",
+      "fieldType": "TypeDoc",
+      "fieldValues": "ID_CARD,PASSPORT,RESIDENCE_PERMIT,DRIVERS,SELFIE"
+    },
+    {
+      "fieldName": "firstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "number",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateOfBirth",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "validUntil",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "imageUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "subTypes",
+      "fieldType": "SubType",
+      "fieldValues": "FRONT_SIDE,BACK_SIDE"
+    },
+    {
+      "fieldName": "imageTrust",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "ApplicantDocs",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "applicantInfo",
+      "otherEntityRelationshipName": "applicantDocs",
+      "relationshipName": "applicantInfo",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "country",
+      "otherEntityRelationshipName": "docs",
+      "relationshipName": "docsCountry",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

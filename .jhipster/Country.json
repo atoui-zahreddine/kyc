@@ -1,0 +1,62 @@
+{
+  "applications": "*",
+  "changelogDate": "20220802105138",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "country",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "countryCode2",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "countryCode3",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phoneCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "region",
+      "fieldType": "CountryRegion",
+      "fieldValues": "Africa,Americas,Antarctica,Asia,Europe,Oceania"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Country",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "applicantAddresse",
+      "otherEntityRelationshipName": "addresseCountry",
+      "relationshipName": "addresses",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "applicantDocs",
+      "otherEntityRelationshipName": "docsCountry",
+      "relationshipName": "docs",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "applicantInfo",
+      "otherEntityRelationshipName": "countryOfBirth",
+      "relationshipName": "applicants",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "applicantPhone",
+      "otherEntityRelationshipName": "phoneCountry",
+      "relationshipName": "phones",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

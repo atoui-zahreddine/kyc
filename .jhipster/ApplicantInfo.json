@@ -1,0 +1,89 @@
+{
+  "applications": "*",
+  "changelogDate": "20220802105137",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "applicant_info",
+  "fields": [
+    {
+      "fieldName": "firstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "addresses",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "middleName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "stateOfBirth",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateOfBirth",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "placeOfBirth",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nationality",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "Gender",
+      "fieldValues": "MALE,FEMALE"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "ApplicantInfo",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "applicant",
+      "otherEntityRelationshipName": "applicantInfo",
+      "ownerSide": true,
+      "relationshipName": "applicant",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "applicantAddresse",
+      "otherEntityRelationshipName": "applicantInfo",
+      "relationshipName": "applicantAddresse",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "applicantPhone",
+      "otherEntityRelationshipName": "applicantInfo",
+      "relationshipName": "applicantPhone",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "applicantDocs",
+      "otherEntityRelationshipName": "applicantInfo",
+      "relationshipName": "applicantDocs",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "country",
+      "otherEntityRelationshipName": "applicants",
+      "relationshipName": "countryOfBirth",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

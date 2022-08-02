@@ -1,0 +1,58 @@
+{
+  "applications": "*",
+  "changelogDate": "20220802105142",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "applicant_level",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "levelName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "url",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdAt",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "modifiedAt",
+      "fieldType": "Instant"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "ApplicantLevel",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "applicant",
+      "otherEntityRelationshipName": "applicantLevel",
+      "relationshipName": "applicant",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "step",
+      "otherEntityRelationshipName": "applicantLevel",
+      "ownerSide": false,
+      "relationshipName": "step",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

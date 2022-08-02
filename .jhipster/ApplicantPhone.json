@@ -1,0 +1,41 @@
+{
+  "applications": "*",
+  "changelogDate": "20220802105140",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "applicant_phone",
+  "fields": [
+    {
+      "fieldName": "country",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "number",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "enabled",
+      "fieldType": "Boolean"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "ApplicantPhone",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "applicantInfo",
+      "otherEntityRelationshipName": "applicantPhone",
+      "relationshipName": "applicantInfo",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "country",
+      "otherEntityRelationshipName": "phones",
+      "relationshipName": "phoneCountry",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

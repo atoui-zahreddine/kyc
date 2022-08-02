@@ -1,0 +1,40 @@
+{
+  "applications": "*",
+  "changelogDate": "20220802105136",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "user_agent_info",
+  "fields": [
+    {
+      "fieldName": "uaBrowser",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "uaBrowserVersion",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "uaDeviceType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "uaPlatform",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "UserAgentInfo",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "applicant",
+      "otherEntityRelationshipName": "userAgentInfo",
+      "ownerSide": true,
+      "relationshipName": "applicant",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}
