@@ -1,0 +1,170 @@
+
+entity Applicant {
+  createdAt Instant,
+  createdBy Long,
+  modifiedAt Instant
+}
+
+entity IpInfo {
+  asn Long
+  asnOrg String
+  countryCode2 String
+  countryCode3 String
+  ip String
+  lat Double
+  lon Double
+} 
+
+entity UserAgentInfo {
+  uaBrowser String
+  uaBrowserVersion String
+  uaDeviceType String
+  uaPlatform String
+}
+
+entity ApplicantInfo {
+  firstName String
+  lastName String
+  addresses String
+  email String
+  middleName String
+  stateOfBirth String
+  dateOfBirth LocalDate
+  placeOfBirth String
+  nationality String
+  gender Gender
+}
+
+entity Country{
+	name String,
+    countryCode2 String
+    countryCode3 String
+    phoneCode String
+    region CountryRegion
+}
+
+enum CountryRegion{
+ 	Africa 
+ 	Americas 
+ 	Antarctica 
+ 	Asia 
+ 	Europe 
+ 	Oceania
+}
+
+entity ApplicantDocs {
+  docType TypeDoc
+  firstName String
+  lastName String
+  number String
+  dateOfBirth LocalDate
+  validUntil LocalDate
+  imageUrl String
+  subTypes SubType
+  imageTrust String
+}
+
+entity ApplicantPhone {
+  country String
+  number String
+  enabled Boolean
+}
+
+entity ApplicantAddresse {
+  postCode String
+  state String
+  street String
+  subStreet String
+  town String
+  enabled Boolean
+}
+
+entity ApplicantLevel {
+  code String,
+  levelName String,
+  description String,
+  url String,
+  createdAt Instant,
+  createdBy Long,
+  modifiedAt Instant
+
+}
+
+entity Step {
+  code String,
+  name String,
+  description String,
+  createdAt Instant,
+  createdBy Long,
+  modifiedAt Instant
+}
+
+entity DocSet {
+  idDocSetType IdDocSetType
+  subTypes SubType
+  types TypeDoc
+}
+
+enum SubType {
+  FRONT_SIDE
+  BACK_SIDE
+}
+
+enum IdDocSetType {
+  IDENTITY
+  SELFIE
+  PROOF_OF_RESIDENCE
+  EMAIL_VERIFICATION
+  PHONE_VERIFICATION
+}
+
+enum TypeDoc {
+  ID_CARD
+  PASSPORT
+  RESIDENCE_PERMIT
+  DRIVERS
+  SELFIE
+}
+
+enum Platform {
+  API
+  WEB
+  ANDROID
+  IOS
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+
+relationship ManyToOne {
+  DocSet{step} to Step{docSet}
+  ApplicantAddresse{applicantInfo} to ApplicantInfo{applicantAddresse}
+  ApplicantPhone{applicantInfo} to ApplicantInfo{applicantPhone}
+  ApplicantDocs{applicantInfo} to ApplicantInfo{applicantDocs}
+  Country{addresses} to ApplicantAddresse{addresseCountry}   
+  Country{docs} to ApplicantDocs{docsCountry} 
+  Country{applicants} to ApplicantInfo{countryOfBirth} 
+  Country{phones} to ApplicantPhone{phoneCountry} 
+  ApplicantLevel{applicant} to Applicant{applicantLevel}
+  Platform{applicant} to Applicant{applicantPlatform}
+} 
+
+relationship ManyToMany {
+  Step{applicantLevel} to ApplicantLevel{step}
+}
+
+relationship OneToOne {
+  ApplicantInfo{applicant} to Applicant{applicantInfo}
+  IpInfo{applicant}  to Applicant{ipInfo}
+  UserAgentInfo{applicant}  to Applicant{userAgentInfo}
+}
+
+
+filter *
+paginate * with pagination
+service * with serviceClass
+service * with serviceImpl
+dto * with mapstruct
