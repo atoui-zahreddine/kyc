@@ -16,7 +16,7 @@ public class ApplicantPhoneDTO implements Serializable {
 
     private Boolean enabled;
 
-    private ApplicantInfoDTO applicantInfo;
+    private CountryDTO phoneCountry;
 
     public Long getId() {
         return id;
@@ -50,12 +50,12 @@ public class ApplicantPhoneDTO implements Serializable {
         this.enabled = enabled;
     }
 
-    public ApplicantInfoDTO getApplicantInfo() {
-        return applicantInfo;
+    public CountryDTO getPhoneCountry() {
+        return phoneCountry;
     }
 
-    public void setApplicantInfo(ApplicantInfoDTO applicantInfo) {
-        this.applicantInfo = applicantInfo;
+    public void setPhoneCountry(CountryDTO phoneCountry) {
+        this.phoneCountry = phoneCountry;
     }
 
     @Override
@@ -87,7 +87,7 @@ public class ApplicantPhoneDTO implements Serializable {
             ", country='" + getCountry() + "'" +
             ", number='" + getNumber() + "'" +
             ", enabled='" + getEnabled() + "'" +
-            ", applicantInfo=" + getApplicantInfo() +
+            ", phoneCountry=" + getPhoneCountry() +
             "}";
     }
 }

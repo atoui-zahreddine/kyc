@@ -141,27 +141,26 @@ enum Gender {
 
 
 relationship ManyToOne {
-  DocSet{step} to Step{docSet}
-  ApplicantAddresse{applicantInfo} to ApplicantInfo{applicantAddresse}
-  ApplicantPhone{applicantInfo} to ApplicantInfo{applicantPhone}
-  ApplicantDocs{applicantInfo} to ApplicantInfo{applicantDocs}
-  Country{addresses} to ApplicantAddresse{addresseCountry}   
-  Country{docs} to ApplicantDocs{docsCountry} 
-  Country{applicants} to ApplicantInfo{countryOfBirth} 
-  Country{phones} to ApplicantPhone{phoneCountry} 
-  ApplicantLevel{applicant} to Applicant{applicantLevel}
+  ApplicantAddresse{addresseCountry} to Country{addresses}
+  ApplicantDocs{docsCountry} to Country{docs}
+  ApplicantInfo{countryOfBirth} to Country{applicants}
+  ApplicantPhone{phoneCountry} to Country{phones}
+  Applicant{applicantLevel} to ApplicantLevel{applicant}
 } 
 
 relationship ManyToMany {
-  Step{applicantLevel} to ApplicantLevel{step}
+  ApplicantLevel{step} to Step{applicantLevel}
+  ApplicantInfo{applicantAddresse} to ApplicantAddresse{applicantInfo}
+  ApplicantInfo{applicantPhone} to ApplicantPhone{applicantInfo}
+  ApplicantInfo{applicantDocs} to ApplicantDocs{applicantInfo}
+  Step{docSet} to DocSet{step}
 }
 
 relationship OneToOne {
-  ApplicantInfo{applicant} to Applicant{applicantInfo}
-  IpInfo{applicant}  to Applicant{ipInfo}
-  UserAgentInfo{applicant}  to Applicant{userAgentInfo}
+  Applicant{applicantInfo} to ApplicantInfo{applicant}
+  Applicant{ipInfo} to IpInfo{applicant}
+  Applicant{userAgentInfo} to UserAgentInfo{applicant}
 }
-
 
 filter *
 paginate * with pagination

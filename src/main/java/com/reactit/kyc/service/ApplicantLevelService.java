@@ -34,6 +34,14 @@ public interface ApplicantLevelService {
     Page<ApplicantLevelDTO> findAll(Pageable pageable);
 
     /**
+     * Get all the applicantLevels with eager load of many-to-many relationships.
+     *
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    Page<ApplicantLevelDTO> findAllWithEagerRelationships(Pageable pageable);
+
+    /**
      * Get the "id" applicantLevel.
      *
      * @param id the id of the entity.

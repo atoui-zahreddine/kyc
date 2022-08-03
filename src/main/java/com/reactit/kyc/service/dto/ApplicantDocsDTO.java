@@ -31,7 +31,7 @@ public class ApplicantDocsDTO implements Serializable {
 
     private String imageTrust;
 
-    private ApplicantInfoDTO applicantInfo;
+    private CountryDTO docsCountry;
 
     public Long getId() {
         return id;
@@ -113,12 +113,12 @@ public class ApplicantDocsDTO implements Serializable {
         this.imageTrust = imageTrust;
     }
 
-    public ApplicantInfoDTO getApplicantInfo() {
-        return applicantInfo;
+    public CountryDTO getDocsCountry() {
+        return docsCountry;
     }
 
-    public void setApplicantInfo(ApplicantInfoDTO applicantInfo) {
-        this.applicantInfo = applicantInfo;
+    public void setDocsCountry(CountryDTO docsCountry) {
+        this.docsCountry = docsCountry;
     }
 
     @Override
@@ -156,7 +156,7 @@ public class ApplicantDocsDTO implements Serializable {
             ", imageUrl='" + getImageUrl() + "'" +
             ", subTypes='" + getSubTypes() + "'" +
             ", imageTrust='" + getImageTrust() + "'" +
-            ", applicantInfo=" + getApplicantInfo() +
+            ", docsCountry=" + getDocsCountry() +
             "}";
     }
 }

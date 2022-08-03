@@ -43,13 +43,18 @@ public class ApplicantLevel implements Serializable {
     @Column(name = "modified_at")
     private Instant modifiedAt;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "applicantInfo", "ipInfo", "userAgentInfo", "applicantLevels" }, allowSetters = true)
-    private Applicant applicant;
-
-    @ManyToMany(mappedBy = "applicantLevels")
-    @JsonIgnoreProperties(value = { "applicantLevels", "docSets" }, allowSetters = true)
+    @ManyToMany
+    @JoinTable(
+        name = "rel_applicant_level__step",
+        joinColumns = @JoinColumn(name = "applicant_level_id"),
+        inverseJoinColumns = @JoinColumn(name = "step_id")
+    )
+    @JsonIgnoreProperties(value = { "docSets", "applicantLevels" }, allowSetters = true)
     private Set<Step> steps = new HashSet<>();
+
+    @OneToMany(mappedBy = "applicantLevel")
+    @JsonIgnoreProperties(value = { "applicantLevel", "applicantInfo", "ipInfo", "userAgentInfo" }, allowSetters = true)
+    private Set<Applicant> applicants = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -157,30 +162,11 @@ public class ApplicantLevel implements Serializable {
         this.modifiedAt = modifiedAt;
     }
 
-    public Applicant getApplicant() {
-        return this.applicant;
-    }
-
-    public void setApplicant(Applicant applicant) {
-        this.applicant = applicant;
-    }
-
-    public ApplicantLevel applicant(Applicant applicant) {
-        this.setApplicant(applicant);
-        return this;
-    }
-
     public Set<Step> getSteps() {
         return this.steps;
     }
 
     public void setSteps(Set<Step> steps) {
-        if (this.steps != null) {
-            this.steps.forEach(i -> i.removeApplicantLevel(this));
-        }
-        if (steps != null) {
-            steps.forEach(i -> i.addApplicantLevel(this));
-        }
         this.steps = steps;
     }
 
@@ -198,6 +184,37 @@ public class ApplicantLevel implements Serializable {
     public ApplicantLevel removeStep(Step step) {
         this.steps.remove(step);
         step.getApplicantLevels().remove(this);
+        return this;
+    }
+
+    public Set<Applicant> getApplicants() {
+        return this.applicants;
+    }
+
+    public void setApplicants(Set<Applicant> applicants) {
+        if (this.applicants != null) {
+            this.applicants.forEach(i -> i.setApplicantLevel(null));
+        }
+        if (applicants != null) {
+            applicants.forEach(i -> i.setApplicantLevel(this));
+        }
+        this.applicants = applicants;
+    }
+
+    public ApplicantLevel applicants(Set<Applicant> applicants) {
+        this.setApplicants(applicants);
+        return this;
+    }
+
+    public ApplicantLevel addApplicant(Applicant applicant) {
+        this.applicants.add(applicant);
+        applicant.setApplicantLevel(this);
+        return this;
+    }
+
+    public ApplicantLevel removeApplicant(Applicant applicant) {
+        this.applicants.remove(applicant);
+        applicant.setApplicantLevel(null);
         return this;
     }
 

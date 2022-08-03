@@ -120,7 +120,7 @@ export const ApplicantAddresse = (props: RouteComponentProps<{ url: string }>) =
                   Enabled <FontAwesomeIcon icon="sort" />
                 </th>
                 <th>
-                  Applicant Info <FontAwesomeIcon icon="sort" />
+                  Addresse Country <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -140,8 +140,8 @@ export const ApplicantAddresse = (props: RouteComponentProps<{ url: string }>) =
                   <td>{applicantAddresse.town}</td>
                   <td>{applicantAddresse.enabled ? 'true' : 'false'}</td>
                   <td>
-                    {applicantAddresse.applicantInfo ? (
-                      <Link to={`applicant-info/${applicantAddresse.applicantInfo.id}`}>{applicantAddresse.applicantInfo.id}</Link>
+                    {applicantAddresse.addresseCountry ? (
+                      <Link to={`country/${applicantAddresse.addresseCountry.id}`}>{applicantAddresse.addresseCountry.id}</Link>
                     ) : (
                       ''
                     )}

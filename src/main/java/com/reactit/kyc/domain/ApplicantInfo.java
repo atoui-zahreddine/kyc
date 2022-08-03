@@ -54,26 +54,41 @@ public class ApplicantInfo implements Serializable {
     @Column(name = "gender")
     private Gender gender;
 
-    @JsonIgnoreProperties(value = { "applicantInfo", "ipInfo", "userAgentInfo", "applicantLevels" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "applicantLevel", "applicantInfo", "ipInfo", "userAgentInfo" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private Applicant applicant;
 
-    @OneToMany(mappedBy = "applicantInfo")
-    @JsonIgnoreProperties(value = { "applicantInfo", "addresseCountries" }, allowSetters = true)
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "addresses", "docs", "applicants", "phones" }, allowSetters = true)
+    private Country countryOfBirth;
+
+    @ManyToMany
+    @JoinTable(
+        name = "rel_applicant_info__applicant_addresse",
+        joinColumns = @JoinColumn(name = "applicant_info_id"),
+        inverseJoinColumns = @JoinColumn(name = "applicant_addresse_id")
+    )
+    @JsonIgnoreProperties(value = { "addresseCountry", "applicantInfos" }, allowSetters = true)
     private Set<ApplicantAddresse> applicantAddresses = new HashSet<>();
 
-    @OneToMany(mappedBy = "applicantInfo")
-    @JsonIgnoreProperties(value = { "applicantInfo", "phoneCountries" }, allowSetters = true)
+    @ManyToMany
+    @JoinTable(
+        name = "rel_applicant_info__applicant_phone",
+        joinColumns = @JoinColumn(name = "applicant_info_id"),
+        inverseJoinColumns = @JoinColumn(name = "applicant_phone_id")
+    )
+    @JsonIgnoreProperties(value = { "phoneCountry", "applicantInfos" }, allowSetters = true)
     private Set<ApplicantPhone> applicantPhones = new HashSet<>();
 
-    @OneToMany(mappedBy = "applicantInfo")
-    @JsonIgnoreProperties(value = { "applicantInfo", "docsCountries" }, allowSetters = true)
+    @ManyToMany
+    @JoinTable(
+        name = "rel_applicant_info__applicant_docs",
+        joinColumns = @JoinColumn(name = "applicant_info_id"),
+        inverseJoinColumns = @JoinColumn(name = "applicant_docs_id")
+    )
+    @JsonIgnoreProperties(value = { "docsCountry", "applicantInfos" }, allowSetters = true)
     private Set<ApplicantDocs> applicantDocs = new HashSet<>();
-
-    @OneToMany(mappedBy = "applicants")
-    @JsonIgnoreProperties(value = { "addresses", "docs", "applicants", "phones" }, allowSetters = true)
-    private Set<Country> countryOfBirths = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -233,17 +248,24 @@ public class ApplicantInfo implements Serializable {
         return this;
     }
 
+    public Country getCountryOfBirth() {
+        return this.countryOfBirth;
+    }
+
+    public void setCountryOfBirth(Country country) {
+        this.countryOfBirth = country;
+    }
+
+    public ApplicantInfo countryOfBirth(Country country) {
+        this.setCountryOfBirth(country);
+        return this;
+    }
+
     public Set<ApplicantAddresse> getApplicantAddresses() {
         return this.applicantAddresses;
     }
 
     public void setApplicantAddresses(Set<ApplicantAddresse> applicantAddresses) {
-        if (this.applicantAddresses != null) {
-            this.applicantAddresses.forEach(i -> i.setApplicantInfo(null));
-        }
-        if (applicantAddresses != null) {
-            applicantAddresses.forEach(i -> i.setApplicantInfo(this));
-        }
         this.applicantAddresses = applicantAddresses;
     }
 
@@ -254,13 +276,13 @@ public class ApplicantInfo implements Serializable {
 
     public ApplicantInfo addApplicantAddresse(ApplicantAddresse applicantAddresse) {
         this.applicantAddresses.add(applicantAddresse);
-        applicantAddresse.setApplicantInfo(this);
+        applicantAddresse.getApplicantInfos().add(this);
         return this;
     }
 
     public ApplicantInfo removeApplicantAddresse(ApplicantAddresse applicantAddresse) {
         this.applicantAddresses.remove(applicantAddresse);
-        applicantAddresse.setApplicantInfo(null);
+        applicantAddresse.getApplicantInfos().remove(this);
         return this;
     }
 
@@ -269,12 +291,6 @@ public class ApplicantInfo implements Serializable {
     }
 
     public void setApplicantPhones(Set<ApplicantPhone> applicantPhones) {
-        if (this.applicantPhones != null) {
-            this.applicantPhones.forEach(i -> i.setApplicantInfo(null));
-        }
-        if (applicantPhones != null) {
-            applicantPhones.forEach(i -> i.setApplicantInfo(this));
-        }
         this.applicantPhones = applicantPhones;
     }
 
@@ -285,13 +301,13 @@ public class ApplicantInfo implements Serializable {
 
     public ApplicantInfo addApplicantPhone(ApplicantPhone applicantPhone) {
         this.applicantPhones.add(applicantPhone);
-        applicantPhone.setApplicantInfo(this);
+        applicantPhone.getApplicantInfos().add(this);
         return this;
     }
 
     public ApplicantInfo removeApplicantPhone(ApplicantPhone applicantPhone) {
         this.applicantPhones.remove(applicantPhone);
-        applicantPhone.setApplicantInfo(null);
+        applicantPhone.getApplicantInfos().remove(this);
         return this;
     }
 
@@ -300,12 +316,6 @@ public class ApplicantInfo implements Serializable {
     }
 
     public void setApplicantDocs(Set<ApplicantDocs> applicantDocs) {
-        if (this.applicantDocs != null) {
-            this.applicantDocs.forEach(i -> i.setApplicantInfo(null));
-        }
-        if (applicantDocs != null) {
-            applicantDocs.forEach(i -> i.setApplicantInfo(this));
-        }
         this.applicantDocs = applicantDocs;
     }
 
@@ -316,44 +326,13 @@ public class ApplicantInfo implements Serializable {
 
     public ApplicantInfo addApplicantDocs(ApplicantDocs applicantDocs) {
         this.applicantDocs.add(applicantDocs);
-        applicantDocs.setApplicantInfo(this);
+        applicantDocs.getApplicantInfos().add(this);
         return this;
     }
 
     public ApplicantInfo removeApplicantDocs(ApplicantDocs applicantDocs) {
         this.applicantDocs.remove(applicantDocs);
-        applicantDocs.setApplicantInfo(null);
-        return this;
-    }
-
-    public Set<Country> getCountryOfBirths() {
-        return this.countryOfBirths;
-    }
-
-    public void setCountryOfBirths(Set<Country> countries) {
-        if (this.countryOfBirths != null) {
-            this.countryOfBirths.forEach(i -> i.setApplicants(null));
-        }
-        if (countries != null) {
-            countries.forEach(i -> i.setApplicants(this));
-        }
-        this.countryOfBirths = countries;
-    }
-
-    public ApplicantInfo countryOfBirths(Set<Country> countries) {
-        this.setCountryOfBirths(countries);
-        return this;
-    }
-
-    public ApplicantInfo addCountryOfBirth(Country country) {
-        this.countryOfBirths.add(country);
-        country.setApplicants(this);
-        return this;
-    }
-
-    public ApplicantInfo removeCountryOfBirth(Country country) {
-        this.countryOfBirths.remove(country);
-        country.setApplicants(null);
+        applicantDocs.getApplicantInfos().remove(this);
         return this;
     }
 

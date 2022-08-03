@@ -40,7 +40,7 @@ public class IpInfo implements Serializable {
     @Column(name = "lon")
     private Double lon;
 
-    @JsonIgnoreProperties(value = { "applicantInfo", "ipInfo", "userAgentInfo", "applicantLevels" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "applicantLevel", "applicantInfo", "ipInfo", "userAgentInfo" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private Applicant applicant;

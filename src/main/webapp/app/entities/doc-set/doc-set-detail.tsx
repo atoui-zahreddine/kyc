@@ -37,8 +37,6 @@ export const DocSetDetail = (props: RouteComponentProps<{ id: string }>) => {
             <span id="types">Types</span>
           </dt>
           <dd>{docSetEntity.types}</dd>
-          <dt>Step</dt>
-          <dd>{docSetEntity.step ? docSetEntity.step.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/doc-set" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

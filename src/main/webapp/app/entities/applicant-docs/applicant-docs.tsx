@@ -129,7 +129,7 @@ export const ApplicantDocs = (props: RouteComponentProps<{ url: string }>) => {
                   Image Trust <FontAwesomeIcon icon="sort" />
                 </th>
                 <th>
-                  Applicant Info <FontAwesomeIcon icon="sort" />
+                  Docs Country <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -160,8 +160,8 @@ export const ApplicantDocs = (props: RouteComponentProps<{ url: string }>) => {
                   <td>{applicantDocs.subTypes}</td>
                   <td>{applicantDocs.imageTrust}</td>
                   <td>
-                    {applicantDocs.applicantInfo ? (
-                      <Link to={`applicant-info/${applicantDocs.applicantInfo.id}`}>{applicantDocs.applicantInfo.id}</Link>
+                    {applicantDocs.docsCountry ? (
+                      <Link to={`country/${applicantDocs.docsCountry.id}`}>{applicantDocs.docsCountry.id}</Link>
                     ) : (
                       ''
                     )}

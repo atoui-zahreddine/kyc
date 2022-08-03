@@ -690,32 +690,6 @@ class StepResourceIT {
 
     @Test
     @Transactional
-    void getAllStepsByApplicantLevelIsEqualToSomething() throws Exception {
-        // Initialize the database
-        stepRepository.saveAndFlush(step);
-        ApplicantLevel applicantLevel;
-        if (TestUtil.findAll(em, ApplicantLevel.class).isEmpty()) {
-            applicantLevel = ApplicantLevelResourceIT.createEntity(em);
-            em.persist(applicantLevel);
-            em.flush();
-        } else {
-            applicantLevel = TestUtil.findAll(em, ApplicantLevel.class).get(0);
-        }
-        em.persist(applicantLevel);
-        em.flush();
-        step.addApplicantLevel(applicantLevel);
-        stepRepository.saveAndFlush(step);
-        Long applicantLevelId = applicantLevel.getId();
-
-        // Get all the stepList where applicantLevel equals to applicantLevelId
-        defaultStepShouldBeFound("applicantLevelId.equals=" + applicantLevelId);
-
-        // Get all the stepList where applicantLevel equals to (applicantLevelId + 1)
-        defaultStepShouldNotBeFound("applicantLevelId.equals=" + (applicantLevelId + 1));
-    }
-
-    @Test
-    @Transactional
     void getAllStepsByDocSetIsEqualToSomething() throws Exception {
         // Initialize the database
         stepRepository.saveAndFlush(step);
@@ -738,6 +712,32 @@ class StepResourceIT {
 
         // Get all the stepList where docSet equals to (docSetId + 1)
         defaultStepShouldNotBeFound("docSetId.equals=" + (docSetId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllStepsByApplicantLevelIsEqualToSomething() throws Exception {
+        // Initialize the database
+        stepRepository.saveAndFlush(step);
+        ApplicantLevel applicantLevel;
+        if (TestUtil.findAll(em, ApplicantLevel.class).isEmpty()) {
+            applicantLevel = ApplicantLevelResourceIT.createEntity(em);
+            em.persist(applicantLevel);
+            em.flush();
+        } else {
+            applicantLevel = TestUtil.findAll(em, ApplicantLevel.class).get(0);
+        }
+        em.persist(applicantLevel);
+        em.flush();
+        step.addApplicantLevel(applicantLevel);
+        stepRepository.saveAndFlush(step);
+        Long applicantLevelId = applicantLevel.getId();
+
+        // Get all the stepList where applicantLevel equals to applicantLevelId
+        defaultStepShouldBeFound("applicantLevelId.equals=" + applicantLevelId);
+
+        // Get all the stepList where applicantLevel equals to (applicantLevelId + 1)
+        defaultStepShouldNotBeFound("applicantLevelId.equals=" + (applicantLevelId + 1));
     }
 
     /**

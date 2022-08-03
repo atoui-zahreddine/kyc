@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20220802105135",
+  "changelogDate": "20220802155753",
   "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "ip_info",

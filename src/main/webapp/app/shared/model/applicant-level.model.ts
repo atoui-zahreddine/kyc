@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import { IApplicant } from 'app/shared/model/applicant.model';
 import { IStep } from 'app/shared/model/step.model';
+import { IApplicant } from 'app/shared/model/applicant.model';
 
 export interface IApplicantLevel {
   id?: number;
@@ -11,8 +11,8 @@ export interface IApplicantLevel {
   createdAt?: string | null;
   createdBy?: number | null;
   modifiedAt?: string | null;
-  applicant?: IApplicant | null;
   steps?: IStep[] | null;
+  applicants?: IApplicant[] | null;
 }
 
 export const defaultValue: Readonly<IApplicantLevel> = {};

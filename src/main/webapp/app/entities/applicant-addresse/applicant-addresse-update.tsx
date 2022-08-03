@@ -4,6 +4,8 @@ import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { ICountry } from 'app/shared/model/country.model';
+import { getEntities as getCountries } from 'app/entities/country/country.reducer';
 import { IApplicantInfo } from 'app/shared/model/applicant-info.model';
 import { getEntities as getApplicantInfos } from 'app/entities/applicant-info/applicant-info.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './applicant-addresse.reducer';
@@ -17,6 +19,7 @@ export const ApplicantAddresseUpdate = (props: RouteComponentProps<{ id: string 
 
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
+  const countries = useAppSelector(state => state.country.entities);
   const applicantInfos = useAppSelector(state => state.applicantInfo.entities);
   const applicantAddresseEntity = useAppSelector(state => state.applicantAddresse.entity);
   const loading = useAppSelector(state => state.applicantAddresse.loading);
@@ -33,6 +36,7 @@ export const ApplicantAddresseUpdate = (props: RouteComponentProps<{ id: string 
       dispatch(getEntity(props.match.params.id));
     }
 
+    dispatch(getCountries({}));
     dispatch(getApplicantInfos({}));
   }, []);
 
@@ -46,7 +50,7 @@ export const ApplicantAddresseUpdate = (props: RouteComponentProps<{ id: string 
     const entity = {
       ...applicantAddresseEntity,
       ...values,
-      applicantInfo: applicantInfos.find(it => it.id.toString() === values.applicantInfo.toString()),
+      addresseCountry: countries.find(it => it.id.toString() === values.addresseCountry.toString()),
     };
 
     if (isNew) {
@@ -61,7 +65,7 @@ export const ApplicantAddresseUpdate = (props: RouteComponentProps<{ id: string 
       ? {}
       : {
           ...applicantAddresseEntity,
-          applicantInfo: applicantAddresseEntity?.applicantInfo?.id,
+          addresseCountry: applicantAddresseEntity?.addresseCountry?.id,
         };
 
   return (
@@ -89,15 +93,15 @@ export const ApplicantAddresseUpdate = (props: RouteComponentProps<{ id: string 
               <ValidatedField label="Town" id="applicant-addresse-town" name="town" data-cy="town" type="text" />
               <ValidatedField label="Enabled" id="applicant-addresse-enabled" name="enabled" data-cy="enabled" check type="checkbox" />
               <ValidatedField
-                id="applicant-addresse-applicantInfo"
-                name="applicantInfo"
-                data-cy="applicantInfo"
-                label="Applicant Info"
+                id="applicant-addresse-addresseCountry"
+                name="addresseCountry"
+                data-cy="addresseCountry"
+                label="Addresse Country"
                 type="select"
               >
                 <option value="" key="0" />
-                {applicantInfos
-                  ? applicantInfos.map(otherEntity => (
+                {countries
+                  ? countries.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.id}
                       </option>

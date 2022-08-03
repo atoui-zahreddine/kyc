@@ -37,8 +37,8 @@ export const ApplicantPhoneDetail = (props: RouteComponentProps<{ id: string }>)
             <span id="enabled">Enabled</span>
           </dt>
           <dd>{applicantPhoneEntity.enabled ? 'true' : 'false'}</dd>
-          <dt>Applicant Info</dt>
-          <dd>{applicantPhoneEntity.applicantInfo ? applicantPhoneEntity.applicantInfo.id : ''}</dd>
+          <dt>Phone Country</dt>
+          <dd>{applicantPhoneEntity.phoneCountry ? applicantPhoneEntity.phoneCountry.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/applicant-phone" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

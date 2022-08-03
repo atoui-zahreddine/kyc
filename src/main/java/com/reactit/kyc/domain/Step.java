@@ -42,16 +42,16 @@ public class Step implements Serializable {
 
     @ManyToMany
     @JoinTable(
-        name = "rel_step__applicant_level",
+        name = "rel_step__doc_set",
         joinColumns = @JoinColumn(name = "step_id"),
-        inverseJoinColumns = @JoinColumn(name = "applicant_level_id")
+        inverseJoinColumns = @JoinColumn(name = "doc_set_id")
     )
-    @JsonIgnoreProperties(value = { "applicant", "steps" }, allowSetters = true)
-    private Set<ApplicantLevel> applicantLevels = new HashSet<>();
-
-    @OneToMany(mappedBy = "step")
-    @JsonIgnoreProperties(value = { "step" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "steps" }, allowSetters = true)
     private Set<DocSet> docSets = new HashSet<>();
+
+    @ManyToMany(mappedBy = "steps")
+    @JsonIgnoreProperties(value = { "steps", "applicants" }, allowSetters = true)
+    private Set<ApplicantLevel> applicantLevels = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -146,11 +146,42 @@ public class Step implements Serializable {
         this.modifiedAt = modifiedAt;
     }
 
+    public Set<DocSet> getDocSets() {
+        return this.docSets;
+    }
+
+    public void setDocSets(Set<DocSet> docSets) {
+        this.docSets = docSets;
+    }
+
+    public Step docSets(Set<DocSet> docSets) {
+        this.setDocSets(docSets);
+        return this;
+    }
+
+    public Step addDocSet(DocSet docSet) {
+        this.docSets.add(docSet);
+        docSet.getSteps().add(this);
+        return this;
+    }
+
+    public Step removeDocSet(DocSet docSet) {
+        this.docSets.remove(docSet);
+        docSet.getSteps().remove(this);
+        return this;
+    }
+
     public Set<ApplicantLevel> getApplicantLevels() {
         return this.applicantLevels;
     }
 
     public void setApplicantLevels(Set<ApplicantLevel> applicantLevels) {
+        if (this.applicantLevels != null) {
+            this.applicantLevels.forEach(i -> i.removeStep(this));
+        }
+        if (applicantLevels != null) {
+            applicantLevels.forEach(i -> i.addStep(this));
+        }
         this.applicantLevels = applicantLevels;
     }
 
@@ -168,37 +199,6 @@ public class Step implements Serializable {
     public Step removeApplicantLevel(ApplicantLevel applicantLevel) {
         this.applicantLevels.remove(applicantLevel);
         applicantLevel.getSteps().remove(this);
-        return this;
-    }
-
-    public Set<DocSet> getDocSets() {
-        return this.docSets;
-    }
-
-    public void setDocSets(Set<DocSet> docSets) {
-        if (this.docSets != null) {
-            this.docSets.forEach(i -> i.setStep(null));
-        }
-        if (docSets != null) {
-            docSets.forEach(i -> i.setStep(this));
-        }
-        this.docSets = docSets;
-    }
-
-    public Step docSets(Set<DocSet> docSets) {
-        this.setDocSets(docSets);
-        return this;
-    }
-
-    public Step addDocSet(DocSet docSet) {
-        this.docSets.add(docSet);
-        docSet.setStep(this);
-        return this;
-    }
-
-    public Step removeDocSet(DocSet docSet) {
-        this.docSets.remove(docSet);
-        docSet.setStep(null);
         return this;
     }
 

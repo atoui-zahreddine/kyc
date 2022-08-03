@@ -11,10 +11,10 @@ export interface ICountry {
   countryCode3?: string | null;
   phoneCode?: string | null;
   region?: CountryRegion | null;
-  addresses?: IApplicantAddresse | null;
-  docs?: IApplicantDocs | null;
-  applicants?: IApplicantInfo | null;
-  phones?: IApplicantPhone | null;
+  addresses?: IApplicantAddresse[] | null;
+  docs?: IApplicantDocs[] | null;
+  applicants?: IApplicantInfo[] | null;
+  phones?: IApplicantPhone[] | null;
 }
 
 export const defaultValue: Readonly<ICountry> = {};

@@ -53,13 +53,13 @@ public class ApplicantCriteria implements Serializable, Criteria {
 
     private PlatformFilter platform;
 
+    private LongFilter applicantLevelId;
+
     private LongFilter applicantInfoId;
 
     private LongFilter ipInfoId;
 
     private LongFilter userAgentInfoId;
-
-    private LongFilter applicantLevelId;
 
     private Boolean distinct;
 
@@ -71,10 +71,10 @@ public class ApplicantCriteria implements Serializable, Criteria {
         this.createdBy = other.createdBy == null ? null : other.createdBy.copy();
         this.modifiedAt = other.modifiedAt == null ? null : other.modifiedAt.copy();
         this.platform = other.platform == null ? null : other.platform.copy();
+        this.applicantLevelId = other.applicantLevelId == null ? null : other.applicantLevelId.copy();
         this.applicantInfoId = other.applicantInfoId == null ? null : other.applicantInfoId.copy();
         this.ipInfoId = other.ipInfoId == null ? null : other.ipInfoId.copy();
         this.userAgentInfoId = other.userAgentInfoId == null ? null : other.userAgentInfoId.copy();
-        this.applicantLevelId = other.applicantLevelId == null ? null : other.applicantLevelId.copy();
         this.distinct = other.distinct;
     }
 
@@ -158,6 +158,21 @@ public class ApplicantCriteria implements Serializable, Criteria {
         this.platform = platform;
     }
 
+    public LongFilter getApplicantLevelId() {
+        return applicantLevelId;
+    }
+
+    public LongFilter applicantLevelId() {
+        if (applicantLevelId == null) {
+            applicantLevelId = new LongFilter();
+        }
+        return applicantLevelId;
+    }
+
+    public void setApplicantLevelId(LongFilter applicantLevelId) {
+        this.applicantLevelId = applicantLevelId;
+    }
+
     public LongFilter getApplicantInfoId() {
         return applicantInfoId;
     }
@@ -203,21 +218,6 @@ public class ApplicantCriteria implements Serializable, Criteria {
         this.userAgentInfoId = userAgentInfoId;
     }
 
-    public LongFilter getApplicantLevelId() {
-        return applicantLevelId;
-    }
-
-    public LongFilter applicantLevelId() {
-        if (applicantLevelId == null) {
-            applicantLevelId = new LongFilter();
-        }
-        return applicantLevelId;
-    }
-
-    public void setApplicantLevelId(LongFilter applicantLevelId) {
-        this.applicantLevelId = applicantLevelId;
-    }
-
     public Boolean getDistinct() {
         return distinct;
     }
@@ -241,10 +241,10 @@ public class ApplicantCriteria implements Serializable, Criteria {
             Objects.equals(createdBy, that.createdBy) &&
             Objects.equals(modifiedAt, that.modifiedAt) &&
             Objects.equals(platform, that.platform) &&
+            Objects.equals(applicantLevelId, that.applicantLevelId) &&
             Objects.equals(applicantInfoId, that.applicantInfoId) &&
             Objects.equals(ipInfoId, that.ipInfoId) &&
             Objects.equals(userAgentInfoId, that.userAgentInfoId) &&
-            Objects.equals(applicantLevelId, that.applicantLevelId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -257,10 +257,10 @@ public class ApplicantCriteria implements Serializable, Criteria {
             createdBy,
             modifiedAt,
             platform,
+            applicantLevelId,
             applicantInfoId,
             ipInfoId,
             userAgentInfoId,
-            applicantLevelId,
             distinct
         );
     }
@@ -274,10 +274,10 @@ public class ApplicantCriteria implements Serializable, Criteria {
             (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
             (modifiedAt != null ? "modifiedAt=" + modifiedAt + ", " : "") +
             (platform != null ? "platform=" + platform + ", " : "") +
+            (applicantLevelId != null ? "applicantLevelId=" + applicantLevelId + ", " : "") +
             (applicantInfoId != null ? "applicantInfoId=" + applicantInfoId + ", " : "") +
             (ipInfoId != null ? "ipInfoId=" + ipInfoId + ", " : "") +
             (userAgentInfoId != null ? "userAgentInfoId=" + userAgentInfoId + ", " : "") +
-            (applicantLevelId != null ? "applicantLevelId=" + applicantLevelId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

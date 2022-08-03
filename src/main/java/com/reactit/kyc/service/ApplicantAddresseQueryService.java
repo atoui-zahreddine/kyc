@@ -111,21 +111,21 @@ public class ApplicantAddresseQueryService extends QueryService<ApplicantAddress
             if (criteria.getEnabled() != null) {
                 specification = specification.and(buildSpecification(criteria.getEnabled(), ApplicantAddresse_.enabled));
             }
-            if (criteria.getApplicantInfoId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getApplicantInfoId(),
-                            root -> root.join(ApplicantAddresse_.applicantInfo, JoinType.LEFT).get(ApplicantInfo_.id)
-                        )
-                    );
-            }
             if (criteria.getAddresseCountryId() != null) {
                 specification =
                     specification.and(
                         buildSpecification(
                             criteria.getAddresseCountryId(),
-                            root -> root.join(ApplicantAddresse_.addresseCountries, JoinType.LEFT).get(Country_.id)
+                            root -> root.join(ApplicantAddresse_.addresseCountry, JoinType.LEFT).get(Country_.id)
+                        )
+                    );
+            }
+            if (criteria.getApplicantInfoId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getApplicantInfoId(),
+                            root -> root.join(ApplicantAddresse_.applicantInfos, JoinType.LEFT).get(ApplicantInfo_.id)
                         )
                     );
             }

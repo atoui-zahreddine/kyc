@@ -7,42 +7,32 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!--
-        Added the entity Country.
+        Added the entity Applicant.
     -->
-    <changeSet id="20220802105138-1" author="jhipster">
-        <createTable tableName="country">
+    <changeSet id="20220802155752-1" author="jhipster">
+        <createTable tableName="applicant">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(255)">
+            <column name="created_at" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
-            <column name="country_code_2" type="varchar(255)">
+            <column name="created_by" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="country_code_3" type="varchar(255)">
+            <column name="modified_at" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
-            <column name="phone_code" type="varchar(255)">
+            <column name="platform" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="region" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="addresses_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-            <column name="docs_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-            <column name="applicants_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-            <column name="phones_id" type="bigint">
+            <column name="applicant_level_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <dropDefaultValue tableName="applicant" columnName="created_at" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="applicant" columnName="modified_at" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -55,18 +45,17 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20220802105138-1-data" author="jhipster" context="faker">
+    <changeSet id="20220802155752-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/fake-data/country.csv"
+                  file="config/liquibase/fake-data/applicant.csv"
                   separator=";"
-                  tableName="country"
+                  tableName="applicant"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="name" type="string"/>
-            <column name="country_code_2" type="string"/>
-            <column name="country_code_3" type="string"/>
-            <column name="phone_code" type="string"/>
-            <column name="region" type="string"/>
+            <column name="created_at" type="date"/>
+            <column name="created_by" type="numeric"/>
+            <column name="modified_at" type="date"/>
+            <column name="platform" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

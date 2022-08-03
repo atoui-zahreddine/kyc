@@ -4,13 +4,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
     <!--
-        Added the constraints for entity ApplicantInfo.
+        Added the constraints for entity UserAgentInfo.
     -->
-    <changeSet id="20220802105137-2" author="jhipster">
+    <changeSet id="20220802155754-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="applicant_id"
-                                 baseTableName="applicant_info"
-                                 constraintName="fk_applicant_info__applicant_id"
+                                 baseTableName="user_agent_info"
+                                 constraintName="fk_user_agent_info__applicant_id"
                                  referencedColumnNames="id"
                                  referencedTableName="applicant"/>
     </changeSet>

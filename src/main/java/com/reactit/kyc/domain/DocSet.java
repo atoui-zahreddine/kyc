@@ -5,6 +5,8 @@ import com.reactit.kyc.domain.enumeration.IdDocSetType;
 import com.reactit.kyc.domain.enumeration.SubType;
 import com.reactit.kyc.domain.enumeration.TypeDoc;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 
 /**
@@ -34,9 +36,9 @@ public class DocSet implements Serializable {
     @Column(name = "types")
     private TypeDoc types;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "applicantLevels", "docSets" }, allowSetters = true)
-    private Step step;
+    @ManyToMany(mappedBy = "docSets")
+    @JsonIgnoreProperties(value = { "docSets", "applicantLevels" }, allowSetters = true)
+    private Set<Step> steps = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -92,16 +94,34 @@ public class DocSet implements Serializable {
         this.types = types;
     }
 
-    public Step getStep() {
-        return this.step;
+    public Set<Step> getSteps() {
+        return this.steps;
     }
 
-    public void setStep(Step step) {
-        this.step = step;
+    public void setSteps(Set<Step> steps) {
+        if (this.steps != null) {
+            this.steps.forEach(i -> i.removeDocSet(this));
+        }
+        if (steps != null) {
+            steps.forEach(i -> i.addDocSet(this));
+        }
+        this.steps = steps;
     }
 
-    public DocSet step(Step step) {
-        this.setStep(step);
+    public DocSet steps(Set<Step> steps) {
+        this.setSteps(steps);
+        return this;
+    }
+
+    public DocSet addStep(Step step) {
+        this.steps.add(step);
+        step.getDocSets().add(this);
+        return this;
+    }
+
+    public DocSet removeStep(Step step) {
+        this.steps.remove(step);
+        step.getDocSets().remove(this);
         return this;
     }
 

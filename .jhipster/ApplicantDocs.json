@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20220802105139",
+  "changelogDate": "20220802155757",
   "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "applicant_docs",
@@ -51,16 +51,17 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "applicantInfo",
-      "otherEntityRelationshipName": "applicantDocs",
-      "relationshipName": "applicantInfo",
-      "relationshipType": "many-to-one"
-    },
-    {
       "otherEntityName": "country",
       "otherEntityRelationshipName": "docs",
       "relationshipName": "docsCountry",
-      "relationshipType": "one-to-many"
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "applicantInfo",
+      "otherEntityRelationshipName": "applicantDocs",
+      "ownerSide": false,
+      "relationshipName": "applicantInfo",
+      "relationshipType": "many-to-many"
     }
   ],
   "service": "serviceImpl"

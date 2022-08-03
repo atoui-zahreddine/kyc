@@ -41,9 +41,9 @@ public class ApplicantLevelCriteria implements Serializable, Criteria {
 
     private InstantFilter modifiedAt;
 
-    private LongFilter applicantId;
-
     private LongFilter stepId;
+
+    private LongFilter applicantId;
 
     private Boolean distinct;
 
@@ -58,8 +58,8 @@ public class ApplicantLevelCriteria implements Serializable, Criteria {
         this.createdAt = other.createdAt == null ? null : other.createdAt.copy();
         this.createdBy = other.createdBy == null ? null : other.createdBy.copy();
         this.modifiedAt = other.modifiedAt == null ? null : other.modifiedAt.copy();
-        this.applicantId = other.applicantId == null ? null : other.applicantId.copy();
         this.stepId = other.stepId == null ? null : other.stepId.copy();
+        this.applicantId = other.applicantId == null ? null : other.applicantId.copy();
         this.distinct = other.distinct;
     }
 
@@ -188,21 +188,6 @@ public class ApplicantLevelCriteria implements Serializable, Criteria {
         this.modifiedAt = modifiedAt;
     }
 
-    public LongFilter getApplicantId() {
-        return applicantId;
-    }
-
-    public LongFilter applicantId() {
-        if (applicantId == null) {
-            applicantId = new LongFilter();
-        }
-        return applicantId;
-    }
-
-    public void setApplicantId(LongFilter applicantId) {
-        this.applicantId = applicantId;
-    }
-
     public LongFilter getStepId() {
         return stepId;
     }
@@ -216,6 +201,21 @@ public class ApplicantLevelCriteria implements Serializable, Criteria {
 
     public void setStepId(LongFilter stepId) {
         this.stepId = stepId;
+    }
+
+    public LongFilter getApplicantId() {
+        return applicantId;
+    }
+
+    public LongFilter applicantId() {
+        if (applicantId == null) {
+            applicantId = new LongFilter();
+        }
+        return applicantId;
+    }
+
+    public void setApplicantId(LongFilter applicantId) {
+        this.applicantId = applicantId;
     }
 
     public Boolean getDistinct() {
@@ -244,15 +244,15 @@ public class ApplicantLevelCriteria implements Serializable, Criteria {
             Objects.equals(createdAt, that.createdAt) &&
             Objects.equals(createdBy, that.createdBy) &&
             Objects.equals(modifiedAt, that.modifiedAt) &&
-            Objects.equals(applicantId, that.applicantId) &&
             Objects.equals(stepId, that.stepId) &&
+            Objects.equals(applicantId, that.applicantId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, code, levelName, description, url, createdAt, createdBy, modifiedAt, applicantId, stepId, distinct);
+        return Objects.hash(id, code, levelName, description, url, createdAt, createdBy, modifiedAt, stepId, applicantId, distinct);
     }
 
     // prettier-ignore
@@ -267,8 +267,8 @@ public class ApplicantLevelCriteria implements Serializable, Criteria {
             (createdAt != null ? "createdAt=" + createdAt + ", " : "") +
             (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
             (modifiedAt != null ? "modifiedAt=" + modifiedAt + ", " : "") +
-            (applicantId != null ? "applicantId=" + applicantId + ", " : "") +
             (stepId != null ? "stepId=" + stepId + ", " : "") +
+            (applicantId != null ? "applicantId=" + applicantId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import { IApplicantLevel } from 'app/shared/model/applicant-level.model';
 import { IDocSet } from 'app/shared/model/doc-set.model';
+import { IApplicantLevel } from 'app/shared/model/applicant-level.model';
 
 export interface IStep {
   id?: number;
@@ -10,8 +10,8 @@ export interface IStep {
   createdAt?: string | null;
   createdBy?: number | null;
   modifiedAt?: string | null;
-  applicantLevels?: IApplicantLevel[] | null;
   docSets?: IDocSet[] | null;
+  applicantLevels?: IApplicantLevel[] | null;
 }
 
 export const defaultValue: Readonly<IStep> = {};

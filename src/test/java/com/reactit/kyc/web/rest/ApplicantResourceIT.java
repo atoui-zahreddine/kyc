@@ -466,6 +466,32 @@ class ApplicantResourceIT {
 
     @Test
     @Transactional
+    void getAllApplicantsByApplicantLevelIsEqualToSomething() throws Exception {
+        // Initialize the database
+        applicantRepository.saveAndFlush(applicant);
+        ApplicantLevel applicantLevel;
+        if (TestUtil.findAll(em, ApplicantLevel.class).isEmpty()) {
+            applicantLevel = ApplicantLevelResourceIT.createEntity(em);
+            em.persist(applicantLevel);
+            em.flush();
+        } else {
+            applicantLevel = TestUtil.findAll(em, ApplicantLevel.class).get(0);
+        }
+        em.persist(applicantLevel);
+        em.flush();
+        applicant.setApplicantLevel(applicantLevel);
+        applicantRepository.saveAndFlush(applicant);
+        Long applicantLevelId = applicantLevel.getId();
+
+        // Get all the applicantList where applicantLevel equals to applicantLevelId
+        defaultApplicantShouldBeFound("applicantLevelId.equals=" + applicantLevelId);
+
+        // Get all the applicantList where applicantLevel equals to (applicantLevelId + 1)
+        defaultApplicantShouldNotBeFound("applicantLevelId.equals=" + (applicantLevelId + 1));
+    }
+
+    @Test
+    @Transactional
     void getAllApplicantsByApplicantInfoIsEqualToSomething() throws Exception {
         // Initialize the database
         applicantRepository.saveAndFlush(applicant);
@@ -543,32 +569,6 @@ class ApplicantResourceIT {
 
         // Get all the applicantList where userAgentInfo equals to (userAgentInfoId + 1)
         defaultApplicantShouldNotBeFound("userAgentInfoId.equals=" + (userAgentInfoId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllApplicantsByApplicantLevelIsEqualToSomething() throws Exception {
-        // Initialize the database
-        applicantRepository.saveAndFlush(applicant);
-        ApplicantLevel applicantLevel;
-        if (TestUtil.findAll(em, ApplicantLevel.class).isEmpty()) {
-            applicantLevel = ApplicantLevelResourceIT.createEntity(em);
-            em.persist(applicantLevel);
-            em.flush();
-        } else {
-            applicantLevel = TestUtil.findAll(em, ApplicantLevel.class).get(0);
-        }
-        em.persist(applicantLevel);
-        em.flush();
-        applicant.addApplicantLevel(applicantLevel);
-        applicantRepository.saveAndFlush(applicant);
-        Long applicantLevelId = applicantLevel.getId();
-
-        // Get all the applicantList where applicantLevel equals to applicantLevelId
-        defaultApplicantShouldBeFound("applicantLevelId.equals=" + applicantLevelId);
-
-        // Get all the applicantList where applicantLevel equals to (applicantLevelId + 1)
-        defaultApplicantShouldNotBeFound("applicantLevelId.equals=" + (applicantLevelId + 1));
     }
 
     /**

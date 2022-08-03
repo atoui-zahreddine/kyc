@@ -4,8 +4,6 @@ import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { IApplicant } from 'app/shared/model/applicant.model';
-import { getEntities as getApplicants } from 'app/entities/applicant/applicant.reducer';
 import { IStep } from 'app/shared/model/step.model';
 import { getEntities as getSteps } from 'app/entities/step/step.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './applicant-level.reducer';
@@ -19,7 +17,6 @@ export const ApplicantLevelUpdate = (props: RouteComponentProps<{ id: string }>)
 
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
-  const applicants = useAppSelector(state => state.applicant.entities);
   const steps = useAppSelector(state => state.step.entities);
   const applicantLevelEntity = useAppSelector(state => state.applicantLevel.entity);
   const loading = useAppSelector(state => state.applicantLevel.loading);
@@ -36,7 +33,6 @@ export const ApplicantLevelUpdate = (props: RouteComponentProps<{ id: string }>)
       dispatch(getEntity(props.match.params.id));
     }
 
-    dispatch(getApplicants({}));
     dispatch(getSteps({}));
   }, []);
 
@@ -53,7 +49,7 @@ export const ApplicantLevelUpdate = (props: RouteComponentProps<{ id: string }>)
     const entity = {
       ...applicantLevelEntity,
       ...values,
-      applicant: applicants.find(it => it.id.toString() === values.applicant.toString()),
+      steps: mapIdList(values.steps),
     };
 
     if (isNew) {
@@ -73,7 +69,7 @@ export const ApplicantLevelUpdate = (props: RouteComponentProps<{ id: string }>)
           ...applicantLevelEntity,
           createdAt: convertDateTimeFromServer(applicantLevelEntity.createdAt),
           modifiedAt: convertDateTimeFromServer(applicantLevelEntity.modifiedAt),
-          applicant: applicantLevelEntity?.applicant?.id,
+          steps: applicantLevelEntity?.steps?.map(e => e.id.toString()),
         };
 
   return (
@@ -115,10 +111,10 @@ export const ApplicantLevelUpdate = (props: RouteComponentProps<{ id: string }>)
                 type="datetime-local"
                 placeholder="YYYY-MM-DD HH:mm"
               />
-              <ValidatedField id="applicant-level-applicant" name="applicant" data-cy="applicant" label="Applicant" type="select">
+              <ValidatedField label="Step" id="applicant-level-step" data-cy="step" type="select" multiple name="steps">
                 <option value="" key="0" />
-                {applicants
-                  ? applicants.map(otherEntity => (
+                {steps
+                  ? steps.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.id}
                       </option>

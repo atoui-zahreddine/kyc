@@ -15,14 +15,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StepRepository extends JpaRepository<Step, Long>, JpaSpecificationExecutor<Step> {
     @Query(
-        value = "select distinct step from Step step left join fetch step.applicantLevels",
+        value = "select distinct step from Step step left join fetch step.docSets",
         countQuery = "select count(distinct step) from Step step"
     )
     Page<Step> findAllWithEagerRelationships(Pageable pageable);
 
-    @Query("select distinct step from Step step left join fetch step.applicantLevels")
+    @Query("select distinct step from Step step left join fetch step.docSets")
     List<Step> findAllWithEagerRelationships();
 
-    @Query("select step from Step step left join fetch step.applicantLevels where step.id =:id")
+    @Query("select step from Step step left join fetch step.docSets where step.id =:id")
     Optional<Step> findOneWithEagerRelationships(@Param("id") Long id);
 }

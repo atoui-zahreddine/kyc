@@ -4,14 +4,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
     <!--
-        Added the constraints for entity ApplicantAddresse.
+        Added the constraints for entity Applicant.
     -->
-    <changeSet id="20220802105141-2" author="jhipster">
+    <changeSet id="20220802155752-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="applicant_info_id"
-                                 baseTableName="applicant_addresse"
-                                 constraintName="fk_applicant_addresse__applicant_info_id"
+        <addForeignKeyConstraint baseColumnNames="applicant_level_id"
+                                 baseTableName="applicant"
+                                 constraintName="fk_applicant__applicant_level_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="applicant_info"/>
+                                 referencedTableName="applicant_level"/>
     </changeSet>
 </databaseChangeLog>

@@ -111,7 +111,7 @@ export const ApplicantPhone = (props: RouteComponentProps<{ url: string }>) => {
                   Enabled <FontAwesomeIcon icon="sort" />
                 </th>
                 <th>
-                  Applicant Info <FontAwesomeIcon icon="sort" />
+                  Phone Country <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -128,8 +128,8 @@ export const ApplicantPhone = (props: RouteComponentProps<{ url: string }>) => {
                   <td>{applicantPhone.number}</td>
                   <td>{applicantPhone.enabled ? 'true' : 'false'}</td>
                   <td>
-                    {applicantPhone.applicantInfo ? (
-                      <Link to={`applicant-info/${applicantPhone.applicantInfo.id}`}>{applicantPhone.applicantInfo.id}</Link>
+                    {applicantPhone.phoneCountry ? (
+                      <Link to={`country/${applicantPhone.phoneCountry.id}`}>{applicantPhone.phoneCountry.id}</Link>
                     ) : (
                       ''
                     )}

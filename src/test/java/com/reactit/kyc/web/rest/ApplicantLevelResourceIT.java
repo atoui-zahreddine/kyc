@@ -2,6 +2,7 @@ package com.reactit.kyc.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -10,11 +11,13 @@ import com.reactit.kyc.domain.Applicant;
 import com.reactit.kyc.domain.ApplicantLevel;
 import com.reactit.kyc.domain.Step;
 import com.reactit.kyc.repository.ApplicantLevelRepository;
+import com.reactit.kyc.service.ApplicantLevelService;
 import com.reactit.kyc.service.criteria.ApplicantLevelCriteria;
 import com.reactit.kyc.service.dto.ApplicantLevelDTO;
 import com.reactit.kyc.service.mapper.ApplicantLevelMapper;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -26,6 +29,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -71,8 +76,14 @@ class ApplicantLevelResourceIT {
     @Autowired
     private ApplicantLevelRepository applicantLevelRepository;
 
+    @Mock
+    private ApplicantLevelRepository applicantLevelRepositoryMock;
+
     @Autowired
     private ApplicantLevelMapper applicantLevelMapper;
+
+    @Mock
+    private ApplicantLevelService applicantLevelServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -188,6 +199,24 @@ class ApplicantLevelResourceIT {
             .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.intValue())))
             .andExpect(jsonPath("$.[*].modifiedAt").value(hasItem(DEFAULT_MODIFIED_AT.toString())));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllApplicantLevelsWithEagerRelationshipsIsEnabled() throws Exception {
+        when(applicantLevelServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restApplicantLevelMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(applicantLevelServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllApplicantLevelsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(applicantLevelServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restApplicantLevelMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(applicantLevelServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test
@@ -751,32 +780,6 @@ class ApplicantLevelResourceIT {
 
     @Test
     @Transactional
-    void getAllApplicantLevelsByApplicantIsEqualToSomething() throws Exception {
-        // Initialize the database
-        applicantLevelRepository.saveAndFlush(applicantLevel);
-        Applicant applicant;
-        if (TestUtil.findAll(em, Applicant.class).isEmpty()) {
-            applicant = ApplicantResourceIT.createEntity(em);
-            em.persist(applicant);
-            em.flush();
-        } else {
-            applicant = TestUtil.findAll(em, Applicant.class).get(0);
-        }
-        em.persist(applicant);
-        em.flush();
-        applicantLevel.setApplicant(applicant);
-        applicantLevelRepository.saveAndFlush(applicantLevel);
-        Long applicantId = applicant.getId();
-
-        // Get all the applicantLevelList where applicant equals to applicantId
-        defaultApplicantLevelShouldBeFound("applicantId.equals=" + applicantId);
-
-        // Get all the applicantLevelList where applicant equals to (applicantId + 1)
-        defaultApplicantLevelShouldNotBeFound("applicantId.equals=" + (applicantId + 1));
-    }
-
-    @Test
-    @Transactional
     void getAllApplicantLevelsByStepIsEqualToSomething() throws Exception {
         // Initialize the database
         applicantLevelRepository.saveAndFlush(applicantLevel);
@@ -799,6 +802,32 @@ class ApplicantLevelResourceIT {
 
         // Get all the applicantLevelList where step equals to (stepId + 1)
         defaultApplicantLevelShouldNotBeFound("stepId.equals=" + (stepId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllApplicantLevelsByApplicantIsEqualToSomething() throws Exception {
+        // Initialize the database
+        applicantLevelRepository.saveAndFlush(applicantLevel);
+        Applicant applicant;
+        if (TestUtil.findAll(em, Applicant.class).isEmpty()) {
+            applicant = ApplicantResourceIT.createEntity(em);
+            em.persist(applicant);
+            em.flush();
+        } else {
+            applicant = TestUtil.findAll(em, Applicant.class).get(0);
+        }
+        em.persist(applicant);
+        em.flush();
+        applicantLevel.addApplicant(applicant);
+        applicantLevelRepository.saveAndFlush(applicantLevel);
+        Long applicantId = applicant.getId();
+
+        // Get all the applicantLevelList where applicant equals to applicantId
+        defaultApplicantLevelShouldBeFound("applicantId.equals=" + applicantId);
+
+        // Get all the applicantLevelList where applicant equals to (applicantId + 1)
+        defaultApplicantLevelShouldNotBeFound("applicantId.equals=" + (applicantId + 1));
     }
 
     /**

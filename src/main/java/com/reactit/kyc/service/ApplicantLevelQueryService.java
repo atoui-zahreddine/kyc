@@ -111,19 +111,19 @@ public class ApplicantLevelQueryService extends QueryService<ApplicantLevel> {
             if (criteria.getModifiedAt() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedAt(), ApplicantLevel_.modifiedAt));
             }
+            if (criteria.getStepId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getStepId(), root -> root.join(ApplicantLevel_.steps, JoinType.LEFT).get(Step_.id))
+                    );
+            }
             if (criteria.getApplicantId() != null) {
                 specification =
                     specification.and(
                         buildSpecification(
                             criteria.getApplicantId(),
-                            root -> root.join(ApplicantLevel_.applicant, JoinType.LEFT).get(Applicant_.id)
+                            root -> root.join(ApplicantLevel_.applicants, JoinType.LEFT).get(Applicant_.id)
                         )
-                    );
-            }
-            if (criteria.getStepId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(criteria.getStepId(), root -> root.join(ApplicantLevel_.steps, JoinType.LEFT).get(Step_.id))
                     );
             }
         }

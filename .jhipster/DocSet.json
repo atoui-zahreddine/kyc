@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20220802105144",
+  "changelogDate": "20220802155802",
   "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "doc_set",
@@ -30,8 +30,9 @@
     {
       "otherEntityName": "step",
       "otherEntityRelationshipName": "docSet",
+      "ownerSide": false,
       "relationshipName": "step",
-      "relationshipType": "many-to-one"
+      "relationshipType": "many-to-many"
     }
   ],
   "service": "serviceImpl"

@@ -21,14 +21,6 @@ public class CountryDTO implements Serializable {
 
     private CountryRegion region;
 
-    private ApplicantAddresseDTO addresses;
-
-    private ApplicantDocsDTO docs;
-
-    private ApplicantInfoDTO applicants;
-
-    private ApplicantPhoneDTO phones;
-
     public Long getId() {
         return id;
     }
@@ -77,38 +69,6 @@ public class CountryDTO implements Serializable {
         this.region = region;
     }
 
-    public ApplicantAddresseDTO getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(ApplicantAddresseDTO addresses) {
-        this.addresses = addresses;
-    }
-
-    public ApplicantDocsDTO getDocs() {
-        return docs;
-    }
-
-    public void setDocs(ApplicantDocsDTO docs) {
-        this.docs = docs;
-    }
-
-    public ApplicantInfoDTO getApplicants() {
-        return applicants;
-    }
-
-    public void setApplicants(ApplicantInfoDTO applicants) {
-        this.applicants = applicants;
-    }
-
-    public ApplicantPhoneDTO getPhones() {
-        return phones;
-    }
-
-    public void setPhones(ApplicantPhoneDTO phones) {
-        this.phones = phones;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -140,10 +100,6 @@ public class CountryDTO implements Serializable {
             ", countryCode3='" + getCountryCode3() + "'" +
             ", phoneCode='" + getPhoneCode() + "'" +
             ", region='" + getRegion() + "'" +
-            ", addresses=" + getAddresses() +
-            ", docs=" + getDocs() +
-            ", applicants=" + getApplicants() +
-            ", phones=" + getPhones() +
             "}";
     }
 }

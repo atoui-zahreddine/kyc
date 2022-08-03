@@ -134,6 +134,9 @@ export const ApplicantInfo = (props: RouteComponentProps<{ url: string }>) => {
                 <th>
                   Applicant <FontAwesomeIcon icon="sort" />
                 </th>
+                <th>
+                  Country Of Birth <FontAwesomeIcon icon="sort" />
+                </th>
                 <th />
               </tr>
             </thead>
@@ -162,6 +165,13 @@ export const ApplicantInfo = (props: RouteComponentProps<{ url: string }>) => {
                   <td>
                     {applicantInfo.applicant ? (
                       <Link to={`applicant/${applicantInfo.applicant.id}`}>{applicantInfo.applicant.id}</Link>
+                    ) : (
+                      ''
+                    )}
+                  </td>
+                  <td>
+                    {applicantInfo.countryOfBirth ? (
+                      <Link to={`country/${applicantInfo.countryOfBirth.id}`}>{applicantInfo.countryOfBirth.id}</Link>
                     ) : (
                       ''
                     )}

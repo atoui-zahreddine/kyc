@@ -61,11 +61,15 @@ public class ApplicantLevelServiceImpl implements ApplicantLevelService {
         return applicantLevelRepository.findAll(pageable).map(applicantLevelMapper::toDto);
     }
 
+    public Page<ApplicantLevelDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return applicantLevelRepository.findAllWithEagerRelationships(pageable).map(applicantLevelMapper::toDto);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<ApplicantLevelDTO> findOne(Long id) {
         log.debug("Request to get ApplicantLevel : {}", id);
-        return applicantLevelRepository.findById(id).map(applicantLevelMapper::toDto);
+        return applicantLevelRepository.findOneWithEagerRelationships(id).map(applicantLevelMapper::toDto);
     }
 
     @Override

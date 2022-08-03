@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <!--
+        Added the constraints for entity ApplicantInfo.
+    -->
+    <changeSet id="20220802155755-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="applicant_id"
+                                 baseTableName="applicant_info"
+                                 constraintName="fk_applicant_info__applicant_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="applicant"/>
+
+        <addForeignKeyConstraint baseColumnNames="country_of_birth_id"
+                                 baseTableName="applicant_info"
+                                 constraintName="fk_applicant_info__country_of_birth_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="country"/>
+
+        <addForeignKeyConstraint baseColumnNames="applicant_info_id"
+                                 baseTableName="rel_applicant_info__applicant_addresse"
+                                 constraintName="fk_rel_applicant_info__applicant_addresse__applicant_info_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="applicant_info"/>
+
+        <addForeignKeyConstraint baseColumnNames="applicant_addresse_id"
+                                 baseTableName="rel_applicant_info__applicant_addresse"
+                                 constraintName="fk_rel_applicant_info__applican__applicant_addresse_1a_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="applicant_addresse"/>
+
+        <addForeignKeyConstraint baseColumnNames="applicant_info_id"
+                                 baseTableName="rel_applicant_info__applicant_phone"
+                                 constraintName="fk_rel_applicant_info__applicant_phone__applicant_info_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="applicant_info"/>
+
+        <addForeignKeyConstraint baseColumnNames="applicant_phone_id"
+                                 baseTableName="rel_applicant_info__applicant_phone"
+                                 constraintName="fk_rel_applicant_info__applicant_phone__applicant_phone_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="applicant_phone"/>
+
+        <addForeignKeyConstraint baseColumnNames="applicant_info_id"
+                                 baseTableName="rel_applicant_info__applicant_docs"
+                                 constraintName="fk_rel_applicant_info__applicant_docs__applicant_info_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="applicant_info"/>
+
+        <addForeignKeyConstraint baseColumnNames="applicant_docs_id"
+                                 baseTableName="rel_applicant_info__applicant_docs"
+                                 constraintName="fk_rel_applicant_info__applicant_docs__applicant_docs_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="applicant_docs"/>
+    </changeSet>
+</databaseChangeLog>

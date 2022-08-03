@@ -3,6 +3,8 @@ package com.reactit.kyc.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.reactit.kyc.domain.enumeration.CountryRegion;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 
 /**
@@ -36,24 +38,24 @@ public class Country implements Serializable {
     @Column(name = "region")
     private CountryRegion region;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "applicantInfo", "addresseCountries" }, allowSetters = true)
-    private ApplicantAddresse addresses;
+    @OneToMany(mappedBy = "addresseCountry")
+    @JsonIgnoreProperties(value = { "addresseCountry", "applicantInfos" }, allowSetters = true)
+    private Set<ApplicantAddresse> addresses = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "applicantInfo", "docsCountries" }, allowSetters = true)
-    private ApplicantDocs docs;
+    @OneToMany(mappedBy = "docsCountry")
+    @JsonIgnoreProperties(value = { "docsCountry", "applicantInfos" }, allowSetters = true)
+    private Set<ApplicantDocs> docs = new HashSet<>();
 
-    @ManyToOne
+    @OneToMany(mappedBy = "countryOfBirth")
     @JsonIgnoreProperties(
-        value = { "applicant", "applicantAddresses", "applicantPhones", "applicantDocs", "countryOfBirths" },
+        value = { "applicant", "countryOfBirth", "applicantAddresses", "applicantPhones", "applicantDocs" },
         allowSetters = true
     )
-    private ApplicantInfo applicants;
+    private Set<ApplicantInfo> applicants = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "applicantInfo", "phoneCountries" }, allowSetters = true)
-    private ApplicantPhone phones;
+    @OneToMany(mappedBy = "phoneCountry")
+    @JsonIgnoreProperties(value = { "phoneCountry", "applicantInfos" }, allowSetters = true)
+    private Set<ApplicantPhone> phones = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -135,55 +137,127 @@ public class Country implements Serializable {
         this.region = region;
     }
 
-    public ApplicantAddresse getAddresses() {
+    public Set<ApplicantAddresse> getAddresses() {
         return this.addresses;
     }
 
-    public void setAddresses(ApplicantAddresse applicantAddresse) {
-        this.addresses = applicantAddresse;
+    public void setAddresses(Set<ApplicantAddresse> applicantAddresses) {
+        if (this.addresses != null) {
+            this.addresses.forEach(i -> i.setAddresseCountry(null));
+        }
+        if (applicantAddresses != null) {
+            applicantAddresses.forEach(i -> i.setAddresseCountry(this));
+        }
+        this.addresses = applicantAddresses;
     }
 
-    public Country addresses(ApplicantAddresse applicantAddresse) {
-        this.setAddresses(applicantAddresse);
+    public Country addresses(Set<ApplicantAddresse> applicantAddresses) {
+        this.setAddresses(applicantAddresses);
         return this;
     }
 
-    public ApplicantDocs getDocs() {
+    public Country addAddresses(ApplicantAddresse applicantAddresse) {
+        this.addresses.add(applicantAddresse);
+        applicantAddresse.setAddresseCountry(this);
+        return this;
+    }
+
+    public Country removeAddresses(ApplicantAddresse applicantAddresse) {
+        this.addresses.remove(applicantAddresse);
+        applicantAddresse.setAddresseCountry(null);
+        return this;
+    }
+
+    public Set<ApplicantDocs> getDocs() {
         return this.docs;
     }
 
-    public void setDocs(ApplicantDocs applicantDocs) {
+    public void setDocs(Set<ApplicantDocs> applicantDocs) {
+        if (this.docs != null) {
+            this.docs.forEach(i -> i.setDocsCountry(null));
+        }
+        if (applicantDocs != null) {
+            applicantDocs.forEach(i -> i.setDocsCountry(this));
+        }
         this.docs = applicantDocs;
     }
 
-    public Country docs(ApplicantDocs applicantDocs) {
+    public Country docs(Set<ApplicantDocs> applicantDocs) {
         this.setDocs(applicantDocs);
         return this;
     }
 
-    public ApplicantInfo getApplicants() {
-        return this.applicants;
-    }
-
-    public void setApplicants(ApplicantInfo applicantInfo) {
-        this.applicants = applicantInfo;
-    }
-
-    public Country applicants(ApplicantInfo applicantInfo) {
-        this.setApplicants(applicantInfo);
+    public Country addDocs(ApplicantDocs applicantDocs) {
+        this.docs.add(applicantDocs);
+        applicantDocs.setDocsCountry(this);
         return this;
     }
 
-    public ApplicantPhone getPhones() {
+    public Country removeDocs(ApplicantDocs applicantDocs) {
+        this.docs.remove(applicantDocs);
+        applicantDocs.setDocsCountry(null);
+        return this;
+    }
+
+    public Set<ApplicantInfo> getApplicants() {
+        return this.applicants;
+    }
+
+    public void setApplicants(Set<ApplicantInfo> applicantInfos) {
+        if (this.applicants != null) {
+            this.applicants.forEach(i -> i.setCountryOfBirth(null));
+        }
+        if (applicantInfos != null) {
+            applicantInfos.forEach(i -> i.setCountryOfBirth(this));
+        }
+        this.applicants = applicantInfos;
+    }
+
+    public Country applicants(Set<ApplicantInfo> applicantInfos) {
+        this.setApplicants(applicantInfos);
+        return this;
+    }
+
+    public Country addApplicants(ApplicantInfo applicantInfo) {
+        this.applicants.add(applicantInfo);
+        applicantInfo.setCountryOfBirth(this);
+        return this;
+    }
+
+    public Country removeApplicants(ApplicantInfo applicantInfo) {
+        this.applicants.remove(applicantInfo);
+        applicantInfo.setCountryOfBirth(null);
+        return this;
+    }
+
+    public Set<ApplicantPhone> getPhones() {
         return this.phones;
     }
 
-    public void setPhones(ApplicantPhone applicantPhone) {
-        this.phones = applicantPhone;
+    public void setPhones(Set<ApplicantPhone> applicantPhones) {
+        if (this.phones != null) {
+            this.phones.forEach(i -> i.setPhoneCountry(null));
+        }
+        if (applicantPhones != null) {
+            applicantPhones.forEach(i -> i.setPhoneCountry(this));
+        }
+        this.phones = applicantPhones;
     }
 
-    public Country phones(ApplicantPhone applicantPhone) {
-        this.setPhones(applicantPhone);
+    public Country phones(Set<ApplicantPhone> applicantPhones) {
+        this.setPhones(applicantPhones);
+        return this;
+    }
+
+    public Country addPhones(ApplicantPhone applicantPhone) {
+        this.phones.add(applicantPhone);
+        applicantPhone.setPhoneCountry(this);
+        return this;
+    }
+
+    public Country removePhones(ApplicantPhone applicantPhone) {
+        this.phones.remove(applicantPhone);
+        applicantPhone.setPhoneCountry(null);
         return this;
     }
 

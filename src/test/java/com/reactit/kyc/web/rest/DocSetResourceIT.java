@@ -357,7 +357,7 @@ class DocSetResourceIT {
         }
         em.persist(step);
         em.flush();
-        docSet.setStep(step);
+        docSet.addStep(step);
         docSetRepository.saveAndFlush(docSet);
         Long stepId = step.getId();
 

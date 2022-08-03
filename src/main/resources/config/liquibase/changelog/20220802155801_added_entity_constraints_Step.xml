@@ -6,18 +6,18 @@
     <!--
         Added the constraints for entity Step.
     -->
-    <changeSet id="20220802105143-2" author="jhipster">
+    <changeSet id="20220802155801-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="step_id"
-                                 baseTableName="rel_step__applicant_level"
-                                 constraintName="fk_rel_step__applicant_level__step_id"
+                                 baseTableName="rel_step__doc_set"
+                                 constraintName="fk_rel_step__doc_set__step_id"
                                  referencedColumnNames="id"
                                  referencedTableName="step"/>
 
-        <addForeignKeyConstraint baseColumnNames="applicant_level_id"
-                                 baseTableName="rel_step__applicant_level"
-                                 constraintName="fk_rel_step__applicant_level__applicant_level_id"
+        <addForeignKeyConstraint baseColumnNames="doc_set_id"
+                                 baseTableName="rel_step__doc_set"
+                                 constraintName="fk_rel_step__doc_set__doc_set_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="applicant_level"/>
+                                 referencedTableName="doc_set"/>
     </changeSet>
 </databaseChangeLog>

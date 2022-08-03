@@ -31,7 +31,7 @@ public class UserAgentInfo implements Serializable {
     @Column(name = "ua_platform")
     private String uaPlatform;
 
-    @JsonIgnoreProperties(value = { "applicantInfo", "ipInfo", "userAgentInfo", "applicantLevels" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "applicantLevel", "applicantInfo", "ipInfo", "userAgentInfo" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private Applicant applicant;

@@ -1,5 +1,5 @@
-import { IApplicantInfo } from 'app/shared/model/applicant-info.model';
 import { ICountry } from 'app/shared/model/country.model';
+import { IApplicantInfo } from 'app/shared/model/applicant-info.model';
 
 export interface IApplicantAddresse {
   id?: number;
@@ -9,8 +9,8 @@ export interface IApplicantAddresse {
   subStreet?: string | null;
   town?: string | null;
   enabled?: boolean | null;
-  applicantInfo?: IApplicantInfo | null;
-  addresseCountries?: ICountry[] | null;
+  addresseCountry?: ICountry | null;
+  applicantInfos?: IApplicantInfo[] | null;
 }
 
 export const defaultValue: Readonly<IApplicantAddresse> = {

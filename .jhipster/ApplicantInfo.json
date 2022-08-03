@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20220802105137",
+  "changelogDate": "20220802155755",
   "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "applicant_info",
@@ -61,28 +61,31 @@
       "relationshipType": "one-to-one"
     },
     {
+      "otherEntityName": "country",
+      "otherEntityRelationshipName": "applicants",
+      "relationshipName": "countryOfBirth",
+      "relationshipType": "many-to-one"
+    },
+    {
       "otherEntityName": "applicantAddresse",
       "otherEntityRelationshipName": "applicantInfo",
+      "ownerSide": true,
       "relationshipName": "applicantAddresse",
-      "relationshipType": "one-to-many"
+      "relationshipType": "many-to-many"
     },
     {
       "otherEntityName": "applicantPhone",
       "otherEntityRelationshipName": "applicantInfo",
+      "ownerSide": true,
       "relationshipName": "applicantPhone",
-      "relationshipType": "one-to-many"
+      "relationshipType": "many-to-many"
     },
     {
       "otherEntityName": "applicantDocs",
       "otherEntityRelationshipName": "applicantInfo",
+      "ownerSide": true,
       "relationshipName": "applicantDocs",
-      "relationshipType": "one-to-many"
-    },
-    {
-      "otherEntityName": "country",
-      "otherEntityRelationshipName": "applicants",
-      "relationshipName": "countryOfBirth",
-      "relationshipType": "one-to-many"
+      "relationshipType": "many-to-many"
     }
   ],
   "service": "serviceImpl"

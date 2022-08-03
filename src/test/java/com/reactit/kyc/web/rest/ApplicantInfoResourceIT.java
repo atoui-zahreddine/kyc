@@ -2,6 +2,7 @@ package com.reactit.kyc.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -14,11 +15,13 @@ import com.reactit.kyc.domain.ApplicantPhone;
 import com.reactit.kyc.domain.Country;
 import com.reactit.kyc.domain.enumeration.Gender;
 import com.reactit.kyc.repository.ApplicantInfoRepository;
+import com.reactit.kyc.service.ApplicantInfoService;
 import com.reactit.kyc.service.criteria.ApplicantInfoCriteria;
 import com.reactit.kyc.service.dto.ApplicantInfoDTO;
 import com.reactit.kyc.service.mapper.ApplicantInfoMapper;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -30,6 +33,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -84,8 +89,14 @@ class ApplicantInfoResourceIT {
     @Autowired
     private ApplicantInfoRepository applicantInfoRepository;
 
+    @Mock
+    private ApplicantInfoRepository applicantInfoRepositoryMock;
+
     @Autowired
     private ApplicantInfoMapper applicantInfoMapper;
+
+    @Mock
+    private ApplicantInfoService applicantInfoServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -213,6 +224,24 @@ class ApplicantInfoResourceIT {
             .andExpect(jsonPath("$.[*].placeOfBirth").value(hasItem(DEFAULT_PLACE_OF_BIRTH)))
             .andExpect(jsonPath("$.[*].nationality").value(hasItem(DEFAULT_NATIONALITY)))
             .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllApplicantInfosWithEagerRelationshipsIsEnabled() throws Exception {
+        when(applicantInfoServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restApplicantInfoMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(applicantInfoServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllApplicantInfosWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(applicantInfoServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restApplicantInfoMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(applicantInfoServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test
@@ -1065,6 +1094,32 @@ class ApplicantInfoResourceIT {
 
     @Test
     @Transactional
+    void getAllApplicantInfosByCountryOfBirthIsEqualToSomething() throws Exception {
+        // Initialize the database
+        applicantInfoRepository.saveAndFlush(applicantInfo);
+        Country countryOfBirth;
+        if (TestUtil.findAll(em, Country.class).isEmpty()) {
+            countryOfBirth = CountryResourceIT.createEntity(em);
+            em.persist(countryOfBirth);
+            em.flush();
+        } else {
+            countryOfBirth = TestUtil.findAll(em, Country.class).get(0);
+        }
+        em.persist(countryOfBirth);
+        em.flush();
+        applicantInfo.setCountryOfBirth(countryOfBirth);
+        applicantInfoRepository.saveAndFlush(applicantInfo);
+        Long countryOfBirthId = countryOfBirth.getId();
+
+        // Get all the applicantInfoList where countryOfBirth equals to countryOfBirthId
+        defaultApplicantInfoShouldBeFound("countryOfBirthId.equals=" + countryOfBirthId);
+
+        // Get all the applicantInfoList where countryOfBirth equals to (countryOfBirthId + 1)
+        defaultApplicantInfoShouldNotBeFound("countryOfBirthId.equals=" + (countryOfBirthId + 1));
+    }
+
+    @Test
+    @Transactional
     void getAllApplicantInfosByApplicantAddresseIsEqualToSomething() throws Exception {
         // Initialize the database
         applicantInfoRepository.saveAndFlush(applicantInfo);
@@ -1139,32 +1194,6 @@ class ApplicantInfoResourceIT {
 
         // Get all the applicantInfoList where applicantDocs equals to (applicantDocsId + 1)
         defaultApplicantInfoShouldNotBeFound("applicantDocsId.equals=" + (applicantDocsId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllApplicantInfosByCountryOfBirthIsEqualToSomething() throws Exception {
-        // Initialize the database
-        applicantInfoRepository.saveAndFlush(applicantInfo);
-        Country countryOfBirth;
-        if (TestUtil.findAll(em, Country.class).isEmpty()) {
-            countryOfBirth = CountryResourceIT.createEntity(em);
-            em.persist(countryOfBirth);
-            em.flush();
-        } else {
-            countryOfBirth = TestUtil.findAll(em, Country.class).get(0);
-        }
-        em.persist(countryOfBirth);
-        em.flush();
-        applicantInfo.addCountryOfBirth(countryOfBirth);
-        applicantInfoRepository.saveAndFlush(applicantInfo);
-        Long countryOfBirthId = countryOfBirth.getId();
-
-        // Get all the applicantInfoList where countryOfBirth equals to countryOfBirthId
-        defaultApplicantInfoShouldBeFound("countryOfBirthId.equals=" + countryOfBirthId);
-
-        // Get all the applicantInfoList where countryOfBirth equals to (countryOfBirthId + 1)
-        defaultApplicantInfoShouldNotBeFound("countryOfBirthId.equals=" + (countryOfBirthId + 1));
     }
 
     /**

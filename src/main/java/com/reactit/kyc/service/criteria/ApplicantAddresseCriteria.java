@@ -38,9 +38,9 @@ public class ApplicantAddresseCriteria implements Serializable, Criteria {
 
     private BooleanFilter enabled;
 
-    private LongFilter applicantInfoId;
-
     private LongFilter addresseCountryId;
+
+    private LongFilter applicantInfoId;
 
     private Boolean distinct;
 
@@ -54,8 +54,8 @@ public class ApplicantAddresseCriteria implements Serializable, Criteria {
         this.subStreet = other.subStreet == null ? null : other.subStreet.copy();
         this.town = other.town == null ? null : other.town.copy();
         this.enabled = other.enabled == null ? null : other.enabled.copy();
-        this.applicantInfoId = other.applicantInfoId == null ? null : other.applicantInfoId.copy();
         this.addresseCountryId = other.addresseCountryId == null ? null : other.addresseCountryId.copy();
+        this.applicantInfoId = other.applicantInfoId == null ? null : other.applicantInfoId.copy();
         this.distinct = other.distinct;
     }
 
@@ -169,21 +169,6 @@ public class ApplicantAddresseCriteria implements Serializable, Criteria {
         this.enabled = enabled;
     }
 
-    public LongFilter getApplicantInfoId() {
-        return applicantInfoId;
-    }
-
-    public LongFilter applicantInfoId() {
-        if (applicantInfoId == null) {
-            applicantInfoId = new LongFilter();
-        }
-        return applicantInfoId;
-    }
-
-    public void setApplicantInfoId(LongFilter applicantInfoId) {
-        this.applicantInfoId = applicantInfoId;
-    }
-
     public LongFilter getAddresseCountryId() {
         return addresseCountryId;
     }
@@ -197,6 +182,21 @@ public class ApplicantAddresseCriteria implements Serializable, Criteria {
 
     public void setAddresseCountryId(LongFilter addresseCountryId) {
         this.addresseCountryId = addresseCountryId;
+    }
+
+    public LongFilter getApplicantInfoId() {
+        return applicantInfoId;
+    }
+
+    public LongFilter applicantInfoId() {
+        if (applicantInfoId == null) {
+            applicantInfoId = new LongFilter();
+        }
+        return applicantInfoId;
+    }
+
+    public void setApplicantInfoId(LongFilter applicantInfoId) {
+        this.applicantInfoId = applicantInfoId;
     }
 
     public Boolean getDistinct() {
@@ -224,15 +224,15 @@ public class ApplicantAddresseCriteria implements Serializable, Criteria {
             Objects.equals(subStreet, that.subStreet) &&
             Objects.equals(town, that.town) &&
             Objects.equals(enabled, that.enabled) &&
-            Objects.equals(applicantInfoId, that.applicantInfoId) &&
             Objects.equals(addresseCountryId, that.addresseCountryId) &&
+            Objects.equals(applicantInfoId, that.applicantInfoId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, postCode, state, street, subStreet, town, enabled, applicantInfoId, addresseCountryId, distinct);
+        return Objects.hash(id, postCode, state, street, subStreet, town, enabled, addresseCountryId, applicantInfoId, distinct);
     }
 
     // prettier-ignore
@@ -246,8 +246,8 @@ public class ApplicantAddresseCriteria implements Serializable, Criteria {
             (subStreet != null ? "subStreet=" + subStreet + ", " : "") +
             (town != null ? "town=" + town + ", " : "") +
             (enabled != null ? "enabled=" + enabled + ", " : "") +
-            (applicantInfoId != null ? "applicantInfoId=" + applicantInfoId + ", " : "") +
             (addresseCountryId != null ? "addresseCountryId=" + addresseCountryId + ", " : "") +
+            (applicantInfoId != null ? "applicantInfoId=" + applicantInfoId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

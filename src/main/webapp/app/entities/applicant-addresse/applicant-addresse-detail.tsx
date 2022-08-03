@@ -49,8 +49,8 @@ export const ApplicantAddresseDetail = (props: RouteComponentProps<{ id: string 
             <span id="enabled">Enabled</span>
           </dt>
           <dd>{applicantAddresseEntity.enabled ? 'true' : 'false'}</dd>
-          <dt>Applicant Info</dt>
-          <dd>{applicantAddresseEntity.applicantInfo ? applicantAddresseEntity.applicantInfo.id : ''}</dd>
+          <dt>Addresse Country</dt>
+          <dd>{applicantAddresseEntity.addresseCountry ? applicantAddresseEntity.addresseCountry.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/applicant-addresse" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

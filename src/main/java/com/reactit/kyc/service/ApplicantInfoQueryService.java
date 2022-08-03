@@ -129,6 +129,15 @@ public class ApplicantInfoQueryService extends QueryService<ApplicantInfo> {
                         )
                     );
             }
+            if (criteria.getCountryOfBirthId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getCountryOfBirthId(),
+                            root -> root.join(ApplicantInfo_.countryOfBirth, JoinType.LEFT).get(Country_.id)
+                        )
+                    );
+            }
             if (criteria.getApplicantAddresseId() != null) {
                 specification =
                     specification.and(
@@ -153,15 +162,6 @@ public class ApplicantInfoQueryService extends QueryService<ApplicantInfo> {
                         buildSpecification(
                             criteria.getApplicantDocsId(),
                             root -> root.join(ApplicantInfo_.applicantDocs, JoinType.LEFT).get(ApplicantDocs_.id)
-                        )
-                    );
-            }
-            if (criteria.getCountryOfBirthId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getCountryOfBirthId(),
-                            root -> root.join(ApplicantInfo_.countryOfBirths, JoinType.LEFT).get(Country_.id)
                         )
                     );
             }

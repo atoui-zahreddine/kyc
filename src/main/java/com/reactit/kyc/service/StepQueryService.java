@@ -108,6 +108,12 @@ public class StepQueryService extends QueryService<Step> {
             if (criteria.getModifiedAt() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedAt(), Step_.modifiedAt));
             }
+            if (criteria.getDocSetId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getDocSetId(), root -> root.join(Step_.docSets, JoinType.LEFT).get(DocSet_.id))
+                    );
+            }
             if (criteria.getApplicantLevelId() != null) {
                 specification =
                     specification.and(
@@ -115,12 +121,6 @@ public class StepQueryService extends QueryService<Step> {
                             criteria.getApplicantLevelId(),
                             root -> root.join(Step_.applicantLevels, JoinType.LEFT).get(ApplicantLevel_.id)
                         )
-                    );
-            }
-            if (criteria.getDocSetId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(criteria.getDocSetId(), root -> root.join(Step_.docSets, JoinType.LEFT).get(DocSet_.id))
                     );
             }
         }

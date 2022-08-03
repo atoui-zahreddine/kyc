@@ -52,7 +52,6 @@ export const DocSetUpdate = (props: RouteComponentProps<{ id: string }>) => {
     const entity = {
       ...docSetEntity,
       ...values,
-      step: steps.find(it => it.id.toString() === values.step.toString()),
     };
 
     if (isNew) {
@@ -70,7 +69,6 @@ export const DocSetUpdate = (props: RouteComponentProps<{ id: string }>) => {
           subTypes: 'FRONT_SIDE',
           types: 'ID_CARD',
           ...docSetEntity,
-          step: docSetEntity?.step?.id,
         };
 
   return (
@@ -109,16 +107,6 @@ export const DocSetUpdate = (props: RouteComponentProps<{ id: string }>) => {
                     {typeDoc}
                   </option>
                 ))}
-              </ValidatedField>
-              <ValidatedField id="doc-set-step" name="step" data-cy="step" label="Step" type="select">
-                <option value="" key="0" />
-                {steps
-                  ? steps.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
-                      </option>
-                    ))
-                  : null}
               </ValidatedField>
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/doc-set" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />

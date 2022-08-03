@@ -45,6 +45,8 @@ export const ApplicantDetail = (props: RouteComponentProps<{ id: string }>) => {
             <span id="platform">Platform</span>
           </dt>
           <dd>{applicantEntity.platform}</dd>
+          <dt>Applicant Level</dt>
+          <dd>{applicantEntity.applicantLevel ? applicantEntity.applicantLevel.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/applicant" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

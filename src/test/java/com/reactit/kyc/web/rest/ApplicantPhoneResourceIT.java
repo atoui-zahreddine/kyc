@@ -398,32 +398,6 @@ class ApplicantPhoneResourceIT {
 
     @Test
     @Transactional
-    void getAllApplicantPhonesByApplicantInfoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        applicantPhoneRepository.saveAndFlush(applicantPhone);
-        ApplicantInfo applicantInfo;
-        if (TestUtil.findAll(em, ApplicantInfo.class).isEmpty()) {
-            applicantInfo = ApplicantInfoResourceIT.createEntity(em);
-            em.persist(applicantInfo);
-            em.flush();
-        } else {
-            applicantInfo = TestUtil.findAll(em, ApplicantInfo.class).get(0);
-        }
-        em.persist(applicantInfo);
-        em.flush();
-        applicantPhone.setApplicantInfo(applicantInfo);
-        applicantPhoneRepository.saveAndFlush(applicantPhone);
-        Long applicantInfoId = applicantInfo.getId();
-
-        // Get all the applicantPhoneList where applicantInfo equals to applicantInfoId
-        defaultApplicantPhoneShouldBeFound("applicantInfoId.equals=" + applicantInfoId);
-
-        // Get all the applicantPhoneList where applicantInfo equals to (applicantInfoId + 1)
-        defaultApplicantPhoneShouldNotBeFound("applicantInfoId.equals=" + (applicantInfoId + 1));
-    }
-
-    @Test
-    @Transactional
     void getAllApplicantPhonesByPhoneCountryIsEqualToSomething() throws Exception {
         // Initialize the database
         applicantPhoneRepository.saveAndFlush(applicantPhone);
@@ -437,7 +411,7 @@ class ApplicantPhoneResourceIT {
         }
         em.persist(phoneCountry);
         em.flush();
-        applicantPhone.addPhoneCountry(phoneCountry);
+        applicantPhone.setPhoneCountry(phoneCountry);
         applicantPhoneRepository.saveAndFlush(applicantPhone);
         Long phoneCountryId = phoneCountry.getId();
 
@@ -446,6 +420,32 @@ class ApplicantPhoneResourceIT {
 
         // Get all the applicantPhoneList where phoneCountry equals to (phoneCountryId + 1)
         defaultApplicantPhoneShouldNotBeFound("phoneCountryId.equals=" + (phoneCountryId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllApplicantPhonesByApplicantInfoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        applicantPhoneRepository.saveAndFlush(applicantPhone);
+        ApplicantInfo applicantInfo;
+        if (TestUtil.findAll(em, ApplicantInfo.class).isEmpty()) {
+            applicantInfo = ApplicantInfoResourceIT.createEntity(em);
+            em.persist(applicantInfo);
+            em.flush();
+        } else {
+            applicantInfo = TestUtil.findAll(em, ApplicantInfo.class).get(0);
+        }
+        em.persist(applicantInfo);
+        em.flush();
+        applicantPhone.addApplicantInfo(applicantInfo);
+        applicantPhoneRepository.saveAndFlush(applicantPhone);
+        Long applicantInfoId = applicantInfo.getId();
+
+        // Get all the applicantPhoneList where applicantInfo equals to applicantInfoId
+        defaultApplicantPhoneShouldBeFound("applicantInfoId.equals=" + applicantInfoId);
+
+        // Get all the applicantPhoneList where applicantInfo equals to (applicantInfoId + 1)
+        defaultApplicantPhoneShouldNotBeFound("applicantInfoId.equals=" + (applicantInfoId + 1));
     }
 
     /**

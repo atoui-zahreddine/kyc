@@ -49,13 +49,13 @@ export const StepDetail = (props: RouteComponentProps<{ id: string }>) => {
             <span id="modifiedAt">Modified At</span>
           </dt>
           <dd>{stepEntity.modifiedAt ? <TextFormat value={stepEntity.modifiedAt} type="date" format={APP_DATE_FORMAT} /> : null}</dd>
-          <dt>Applicant Level</dt>
+          <dt>Doc Set</dt>
           <dd>
-            {stepEntity.applicantLevels
-              ? stepEntity.applicantLevels.map((val, i) => (
+            {stepEntity.docSets
+              ? stepEntity.docSets.map((val, i) => (
                   <span key={val.id}>
                     <a>{val.id}</a>
-                    {stepEntity.applicantLevels && i === stepEntity.applicantLevels.length - 1 ? '' : ', '}
+                    {stepEntity.docSets && i === stepEntity.docSets.length - 1 ? '' : ', '}
                   </span>
                 ))
               : null}

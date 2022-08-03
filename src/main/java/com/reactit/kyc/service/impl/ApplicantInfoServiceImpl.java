@@ -61,11 +61,15 @@ public class ApplicantInfoServiceImpl implements ApplicantInfoService {
         return applicantInfoRepository.findAll(pageable).map(applicantInfoMapper::toDto);
     }
 
+    public Page<ApplicantInfoDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return applicantInfoRepository.findAllWithEagerRelationships(pageable).map(applicantInfoMapper::toDto);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<ApplicantInfoDTO> findOne(Long id) {
         log.debug("Request to get ApplicantInfo : {}", id);
-        return applicantInfoRepository.findById(id).map(applicantInfoMapper::toDto);
+        return applicantInfoRepository.findOneWithEagerRelationships(id).map(applicantInfoMapper::toDto);
     }
 
     @Override

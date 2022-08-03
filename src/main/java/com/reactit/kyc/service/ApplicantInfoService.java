@@ -34,6 +34,14 @@ public interface ApplicantInfoService {
     Page<ApplicantInfoDTO> findAll(Pageable pageable);
 
     /**
+     * Get all the applicantInfos with eager load of many-to-many relationships.
+     *
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    Page<ApplicantInfoDTO> findAllWithEagerRelationships(Pageable pageable);
+
+    /**
      * Get the "id" applicantInfo.
      *
      * @param id the id of the entity.

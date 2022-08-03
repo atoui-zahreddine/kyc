@@ -952,32 +952,6 @@ class ApplicantDocsResourceIT {
 
     @Test
     @Transactional
-    void getAllApplicantDocsByApplicantInfoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        applicantDocsRepository.saveAndFlush(applicantDocs);
-        ApplicantInfo applicantInfo;
-        if (TestUtil.findAll(em, ApplicantInfo.class).isEmpty()) {
-            applicantInfo = ApplicantInfoResourceIT.createEntity(em);
-            em.persist(applicantInfo);
-            em.flush();
-        } else {
-            applicantInfo = TestUtil.findAll(em, ApplicantInfo.class).get(0);
-        }
-        em.persist(applicantInfo);
-        em.flush();
-        applicantDocs.setApplicantInfo(applicantInfo);
-        applicantDocsRepository.saveAndFlush(applicantDocs);
-        Long applicantInfoId = applicantInfo.getId();
-
-        // Get all the applicantDocsList where applicantInfo equals to applicantInfoId
-        defaultApplicantDocsShouldBeFound("applicantInfoId.equals=" + applicantInfoId);
-
-        // Get all the applicantDocsList where applicantInfo equals to (applicantInfoId + 1)
-        defaultApplicantDocsShouldNotBeFound("applicantInfoId.equals=" + (applicantInfoId + 1));
-    }
-
-    @Test
-    @Transactional
     void getAllApplicantDocsByDocsCountryIsEqualToSomething() throws Exception {
         // Initialize the database
         applicantDocsRepository.saveAndFlush(applicantDocs);
@@ -991,7 +965,7 @@ class ApplicantDocsResourceIT {
         }
         em.persist(docsCountry);
         em.flush();
-        applicantDocs.addDocsCountry(docsCountry);
+        applicantDocs.setDocsCountry(docsCountry);
         applicantDocsRepository.saveAndFlush(applicantDocs);
         Long docsCountryId = docsCountry.getId();
 
@@ -1000,6 +974,32 @@ class ApplicantDocsResourceIT {
 
         // Get all the applicantDocsList where docsCountry equals to (docsCountryId + 1)
         defaultApplicantDocsShouldNotBeFound("docsCountryId.equals=" + (docsCountryId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllApplicantDocsByApplicantInfoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        applicantDocsRepository.saveAndFlush(applicantDocs);
+        ApplicantInfo applicantInfo;
+        if (TestUtil.findAll(em, ApplicantInfo.class).isEmpty()) {
+            applicantInfo = ApplicantInfoResourceIT.createEntity(em);
+            em.persist(applicantInfo);
+            em.flush();
+        } else {
+            applicantInfo = TestUtil.findAll(em, ApplicantInfo.class).get(0);
+        }
+        em.persist(applicantInfo);
+        em.flush();
+        applicantDocs.addApplicantInfo(applicantInfo);
+        applicantDocsRepository.saveAndFlush(applicantDocs);
+        Long applicantInfoId = applicantInfo.getId();
+
+        // Get all the applicantDocsList where applicantInfo equals to applicantInfoId
+        defaultApplicantDocsShouldBeFound("applicantInfoId.equals=" + applicantInfoId);
+
+        // Get all the applicantDocsList where applicantInfo equals to (applicantInfoId + 1)
+        defaultApplicantDocsShouldNotBeFound("applicantInfoId.equals=" + (applicantInfoId + 1));
     }
 
     /**

@@ -3,7 +3,9 @@ package com.reactit.kyc.service.dto;
 import com.reactit.kyc.domain.enumeration.Gender;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.reactit.kyc.domain.ApplicantInfo} entity.
@@ -33,6 +35,14 @@ public class ApplicantInfoDTO implements Serializable {
     private Gender gender;
 
     private ApplicantDTO applicant;
+
+    private CountryDTO countryOfBirth;
+
+    private Set<ApplicantAddresseDTO> applicantAddresses = new HashSet<>();
+
+    private Set<ApplicantPhoneDTO> applicantPhones = new HashSet<>();
+
+    private Set<ApplicantDocsDTO> applicantDocs = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -130,6 +140,38 @@ public class ApplicantInfoDTO implements Serializable {
         this.applicant = applicant;
     }
 
+    public CountryDTO getCountryOfBirth() {
+        return countryOfBirth;
+    }
+
+    public void setCountryOfBirth(CountryDTO countryOfBirth) {
+        this.countryOfBirth = countryOfBirth;
+    }
+
+    public Set<ApplicantAddresseDTO> getApplicantAddresses() {
+        return applicantAddresses;
+    }
+
+    public void setApplicantAddresses(Set<ApplicantAddresseDTO> applicantAddresses) {
+        this.applicantAddresses = applicantAddresses;
+    }
+
+    public Set<ApplicantPhoneDTO> getApplicantPhones() {
+        return applicantPhones;
+    }
+
+    public void setApplicantPhones(Set<ApplicantPhoneDTO> applicantPhones) {
+        this.applicantPhones = applicantPhones;
+    }
+
+    public Set<ApplicantDocsDTO> getApplicantDocs() {
+        return applicantDocs;
+    }
+
+    public void setApplicantDocs(Set<ApplicantDocsDTO> applicantDocs) {
+        this.applicantDocs = applicantDocs;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -167,6 +209,10 @@ public class ApplicantInfoDTO implements Serializable {
             ", nationality='" + getNationality() + "'" +
             ", gender='" + getGender() + "'" +
             ", applicant=" + getApplicant() +
+            ", countryOfBirth=" + getCountryOfBirth() +
+            ", applicantAddresses=" + getApplicantAddresses() +
+            ", applicantPhones=" + getApplicantPhones() +
+            ", applicantDocs=" + getApplicantDocs() +
             "}";
     }
 }

@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20220802105142",
+  "changelogDate": "20220802155800",
   "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "applicant_level",
@@ -41,17 +41,17 @@
   "readOnly": false,
   "relationships": [
     {
+      "otherEntityName": "step",
+      "otherEntityRelationshipName": "applicantLevel",
+      "ownerSide": true,
+      "relationshipName": "step",
+      "relationshipType": "many-to-many"
+    },
+    {
       "otherEntityName": "applicant",
       "otherEntityRelationshipName": "applicantLevel",
       "relationshipName": "applicant",
-      "relationshipType": "many-to-one"
-    },
-    {
-      "otherEntityName": "step",
-      "otherEntityRelationshipName": "applicantLevel",
-      "ownerSide": false,
-      "relationshipName": "step",
-      "relationshipType": "many-to-many"
+      "relationshipType": "one-to-many"
     }
   ],
   "service": "serviceImpl"

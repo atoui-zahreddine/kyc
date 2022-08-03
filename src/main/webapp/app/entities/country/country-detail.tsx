@@ -45,14 +45,6 @@ export const CountryDetail = (props: RouteComponentProps<{ id: string }>) => {
             <span id="region">Region</span>
           </dt>
           <dd>{countryEntity.region}</dd>
-          <dt>Addresses</dt>
-          <dd>{countryEntity.addresses ? countryEntity.addresses.id : ''}</dd>
-          <dt>Docs</dt>
-          <dd>{countryEntity.docs ? countryEntity.docs.id : ''}</dd>
-          <dt>Applicants</dt>
-          <dd>{countryEntity.applicants ? countryEntity.applicants.id : ''}</dd>
-          <dt>Phones</dt>
-          <dd>{countryEntity.phones ? countryEntity.phones.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/country" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

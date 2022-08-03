@@ -117,21 +117,21 @@ public class ApplicantDocsQueryService extends QueryService<ApplicantDocs> {
             if (criteria.getImageTrust() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getImageTrust(), ApplicantDocs_.imageTrust));
             }
-            if (criteria.getApplicantInfoId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getApplicantInfoId(),
-                            root -> root.join(ApplicantDocs_.applicantInfo, JoinType.LEFT).get(ApplicantInfo_.id)
-                        )
-                    );
-            }
             if (criteria.getDocsCountryId() != null) {
                 specification =
                     specification.and(
                         buildSpecification(
                             criteria.getDocsCountryId(),
-                            root -> root.join(ApplicantDocs_.docsCountries, JoinType.LEFT).get(Country_.id)
+                            root -> root.join(ApplicantDocs_.docsCountry, JoinType.LEFT).get(Country_.id)
+                        )
+                    );
+            }
+            if (criteria.getApplicantInfoId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getApplicantInfoId(),
+                            root -> root.join(ApplicantDocs_.applicantInfos, JoinType.LEFT).get(ApplicantInfo_.id)
                         )
                     );
             }

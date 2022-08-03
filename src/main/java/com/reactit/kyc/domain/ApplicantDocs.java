@@ -54,15 +54,15 @@ public class ApplicantDocs implements Serializable {
     private String imageTrust;
 
     @ManyToOne
+    @JsonIgnoreProperties(value = { "addresses", "docs", "applicants", "phones" }, allowSetters = true)
+    private Country docsCountry;
+
+    @ManyToMany(mappedBy = "applicantDocs")
     @JsonIgnoreProperties(
-        value = { "applicant", "applicantAddresses", "applicantPhones", "applicantDocs", "countryOfBirths" },
+        value = { "applicant", "countryOfBirth", "applicantAddresses", "applicantPhones", "applicantDocs" },
         allowSetters = true
     )
-    private ApplicantInfo applicantInfo;
-
-    @OneToMany(mappedBy = "docs")
-    @JsonIgnoreProperties(value = { "addresses", "docs", "applicants", "phones" }, allowSetters = true)
-    private Set<Country> docsCountries = new HashSet<>();
+    private Set<ApplicantInfo> applicantInfos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -196,47 +196,47 @@ public class ApplicantDocs implements Serializable {
         this.imageTrust = imageTrust;
     }
 
-    public ApplicantInfo getApplicantInfo() {
-        return this.applicantInfo;
+    public Country getDocsCountry() {
+        return this.docsCountry;
     }
 
-    public void setApplicantInfo(ApplicantInfo applicantInfo) {
-        this.applicantInfo = applicantInfo;
+    public void setDocsCountry(Country country) {
+        this.docsCountry = country;
     }
 
-    public ApplicantDocs applicantInfo(ApplicantInfo applicantInfo) {
-        this.setApplicantInfo(applicantInfo);
+    public ApplicantDocs docsCountry(Country country) {
+        this.setDocsCountry(country);
         return this;
     }
 
-    public Set<Country> getDocsCountries() {
-        return this.docsCountries;
+    public Set<ApplicantInfo> getApplicantInfos() {
+        return this.applicantInfos;
     }
 
-    public void setDocsCountries(Set<Country> countries) {
-        if (this.docsCountries != null) {
-            this.docsCountries.forEach(i -> i.setDocs(null));
+    public void setApplicantInfos(Set<ApplicantInfo> applicantInfos) {
+        if (this.applicantInfos != null) {
+            this.applicantInfos.forEach(i -> i.removeApplicantDocs(this));
         }
-        if (countries != null) {
-            countries.forEach(i -> i.setDocs(this));
+        if (applicantInfos != null) {
+            applicantInfos.forEach(i -> i.addApplicantDocs(this));
         }
-        this.docsCountries = countries;
+        this.applicantInfos = applicantInfos;
     }
 
-    public ApplicantDocs docsCountries(Set<Country> countries) {
-        this.setDocsCountries(countries);
+    public ApplicantDocs applicantInfos(Set<ApplicantInfo> applicantInfos) {
+        this.setApplicantInfos(applicantInfos);
         return this;
     }
 
-    public ApplicantDocs addDocsCountry(Country country) {
-        this.docsCountries.add(country);
-        country.setDocs(this);
+    public ApplicantDocs addApplicantInfo(ApplicantInfo applicantInfo) {
+        this.applicantInfos.add(applicantInfo);
+        applicantInfo.getApplicantDocs().add(this);
         return this;
     }
 
-    public ApplicantDocs removeDocsCountry(Country country) {
-        this.docsCountries.remove(country);
-        country.setDocs(null);
+    public ApplicantDocs removeApplicantInfo(ApplicantInfo applicantInfo) {
+        this.applicantInfos.remove(applicantInfo);
+        applicantInfo.getApplicantDocs().remove(this);
         return this;
     }
 

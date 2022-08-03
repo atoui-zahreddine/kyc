@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.reactit.kyc.domain.enumeration.Platform;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
 
 /**
@@ -36,8 +34,12 @@ public class Applicant implements Serializable {
     @Column(name = "platform")
     private Platform platform;
 
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "steps", "applicants" }, allowSetters = true)
+    private ApplicantLevel applicantLevel;
+
     @JsonIgnoreProperties(
-        value = { "applicant", "applicantAddresses", "applicantPhones", "applicantDocs", "countryOfBirths" },
+        value = { "applicant", "countryOfBirth", "applicantAddresses", "applicantPhones", "applicantDocs" },
         allowSetters = true
     )
     @OneToOne(mappedBy = "applicant")
@@ -50,10 +52,6 @@ public class Applicant implements Serializable {
     @JsonIgnoreProperties(value = { "applicant" }, allowSetters = true)
     @OneToOne(mappedBy = "applicant")
     private UserAgentInfo userAgentInfo;
-
-    @OneToMany(mappedBy = "applicant")
-    @JsonIgnoreProperties(value = { "applicant", "steps" }, allowSetters = true)
-    private Set<ApplicantLevel> applicantLevels = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -122,6 +120,19 @@ public class Applicant implements Serializable {
         this.platform = platform;
     }
 
+    public ApplicantLevel getApplicantLevel() {
+        return this.applicantLevel;
+    }
+
+    public void setApplicantLevel(ApplicantLevel applicantLevel) {
+        this.applicantLevel = applicantLevel;
+    }
+
+    public Applicant applicantLevel(ApplicantLevel applicantLevel) {
+        this.setApplicantLevel(applicantLevel);
+        return this;
+    }
+
     public ApplicantInfo getApplicantInfo() {
         return this.applicantInfo;
     }
@@ -176,37 +187,6 @@ public class Applicant implements Serializable {
 
     public Applicant userAgentInfo(UserAgentInfo userAgentInfo) {
         this.setUserAgentInfo(userAgentInfo);
-        return this;
-    }
-
-    public Set<ApplicantLevel> getApplicantLevels() {
-        return this.applicantLevels;
-    }
-
-    public void setApplicantLevels(Set<ApplicantLevel> applicantLevels) {
-        if (this.applicantLevels != null) {
-            this.applicantLevels.forEach(i -> i.setApplicant(null));
-        }
-        if (applicantLevels != null) {
-            applicantLevels.forEach(i -> i.setApplicant(this));
-        }
-        this.applicantLevels = applicantLevels;
-    }
-
-    public Applicant applicantLevels(Set<ApplicantLevel> applicantLevels) {
-        this.setApplicantLevels(applicantLevels);
-        return this;
-    }
-
-    public Applicant addApplicantLevel(ApplicantLevel applicantLevel) {
-        this.applicantLevels.add(applicantLevel);
-        applicantLevel.setApplicant(this);
-        return this;
-    }
-
-    public Applicant removeApplicantLevel(ApplicantLevel applicantLevel) {
-        this.applicantLevels.remove(applicantLevel);
-        applicantLevel.setApplicant(null);
         return this;
     }
 

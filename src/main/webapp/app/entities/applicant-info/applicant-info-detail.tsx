@@ -71,6 +71,41 @@ export const ApplicantInfoDetail = (props: RouteComponentProps<{ id: string }>) 
           <dd>{applicantInfoEntity.gender}</dd>
           <dt>Applicant</dt>
           <dd>{applicantInfoEntity.applicant ? applicantInfoEntity.applicant.id : ''}</dd>
+          <dt>Country Of Birth</dt>
+          <dd>{applicantInfoEntity.countryOfBirth ? applicantInfoEntity.countryOfBirth.id : ''}</dd>
+          <dt>Applicant Addresse</dt>
+          <dd>
+            {applicantInfoEntity.applicantAddresses
+              ? applicantInfoEntity.applicantAddresses.map((val, i) => (
+                  <span key={val.id}>
+                    <a>{val.id}</a>
+                    {applicantInfoEntity.applicantAddresses && i === applicantInfoEntity.applicantAddresses.length - 1 ? '' : ', '}
+                  </span>
+                ))
+              : null}
+          </dd>
+          <dt>Applicant Phone</dt>
+          <dd>
+            {applicantInfoEntity.applicantPhones
+              ? applicantInfoEntity.applicantPhones.map((val, i) => (
+                  <span key={val.id}>
+                    <a>{val.id}</a>
+                    {applicantInfoEntity.applicantPhones && i === applicantInfoEntity.applicantPhones.length - 1 ? '' : ', '}
+                  </span>
+                ))
+              : null}
+          </dd>
+          <dt>Applicant Docs</dt>
+          <dd>
+            {applicantInfoEntity.applicantDocs
+              ? applicantInfoEntity.applicantDocs.map((val, i) => (
+                  <span key={val.id}>
+                    <a>{val.id}</a>
+                    {applicantInfoEntity.applicantDocs && i === applicantInfoEntity.applicantDocs.length - 1 ? '' : ', '}
+                  </span>
+                ))
+              : null}
+          </dd>
         </dl>
         <Button tag={Link} to="/applicant-info" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

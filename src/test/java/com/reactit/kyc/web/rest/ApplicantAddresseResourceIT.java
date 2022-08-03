@@ -666,32 +666,6 @@ class ApplicantAddresseResourceIT {
 
     @Test
     @Transactional
-    void getAllApplicantAddressesByApplicantInfoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        applicantAddresseRepository.saveAndFlush(applicantAddresse);
-        ApplicantInfo applicantInfo;
-        if (TestUtil.findAll(em, ApplicantInfo.class).isEmpty()) {
-            applicantInfo = ApplicantInfoResourceIT.createEntity(em);
-            em.persist(applicantInfo);
-            em.flush();
-        } else {
-            applicantInfo = TestUtil.findAll(em, ApplicantInfo.class).get(0);
-        }
-        em.persist(applicantInfo);
-        em.flush();
-        applicantAddresse.setApplicantInfo(applicantInfo);
-        applicantAddresseRepository.saveAndFlush(applicantAddresse);
-        Long applicantInfoId = applicantInfo.getId();
-
-        // Get all the applicantAddresseList where applicantInfo equals to applicantInfoId
-        defaultApplicantAddresseShouldBeFound("applicantInfoId.equals=" + applicantInfoId);
-
-        // Get all the applicantAddresseList where applicantInfo equals to (applicantInfoId + 1)
-        defaultApplicantAddresseShouldNotBeFound("applicantInfoId.equals=" + (applicantInfoId + 1));
-    }
-
-    @Test
-    @Transactional
     void getAllApplicantAddressesByAddresseCountryIsEqualToSomething() throws Exception {
         // Initialize the database
         applicantAddresseRepository.saveAndFlush(applicantAddresse);
@@ -705,7 +679,7 @@ class ApplicantAddresseResourceIT {
         }
         em.persist(addresseCountry);
         em.flush();
-        applicantAddresse.addAddresseCountry(addresseCountry);
+        applicantAddresse.setAddresseCountry(addresseCountry);
         applicantAddresseRepository.saveAndFlush(applicantAddresse);
         Long addresseCountryId = addresseCountry.getId();
 
@@ -714,6 +688,32 @@ class ApplicantAddresseResourceIT {
 
         // Get all the applicantAddresseList where addresseCountry equals to (addresseCountryId + 1)
         defaultApplicantAddresseShouldNotBeFound("addresseCountryId.equals=" + (addresseCountryId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllApplicantAddressesByApplicantInfoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        applicantAddresseRepository.saveAndFlush(applicantAddresse);
+        ApplicantInfo applicantInfo;
+        if (TestUtil.findAll(em, ApplicantInfo.class).isEmpty()) {
+            applicantInfo = ApplicantInfoResourceIT.createEntity(em);
+            em.persist(applicantInfo);
+            em.flush();
+        } else {
+            applicantInfo = TestUtil.findAll(em, ApplicantInfo.class).get(0);
+        }
+        em.persist(applicantInfo);
+        em.flush();
+        applicantAddresse.addApplicantInfo(applicantInfo);
+        applicantAddresseRepository.saveAndFlush(applicantAddresse);
+        Long applicantInfoId = applicantInfo.getId();
+
+        // Get all the applicantAddresseList where applicantInfo equals to applicantInfoId
+        defaultApplicantAddresseShouldBeFound("applicantInfoId.equals=" + applicantInfoId);
+
+        // Get all the applicantAddresseList where applicantInfo equals to (applicantInfoId + 1)
+        defaultApplicantAddresseShouldNotBeFound("applicantInfoId.equals=" + (applicantInfoId + 1));
     }
 
     /**

@@ -20,6 +20,8 @@ public class ApplicantDTO implements Serializable {
 
     private Platform platform;
 
+    private ApplicantLevelDTO applicantLevel;
+
     public Long getId() {
         return id;
     }
@@ -60,6 +62,14 @@ public class ApplicantDTO implements Serializable {
         this.platform = platform;
     }
 
+    public ApplicantLevelDTO getApplicantLevel() {
+        return applicantLevel;
+    }
+
+    public void setApplicantLevel(ApplicantLevelDTO applicantLevel) {
+        this.applicantLevel = applicantLevel;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -90,6 +100,7 @@ public class ApplicantDTO implements Serializable {
             ", createdBy=" + getCreatedBy() +
             ", modifiedAt='" + getModifiedAt() + "'" +
             ", platform='" + getPlatform() + "'" +
+            ", applicantLevel=" + getApplicantLevel() +
             "}";
     }
 }

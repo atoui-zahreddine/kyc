@@ -39,9 +39,9 @@ public class StepCriteria implements Serializable, Criteria {
 
     private InstantFilter modifiedAt;
 
-    private LongFilter applicantLevelId;
-
     private LongFilter docSetId;
+
+    private LongFilter applicantLevelId;
 
     private Boolean distinct;
 
@@ -55,8 +55,8 @@ public class StepCriteria implements Serializable, Criteria {
         this.createdAt = other.createdAt == null ? null : other.createdAt.copy();
         this.createdBy = other.createdBy == null ? null : other.createdBy.copy();
         this.modifiedAt = other.modifiedAt == null ? null : other.modifiedAt.copy();
-        this.applicantLevelId = other.applicantLevelId == null ? null : other.applicantLevelId.copy();
         this.docSetId = other.docSetId == null ? null : other.docSetId.copy();
+        this.applicantLevelId = other.applicantLevelId == null ? null : other.applicantLevelId.copy();
         this.distinct = other.distinct;
     }
 
@@ -170,21 +170,6 @@ public class StepCriteria implements Serializable, Criteria {
         this.modifiedAt = modifiedAt;
     }
 
-    public LongFilter getApplicantLevelId() {
-        return applicantLevelId;
-    }
-
-    public LongFilter applicantLevelId() {
-        if (applicantLevelId == null) {
-            applicantLevelId = new LongFilter();
-        }
-        return applicantLevelId;
-    }
-
-    public void setApplicantLevelId(LongFilter applicantLevelId) {
-        this.applicantLevelId = applicantLevelId;
-    }
-
     public LongFilter getDocSetId() {
         return docSetId;
     }
@@ -198,6 +183,21 @@ public class StepCriteria implements Serializable, Criteria {
 
     public void setDocSetId(LongFilter docSetId) {
         this.docSetId = docSetId;
+    }
+
+    public LongFilter getApplicantLevelId() {
+        return applicantLevelId;
+    }
+
+    public LongFilter applicantLevelId() {
+        if (applicantLevelId == null) {
+            applicantLevelId = new LongFilter();
+        }
+        return applicantLevelId;
+    }
+
+    public void setApplicantLevelId(LongFilter applicantLevelId) {
+        this.applicantLevelId = applicantLevelId;
     }
 
     public Boolean getDistinct() {
@@ -225,15 +225,15 @@ public class StepCriteria implements Serializable, Criteria {
             Objects.equals(createdAt, that.createdAt) &&
             Objects.equals(createdBy, that.createdBy) &&
             Objects.equals(modifiedAt, that.modifiedAt) &&
-            Objects.equals(applicantLevelId, that.applicantLevelId) &&
             Objects.equals(docSetId, that.docSetId) &&
+            Objects.equals(applicantLevelId, that.applicantLevelId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, code, name, description, createdAt, createdBy, modifiedAt, applicantLevelId, docSetId, distinct);
+        return Objects.hash(id, code, name, description, createdAt, createdBy, modifiedAt, docSetId, applicantLevelId, distinct);
     }
 
     // prettier-ignore
@@ -247,8 +247,8 @@ public class StepCriteria implements Serializable, Criteria {
             (createdAt != null ? "createdAt=" + createdAt + ", " : "") +
             (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
             (modifiedAt != null ? "modifiedAt=" + modifiedAt + ", " : "") +
-            (applicantLevelId != null ? "applicantLevelId=" + applicantLevelId + ", " : "") +
             (docSetId != null ? "docSetId=" + docSetId + ", " : "") +
+            (applicantLevelId != null ? "applicantLevelId=" + applicantLevelId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

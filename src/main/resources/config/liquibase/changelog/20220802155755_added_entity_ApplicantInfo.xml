@@ -9,7 +9,7 @@
     <!--
         Added the entity ApplicantInfo.
     -->
-    <changeSet id="20220802105137-1" author="jhipster">
+    <changeSet id="20220802155755-1" author="jhipster">
         <createTable tableName="applicant_info">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
@@ -47,8 +47,47 @@
             <column name="applicant_id" type="bigint">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_applicant_info__applicant_id" />
             </column>
+            <column name="country_of_birth_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+    </changeSet>
+
+    <changeSet id="20220802155755-1-relations" author="jhipster">
+
+        <createTable tableName="rel_applicant_info__applicant_addresse">
+            <column name="applicant_addresse_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="applicant_info_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="applicant_info_id, applicant_addresse_id" tableName="rel_applicant_info__applicant_addresse"/>
+
+        <createTable tableName="rel_applicant_info__applicant_phone">
+            <column name="applicant_phone_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="applicant_info_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="applicant_info_id, applicant_phone_id" tableName="rel_applicant_info__applicant_phone"/>
+
+        <createTable tableName="rel_applicant_info__applicant_docs">
+            <column name="applicant_docs_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="applicant_info_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="applicant_info_id, applicant_docs_id" tableName="rel_applicant_info__applicant_docs"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -61,7 +100,7 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20220802105137-1-data" author="jhipster" context="faker">
+    <changeSet id="20220802155755-1-data" author="jhipster" context="faker">
         <loadData
                   file="config/liquibase/fake-data/applicant_info.csv"
                   separator=";"

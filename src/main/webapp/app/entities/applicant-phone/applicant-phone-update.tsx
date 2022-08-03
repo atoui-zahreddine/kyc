@@ -4,6 +4,8 @@ import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { ICountry } from 'app/shared/model/country.model';
+import { getEntities as getCountries } from 'app/entities/country/country.reducer';
 import { IApplicantInfo } from 'app/shared/model/applicant-info.model';
 import { getEntities as getApplicantInfos } from 'app/entities/applicant-info/applicant-info.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './applicant-phone.reducer';
@@ -17,6 +19,7 @@ export const ApplicantPhoneUpdate = (props: RouteComponentProps<{ id: string }>)
 
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
+  const countries = useAppSelector(state => state.country.entities);
   const applicantInfos = useAppSelector(state => state.applicantInfo.entities);
   const applicantPhoneEntity = useAppSelector(state => state.applicantPhone.entity);
   const loading = useAppSelector(state => state.applicantPhone.loading);
@@ -33,6 +36,7 @@ export const ApplicantPhoneUpdate = (props: RouteComponentProps<{ id: string }>)
       dispatch(getEntity(props.match.params.id));
     }
 
+    dispatch(getCountries({}));
     dispatch(getApplicantInfos({}));
   }, []);
 
@@ -46,7 +50,7 @@ export const ApplicantPhoneUpdate = (props: RouteComponentProps<{ id: string }>)
     const entity = {
       ...applicantPhoneEntity,
       ...values,
-      applicantInfo: applicantInfos.find(it => it.id.toString() === values.applicantInfo.toString()),
+      phoneCountry: countries.find(it => it.id.toString() === values.phoneCountry.toString()),
     };
 
     if (isNew) {
@@ -61,7 +65,7 @@ export const ApplicantPhoneUpdate = (props: RouteComponentProps<{ id: string }>)
       ? {}
       : {
           ...applicantPhoneEntity,
-          applicantInfo: applicantPhoneEntity?.applicantInfo?.id,
+          phoneCountry: applicantPhoneEntity?.phoneCountry?.id,
         };
 
   return (
@@ -86,15 +90,15 @@ export const ApplicantPhoneUpdate = (props: RouteComponentProps<{ id: string }>)
               <ValidatedField label="Number" id="applicant-phone-number" name="number" data-cy="number" type="text" />
               <ValidatedField label="Enabled" id="applicant-phone-enabled" name="enabled" data-cy="enabled" check type="checkbox" />
               <ValidatedField
-                id="applicant-phone-applicantInfo"
-                name="applicantInfo"
-                data-cy="applicantInfo"
-                label="Applicant Info"
+                id="applicant-phone-phoneCountry"
+                name="phoneCountry"
+                data-cy="phoneCountry"
+                label="Phone Country"
                 type="select"
               >
                 <option value="" key="0" />
-                {applicantInfos
-                  ? applicantInfos.map(otherEntity => (
+                {countries
+                  ? countries.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.id}
                       </option>

@@ -116,18 +116,6 @@ export const Country = (props: RouteComponentProps<{ url: string }>) => {
                 <th className="hand" onClick={sort('region')}>
                   Region <FontAwesomeIcon icon="sort" />
                 </th>
-                <th>
-                  Addresses <FontAwesomeIcon icon="sort" />
-                </th>
-                <th>
-                  Docs <FontAwesomeIcon icon="sort" />
-                </th>
-                <th>
-                  Applicants <FontAwesomeIcon icon="sort" />
-                </th>
-                <th>
-                  Phones <FontAwesomeIcon icon="sort" />
-                </th>
                 <th />
               </tr>
             </thead>
@@ -144,10 +132,6 @@ export const Country = (props: RouteComponentProps<{ url: string }>) => {
                   <td>{country.countryCode3}</td>
                   <td>{country.phoneCode}</td>
                   <td>{country.region}</td>
-                  <td>{country.addresses ? <Link to={`applicant-addresse/${country.addresses.id}`}>{country.addresses.id}</Link> : ''}</td>
-                  <td>{country.docs ? <Link to={`applicant-docs/${country.docs.id}`}>{country.docs.id}</Link> : ''}</td>
-                  <td>{country.applicants ? <Link to={`applicant-info/${country.applicants.id}`}>{country.applicants.id}</Link> : ''}</td>
-                  <td>{country.phones ? <Link to={`applicant-phone/${country.phones.id}`}>{country.phones.id}</Link> : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${country.id}`} color="info" size="sm" data-cy="entityDetailsButton">

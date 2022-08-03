@@ -69,8 +69,8 @@ export const ApplicantDocsDetail = (props: RouteComponentProps<{ id: string }>) 
             <span id="imageTrust">Image Trust</span>
           </dt>
           <dd>{applicantDocsEntity.imageTrust}</dd>
-          <dt>Applicant Info</dt>
-          <dd>{applicantDocsEntity.applicantInfo ? applicantDocsEntity.applicantInfo.id : ''}</dd>
+          <dt>Docs Country</dt>
+          <dd>{applicantDocsEntity.docsCountry ? applicantDocsEntity.docsCountry.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/applicant-docs" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

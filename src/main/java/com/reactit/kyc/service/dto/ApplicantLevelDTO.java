@@ -2,7 +2,9 @@ package com.reactit.kyc.service.dto;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.reactit.kyc.domain.ApplicantLevel} entity.
@@ -25,7 +27,7 @@ public class ApplicantLevelDTO implements Serializable {
 
     private Instant modifiedAt;
 
-    private ApplicantDTO applicant;
+    private Set<StepDTO> steps = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -91,12 +93,12 @@ public class ApplicantLevelDTO implements Serializable {
         this.modifiedAt = modifiedAt;
     }
 
-    public ApplicantDTO getApplicant() {
-        return applicant;
+    public Set<StepDTO> getSteps() {
+        return steps;
     }
 
-    public void setApplicant(ApplicantDTO applicant) {
-        this.applicant = applicant;
+    public void setSteps(Set<StepDTO> steps) {
+        this.steps = steps;
     }
 
     @Override
@@ -132,7 +134,7 @@ public class ApplicantLevelDTO implements Serializable {
             ", createdAt='" + getCreatedAt() + "'" +
             ", createdBy=" + getCreatedBy() +
             ", modifiedAt='" + getModifiedAt() + "'" +
-            ", applicant=" + getApplicant() +
+            ", steps=" + getSteps() +
             "}";
     }
 }

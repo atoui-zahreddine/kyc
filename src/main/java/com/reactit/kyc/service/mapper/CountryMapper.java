@@ -7,14 +7,10 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Country} and its DTO {@link CountryDTO}.
  */
-@Mapper(
-    componentModel = "spring",
-    uses = { ApplicantAddresseMapper.class, ApplicantDocsMapper.class, ApplicantInfoMapper.class, ApplicantPhoneMapper.class }
-)
+@Mapper(componentModel = "spring", uses = {})
 public interface CountryMapper extends EntityMapper<CountryDTO, Country> {
-    @Mapping(target = "addresses", source = "addresses", qualifiedByName = "id")
-    @Mapping(target = "docs", source = "docs", qualifiedByName = "id")
-    @Mapping(target = "applicants", source = "applicants", qualifiedByName = "id")
-    @Mapping(target = "phones", source = "phones", qualifiedByName = "id")
-    CountryDTO toDto(Country s);
+    @Named("id")
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "id", source = "id")
+    CountryDTO toDtoId(Country country);
 }

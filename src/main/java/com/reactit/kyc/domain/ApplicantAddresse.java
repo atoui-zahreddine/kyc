@@ -40,15 +40,15 @@ public class ApplicantAddresse implements Serializable {
     private Boolean enabled;
 
     @ManyToOne
+    @JsonIgnoreProperties(value = { "addresses", "docs", "applicants", "phones" }, allowSetters = true)
+    private Country addresseCountry;
+
+    @ManyToMany(mappedBy = "applicantAddresses")
     @JsonIgnoreProperties(
-        value = { "applicant", "applicantAddresses", "applicantPhones", "applicantDocs", "countryOfBirths" },
+        value = { "applicant", "countryOfBirth", "applicantAddresses", "applicantPhones", "applicantDocs" },
         allowSetters = true
     )
-    private ApplicantInfo applicantInfo;
-
-    @OneToMany(mappedBy = "addresses")
-    @JsonIgnoreProperties(value = { "addresses", "docs", "applicants", "phones" }, allowSetters = true)
-    private Set<Country> addresseCountries = new HashSet<>();
+    private Set<ApplicantInfo> applicantInfos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -143,47 +143,47 @@ public class ApplicantAddresse implements Serializable {
         this.enabled = enabled;
     }
 
-    public ApplicantInfo getApplicantInfo() {
-        return this.applicantInfo;
+    public Country getAddresseCountry() {
+        return this.addresseCountry;
     }
 
-    public void setApplicantInfo(ApplicantInfo applicantInfo) {
-        this.applicantInfo = applicantInfo;
+    public void setAddresseCountry(Country country) {
+        this.addresseCountry = country;
     }
 
-    public ApplicantAddresse applicantInfo(ApplicantInfo applicantInfo) {
-        this.setApplicantInfo(applicantInfo);
+    public ApplicantAddresse addresseCountry(Country country) {
+        this.setAddresseCountry(country);
         return this;
     }
 
-    public Set<Country> getAddresseCountries() {
-        return this.addresseCountries;
+    public Set<ApplicantInfo> getApplicantInfos() {
+        return this.applicantInfos;
     }
 
-    public void setAddresseCountries(Set<Country> countries) {
-        if (this.addresseCountries != null) {
-            this.addresseCountries.forEach(i -> i.setAddresses(null));
+    public void setApplicantInfos(Set<ApplicantInfo> applicantInfos) {
+        if (this.applicantInfos != null) {
+            this.applicantInfos.forEach(i -> i.removeApplicantAddresse(this));
         }
-        if (countries != null) {
-            countries.forEach(i -> i.setAddresses(this));
+        if (applicantInfos != null) {
+            applicantInfos.forEach(i -> i.addApplicantAddresse(this));
         }
-        this.addresseCountries = countries;
+        this.applicantInfos = applicantInfos;
     }
 
-    public ApplicantAddresse addresseCountries(Set<Country> countries) {
-        this.setAddresseCountries(countries);
+    public ApplicantAddresse applicantInfos(Set<ApplicantInfo> applicantInfos) {
+        this.setApplicantInfos(applicantInfos);
         return this;
     }
 
-    public ApplicantAddresse addAddresseCountry(Country country) {
-        this.addresseCountries.add(country);
-        country.setAddresses(this);
+    public ApplicantAddresse addApplicantInfo(ApplicantInfo applicantInfo) {
+        this.applicantInfos.add(applicantInfo);
+        applicantInfo.getApplicantAddresses().add(this);
         return this;
     }
 
-    public ApplicantAddresse removeAddresseCountry(Country country) {
-        this.addresseCountries.remove(country);
-        country.setAddresses(null);
+    public ApplicantAddresse removeApplicantInfo(ApplicantInfo applicantInfo) {
+        this.applicantInfos.remove(applicantInfo);
+        applicantInfo.getApplicantAddresses().remove(this);
         return this;
     }
 

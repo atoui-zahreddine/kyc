@@ -102,6 +102,15 @@ public class ApplicantQueryService extends QueryService<Applicant> {
             if (criteria.getPlatform() != null) {
                 specification = specification.and(buildSpecification(criteria.getPlatform(), Applicant_.platform));
             }
+            if (criteria.getApplicantLevelId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getApplicantLevelId(),
+                            root -> root.join(Applicant_.applicantLevel, JoinType.LEFT).get(ApplicantLevel_.id)
+                        )
+                    );
+            }
             if (criteria.getApplicantInfoId() != null) {
                 specification =
                     specification.and(
@@ -123,15 +132,6 @@ public class ApplicantQueryService extends QueryService<Applicant> {
                         buildSpecification(
                             criteria.getUserAgentInfoId(),
                             root -> root.join(Applicant_.userAgentInfo, JoinType.LEFT).get(UserAgentInfo_.id)
-                        )
-                    );
-            }
-            if (criteria.getApplicantLevelId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getApplicantLevelId(),
-                            root -> root.join(Applicant_.applicantLevels, JoinType.LEFT).get(ApplicantLevel_.id)
                         )
                     );
             }

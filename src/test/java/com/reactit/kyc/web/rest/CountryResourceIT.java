@@ -588,7 +588,7 @@ class CountryResourceIT {
         }
         em.persist(addresses);
         em.flush();
-        country.setAddresses(addresses);
+        country.addAddresses(addresses);
         countryRepository.saveAndFlush(country);
         Long addressesId = addresses.getId();
 
@@ -614,7 +614,7 @@ class CountryResourceIT {
         }
         em.persist(docs);
         em.flush();
-        country.setDocs(docs);
+        country.addDocs(docs);
         countryRepository.saveAndFlush(country);
         Long docsId = docs.getId();
 
@@ -640,7 +640,7 @@ class CountryResourceIT {
         }
         em.persist(applicants);
         em.flush();
-        country.setApplicants(applicants);
+        country.addApplicants(applicants);
         countryRepository.saveAndFlush(country);
         Long applicantsId = applicants.getId();
 
@@ -666,7 +666,7 @@ class CountryResourceIT {
         }
         em.persist(phones);
         em.flush();
-        country.setPhones(phones);
+        country.addPhones(phones);
         countryRepository.saveAndFlush(country);
         Long phonesId = phones.getId();
 

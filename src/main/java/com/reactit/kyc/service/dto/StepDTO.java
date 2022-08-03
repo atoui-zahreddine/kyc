@@ -25,7 +25,7 @@ public class StepDTO implements Serializable {
 
     private Instant modifiedAt;
 
-    private Set<ApplicantLevelDTO> applicantLevels = new HashSet<>();
+    private Set<DocSetDTO> docSets = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -83,12 +83,12 @@ public class StepDTO implements Serializable {
         this.modifiedAt = modifiedAt;
     }
 
-    public Set<ApplicantLevelDTO> getApplicantLevels() {
-        return applicantLevels;
+    public Set<DocSetDTO> getDocSets() {
+        return docSets;
     }
 
-    public void setApplicantLevels(Set<ApplicantLevelDTO> applicantLevels) {
-        this.applicantLevels = applicantLevels;
+    public void setDocSets(Set<DocSetDTO> docSets) {
+        this.docSets = docSets;
     }
 
     @Override
@@ -123,7 +123,7 @@ public class StepDTO implements Serializable {
             ", createdAt='" + getCreatedAt() + "'" +
             ", createdBy=" + getCreatedBy() +
             ", modifiedAt='" + getModifiedAt() + "'" +
-            ", applicantLevels=" + getApplicantLevels() +
+            ", docSets=" + getDocSets() +
             "}";
     }
 }

@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20220802105141",
+  "changelogDate": "20220802155759",
   "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "applicant_addresse",
@@ -37,16 +37,17 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "applicantInfo",
-      "otherEntityRelationshipName": "applicantAddresse",
-      "relationshipName": "applicantInfo",
-      "relationshipType": "many-to-one"
-    },
-    {
       "otherEntityName": "country",
       "otherEntityRelationshipName": "addresses",
       "relationshipName": "addresseCountry",
-      "relationshipType": "one-to-many"
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "applicantInfo",
+      "otherEntityRelationshipName": "applicantAddresse",
+      "ownerSide": false,
+      "relationshipName": "applicantInfo",
+      "relationshipType": "many-to-many"
     }
   ],
   "service": "serviceImpl"

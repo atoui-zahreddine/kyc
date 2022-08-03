@@ -99,21 +99,21 @@ public class ApplicantPhoneQueryService extends QueryService<ApplicantPhone> {
             if (criteria.getEnabled() != null) {
                 specification = specification.and(buildSpecification(criteria.getEnabled(), ApplicantPhone_.enabled));
             }
-            if (criteria.getApplicantInfoId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getApplicantInfoId(),
-                            root -> root.join(ApplicantPhone_.applicantInfo, JoinType.LEFT).get(ApplicantInfo_.id)
-                        )
-                    );
-            }
             if (criteria.getPhoneCountryId() != null) {
                 specification =
                     specification.and(
                         buildSpecification(
                             criteria.getPhoneCountryId(),
-                            root -> root.join(ApplicantPhone_.phoneCountries, JoinType.LEFT).get(Country_.id)
+                            root -> root.join(ApplicantPhone_.phoneCountry, JoinType.LEFT).get(Country_.id)
+                        )
+                    );
+            }
+            if (criteria.getApplicantInfoId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getApplicantInfoId(),
+                            root -> root.join(ApplicantPhone_.applicantInfos, JoinType.LEFT).get(ApplicantInfo_.id)
                         )
                     );
             }

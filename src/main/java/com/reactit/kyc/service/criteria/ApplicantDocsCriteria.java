@@ -81,9 +81,9 @@ public class ApplicantDocsCriteria implements Serializable, Criteria {
 
     private StringFilter imageTrust;
 
-    private LongFilter applicantInfoId;
-
     private LongFilter docsCountryId;
+
+    private LongFilter applicantInfoId;
 
     private Boolean distinct;
 
@@ -100,8 +100,8 @@ public class ApplicantDocsCriteria implements Serializable, Criteria {
         this.imageUrl = other.imageUrl == null ? null : other.imageUrl.copy();
         this.subTypes = other.subTypes == null ? null : other.subTypes.copy();
         this.imageTrust = other.imageTrust == null ? null : other.imageTrust.copy();
-        this.applicantInfoId = other.applicantInfoId == null ? null : other.applicantInfoId.copy();
         this.docsCountryId = other.docsCountryId == null ? null : other.docsCountryId.copy();
+        this.applicantInfoId = other.applicantInfoId == null ? null : other.applicantInfoId.copy();
         this.distinct = other.distinct;
     }
 
@@ -260,21 +260,6 @@ public class ApplicantDocsCriteria implements Serializable, Criteria {
         this.imageTrust = imageTrust;
     }
 
-    public LongFilter getApplicantInfoId() {
-        return applicantInfoId;
-    }
-
-    public LongFilter applicantInfoId() {
-        if (applicantInfoId == null) {
-            applicantInfoId = new LongFilter();
-        }
-        return applicantInfoId;
-    }
-
-    public void setApplicantInfoId(LongFilter applicantInfoId) {
-        this.applicantInfoId = applicantInfoId;
-    }
-
     public LongFilter getDocsCountryId() {
         return docsCountryId;
     }
@@ -288,6 +273,21 @@ public class ApplicantDocsCriteria implements Serializable, Criteria {
 
     public void setDocsCountryId(LongFilter docsCountryId) {
         this.docsCountryId = docsCountryId;
+    }
+
+    public LongFilter getApplicantInfoId() {
+        return applicantInfoId;
+    }
+
+    public LongFilter applicantInfoId() {
+        if (applicantInfoId == null) {
+            applicantInfoId = new LongFilter();
+        }
+        return applicantInfoId;
+    }
+
+    public void setApplicantInfoId(LongFilter applicantInfoId) {
+        this.applicantInfoId = applicantInfoId;
     }
 
     public Boolean getDistinct() {
@@ -318,8 +318,8 @@ public class ApplicantDocsCriteria implements Serializable, Criteria {
             Objects.equals(imageUrl, that.imageUrl) &&
             Objects.equals(subTypes, that.subTypes) &&
             Objects.equals(imageTrust, that.imageTrust) &&
-            Objects.equals(applicantInfoId, that.applicantInfoId) &&
             Objects.equals(docsCountryId, that.docsCountryId) &&
+            Objects.equals(applicantInfoId, that.applicantInfoId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -337,8 +337,8 @@ public class ApplicantDocsCriteria implements Serializable, Criteria {
             imageUrl,
             subTypes,
             imageTrust,
-            applicantInfoId,
             docsCountryId,
+            applicantInfoId,
             distinct
         );
     }
@@ -357,8 +357,8 @@ public class ApplicantDocsCriteria implements Serializable, Criteria {
             (imageUrl != null ? "imageUrl=" + imageUrl + ", " : "") +
             (subTypes != null ? "subTypes=" + subTypes + ", " : "") +
             (imageTrust != null ? "imageTrust=" + imageTrust + ", " : "") +
-            (applicantInfoId != null ? "applicantInfoId=" + applicantInfoId + ", " : "") +
             (docsCountryId != null ? "docsCountryId=" + docsCountryId + ", " : "") +
+            (applicantInfoId != null ? "applicantInfoId=" + applicantInfoId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

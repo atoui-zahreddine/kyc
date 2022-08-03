@@ -4,6 +4,8 @@ import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { IApplicantLevel } from 'app/shared/model/applicant-level.model';
+import { getEntities as getApplicantLevels } from 'app/entities/applicant-level/applicant-level.reducer';
 import { IApplicantInfo } from 'app/shared/model/applicant-info.model';
 import { getEntities as getApplicantInfos } from 'app/entities/applicant-info/applicant-info.reducer';
 import { IIpInfo } from 'app/shared/model/ip-info.model';
@@ -22,6 +24,7 @@ export const ApplicantUpdate = (props: RouteComponentProps<{ id: string }>) => {
 
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
+  const applicantLevels = useAppSelector(state => state.applicantLevel.entities);
   const applicantInfos = useAppSelector(state => state.applicantInfo.entities);
   const ipInfos = useAppSelector(state => state.ipInfo.entities);
   const userAgentInfos = useAppSelector(state => state.userAgentInfo.entities);
@@ -41,6 +44,7 @@ export const ApplicantUpdate = (props: RouteComponentProps<{ id: string }>) => {
       dispatch(getEntity(props.match.params.id));
     }
 
+    dispatch(getApplicantLevels({}));
     dispatch(getApplicantInfos({}));
     dispatch(getIpInfos({}));
     dispatch(getUserAgentInfos({}));
@@ -59,6 +63,7 @@ export const ApplicantUpdate = (props: RouteComponentProps<{ id: string }>) => {
     const entity = {
       ...applicantEntity,
       ...values,
+      applicantLevel: applicantLevels.find(it => it.id.toString() === values.applicantLevel.toString()),
     };
 
     if (isNew) {
@@ -79,6 +84,7 @@ export const ApplicantUpdate = (props: RouteComponentProps<{ id: string }>) => {
           ...applicantEntity,
           createdAt: convertDateTimeFromServer(applicantEntity.createdAt),
           modifiedAt: convertDateTimeFromServer(applicantEntity.modifiedAt),
+          applicantLevel: applicantEntity?.applicantLevel?.id,
         };
 
   return (
@@ -120,6 +126,22 @@ export const ApplicantUpdate = (props: RouteComponentProps<{ id: string }>) => {
                     {platform}
                   </option>
                 ))}
+              </ValidatedField>
+              <ValidatedField
+                id="applicant-applicantLevel"
+                name="applicantLevel"
+                data-cy="applicantLevel"
+                label="Applicant Level"
+                type="select"
+              >
+                <option value="" key="0" />
+                {applicantLevels
+                  ? applicantLevels.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
+                      </option>
+                    ))
+                  : null}
               </ValidatedField>
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/applicant" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />

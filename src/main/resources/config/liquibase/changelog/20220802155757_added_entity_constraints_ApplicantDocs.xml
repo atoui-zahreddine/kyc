@@ -6,12 +6,12 @@
     <!--
         Added the constraints for entity ApplicantDocs.
     -->
-    <changeSet id="20220802105139-2" author="jhipster">
+    <changeSet id="20220802155757-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="applicant_info_id"
+        <addForeignKeyConstraint baseColumnNames="docs_country_id"
                                  baseTableName="applicant_docs"
-                                 constraintName="fk_applicant_docs__applicant_info_id"
+                                 constraintName="fk_applicant_docs__docs_country_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="applicant_info"/>
+                                 referencedTableName="country"/>
     </changeSet>
 </databaseChangeLog>

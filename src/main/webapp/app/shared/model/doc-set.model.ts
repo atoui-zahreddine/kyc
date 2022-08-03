@@ -8,7 +8,7 @@ export interface IDocSet {
   idDocSetType?: IdDocSetType | null;
   subTypes?: SubType | null;
   types?: TypeDoc | null;
-  step?: IStep | null;
+  steps?: IStep[] | null;
 }
 
 export const defaultValue: Readonly<IDocSet> = {};

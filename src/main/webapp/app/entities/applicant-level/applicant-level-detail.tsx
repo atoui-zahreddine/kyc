@@ -61,8 +61,17 @@ export const ApplicantLevelDetail = (props: RouteComponentProps<{ id: string }>)
               <TextFormat value={applicantLevelEntity.modifiedAt} type="date" format={APP_DATE_FORMAT} />
             ) : null}
           </dd>
-          <dt>Applicant</dt>
-          <dd>{applicantLevelEntity.applicant ? applicantLevelEntity.applicant.id : ''}</dd>
+          <dt>Step</dt>
+          <dd>
+            {applicantLevelEntity.steps
+              ? applicantLevelEntity.steps.map((val, i) => (
+                  <span key={val.id}>
+                    <a>{val.id}</a>
+                    {applicantLevelEntity.steps && i === applicantLevelEntity.steps.length - 1 ? '' : ', '}
+                  </span>
+                ))
+              : null}
+          </dd>
         </dl>
         <Button tag={Link} to="/applicant-level" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

@@ -110,9 +110,6 @@ export const DocSet = (props: RouteComponentProps<{ url: string }>) => {
                 <th className="hand" onClick={sort('types')}>
                   Types <FontAwesomeIcon icon="sort" />
                 </th>
-                <th>
-                  Step <FontAwesomeIcon icon="sort" />
-                </th>
                 <th />
               </tr>
             </thead>
@@ -127,7 +124,6 @@ export const DocSet = (props: RouteComponentProps<{ url: string }>) => {
                   <td>{docSet.idDocSetType}</td>
                   <td>{docSet.subTypes}</td>
                   <td>{docSet.types}</td>
-                  <td>{docSet.step ? <Link to={`step/${docSet.step.id}`}>{docSet.step.id}</Link> : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${docSet.id}`} color="info" size="sm" data-cy="entityDetailsButton">

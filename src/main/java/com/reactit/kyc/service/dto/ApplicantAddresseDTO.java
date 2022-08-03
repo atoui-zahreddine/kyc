@@ -22,7 +22,7 @@ public class ApplicantAddresseDTO implements Serializable {
 
     private Boolean enabled;
 
-    private ApplicantInfoDTO applicantInfo;
+    private CountryDTO addresseCountry;
 
     public Long getId() {
         return id;
@@ -80,12 +80,12 @@ public class ApplicantAddresseDTO implements Serializable {
         this.enabled = enabled;
     }
 
-    public ApplicantInfoDTO getApplicantInfo() {
-        return applicantInfo;
+    public CountryDTO getAddresseCountry() {
+        return addresseCountry;
     }
 
-    public void setApplicantInfo(ApplicantInfoDTO applicantInfo) {
-        this.applicantInfo = applicantInfo;
+    public void setAddresseCountry(CountryDTO addresseCountry) {
+        this.addresseCountry = addresseCountry;
     }
 
     @Override
@@ -120,7 +120,7 @@ public class ApplicantAddresseDTO implements Serializable {
             ", subStreet='" + getSubStreet() + "'" +
             ", town='" + getTown() + "'" +
             ", enabled='" + getEnabled() + "'" +
-            ", applicantInfo=" + getApplicantInfo() +
+            ", addresseCountry=" + getAddresseCountry() +
             "}";
     }
 }

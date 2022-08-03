@@ -8,13 +8,16 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link ApplicantLevel} and its DTO {@link ApplicantLevelDTO}.
  */
-@Mapper(componentModel = "spring", uses = { ApplicantMapper.class })
+@Mapper(componentModel = "spring", uses = { StepMapper.class })
 public interface ApplicantLevelMapper extends EntityMapper<ApplicantLevelDTO, ApplicantLevel> {
-    @Mapping(target = "applicant", source = "applicant", qualifiedByName = "id")
+    @Mapping(target = "steps", source = "steps", qualifiedByName = "idSet")
     ApplicantLevelDTO toDto(ApplicantLevel s);
 
-    @Named("idSet")
+    @Named("id")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    Set<ApplicantLevelDTO> toDtoIdSet(Set<ApplicantLevel> applicantLevel);
+    ApplicantLevelDTO toDtoId(ApplicantLevel applicantLevel);
+
+    @Mapping(target = "removeStep", ignore = true)
+    ApplicantLevel toEntity(ApplicantLevelDTO applicantLevelDTO);
 }

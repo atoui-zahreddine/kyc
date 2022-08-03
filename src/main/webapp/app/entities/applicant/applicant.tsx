@@ -113,6 +113,9 @@ export const Applicant = (props: RouteComponentProps<{ url: string }>) => {
                 <th className="hand" onClick={sort('platform')}>
                   Platform <FontAwesomeIcon icon="sort" />
                 </th>
+                <th>
+                  Applicant Level <FontAwesomeIcon icon="sort" />
+                </th>
                 <th />
               </tr>
             </thead>
@@ -128,6 +131,13 @@ export const Applicant = (props: RouteComponentProps<{ url: string }>) => {
                   <td>{applicant.createdBy}</td>
                   <td>{applicant.modifiedAt ? <TextFormat type="date" value={applicant.modifiedAt} format={APP_DATE_FORMAT} /> : null}</td>
                   <td>{applicant.platform}</td>
+                  <td>
+                    {applicant.applicantLevel ? (
+                      <Link to={`applicant-level/${applicant.applicantLevel.id}`}>{applicant.applicantLevel.id}</Link>
+                    ) : (
+                      ''
+                    )}
+                  </td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${applicant.id}`} color="info" size="sm" data-cy="entityDetailsButton">

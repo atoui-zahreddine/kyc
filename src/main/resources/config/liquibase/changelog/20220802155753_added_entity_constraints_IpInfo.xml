@@ -4,13 +4,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
     <!--
-        Added the constraints for entity ApplicantLevel.
+        Added the constraints for entity IpInfo.
     -->
-    <changeSet id="20220802105142-2" author="jhipster">
+    <changeSet id="20220802155753-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="applicant_id"
-                                 baseTableName="applicant_level"
-                                 constraintName="fk_applicant_level__applicant_id"
+                                 baseTableName="ip_info"
+                                 constraintName="fk_ip_info__applicant_id"
                                  referencedColumnNames="id"
                                  referencedTableName="applicant"/>
     </changeSet>

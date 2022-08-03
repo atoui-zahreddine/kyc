@@ -122,9 +122,6 @@ export const ApplicantLevel = (props: RouteComponentProps<{ url: string }>) => {
                 <th className="hand" onClick={sort('modifiedAt')}>
                   Modified At <FontAwesomeIcon icon="sort" />
                 </th>
-                <th>
-                  Applicant <FontAwesomeIcon icon="sort" />
-                </th>
                 <th />
               </tr>
             </thead>
@@ -148,13 +145,6 @@ export const ApplicantLevel = (props: RouteComponentProps<{ url: string }>) => {
                     {applicantLevel.modifiedAt ? (
                       <TextFormat type="date" value={applicantLevel.modifiedAt} format={APP_DATE_FORMAT} />
                     ) : null}
-                  </td>
-                  <td>
-                    {applicantLevel.applicant ? (
-                      <Link to={`applicant/${applicantLevel.applicant.id}`}>{applicantLevel.applicant.id}</Link>
-                    ) : (
-                      ''
-                    )}
                   </td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">

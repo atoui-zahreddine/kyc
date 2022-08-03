@@ -6,6 +6,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IApplicant } from 'app/shared/model/applicant.model';
 import { getEntities as getApplicants } from 'app/entities/applicant/applicant.reducer';
+import { ICountry } from 'app/shared/model/country.model';
+import { getEntities as getCountries } from 'app/entities/country/country.reducer';
+import { IApplicantAddresse } from 'app/shared/model/applicant-addresse.model';
+import { getEntities as getApplicantAddresses } from 'app/entities/applicant-addresse/applicant-addresse.reducer';
+import { IApplicantPhone } from 'app/shared/model/applicant-phone.model';
+import { getEntities as getApplicantPhones } from 'app/entities/applicant-phone/applicant-phone.reducer';
+import { IApplicantDocs } from 'app/shared/model/applicant-docs.model';
+import { getEntities as getApplicantDocs } from 'app/entities/applicant-docs/applicant-docs.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './applicant-info.reducer';
 import { IApplicantInfo } from 'app/shared/model/applicant-info.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -19,6 +27,10 @@ export const ApplicantInfoUpdate = (props: RouteComponentProps<{ id: string }>) 
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
   const applicants = useAppSelector(state => state.applicant.entities);
+  const countries = useAppSelector(state => state.country.entities);
+  const applicantAddresses = useAppSelector(state => state.applicantAddresse.entities);
+  const applicantPhones = useAppSelector(state => state.applicantPhone.entities);
+  const applicantDocs = useAppSelector(state => state.applicantDocs.entities);
   const applicantInfoEntity = useAppSelector(state => state.applicantInfo.entity);
   const loading = useAppSelector(state => state.applicantInfo.loading);
   const updating = useAppSelector(state => state.applicantInfo.updating);
@@ -36,6 +48,10 @@ export const ApplicantInfoUpdate = (props: RouteComponentProps<{ id: string }>) 
     }
 
     dispatch(getApplicants({}));
+    dispatch(getCountries({}));
+    dispatch(getApplicantAddresses({}));
+    dispatch(getApplicantPhones({}));
+    dispatch(getApplicantDocs({}));
   }, []);
 
   useEffect(() => {
@@ -48,7 +64,11 @@ export const ApplicantInfoUpdate = (props: RouteComponentProps<{ id: string }>) 
     const entity = {
       ...applicantInfoEntity,
       ...values,
+      applicantAddresses: mapIdList(values.applicantAddresses),
+      applicantPhones: mapIdList(values.applicantPhones),
+      applicantDocs: mapIdList(values.applicantDocs),
       applicant: applicants.find(it => it.id.toString() === values.applicant.toString()),
+      countryOfBirth: countries.find(it => it.id.toString() === values.countryOfBirth.toString()),
     };
 
     if (isNew) {
@@ -65,6 +85,10 @@ export const ApplicantInfoUpdate = (props: RouteComponentProps<{ id: string }>) 
           gender: 'MALE',
           ...applicantInfoEntity,
           applicant: applicantInfoEntity?.applicant?.id,
+          countryOfBirth: applicantInfoEntity?.countryOfBirth?.id,
+          applicantAddresses: applicantInfoEntity?.applicantAddresses?.map(e => e.id.toString()),
+          applicantPhones: applicantInfoEntity?.applicantPhones?.map(e => e.id.toString()),
+          applicantDocs: applicantInfoEntity?.applicantDocs?.map(e => e.id.toString()),
         };
 
   return (
@@ -117,6 +141,73 @@ export const ApplicantInfoUpdate = (props: RouteComponentProps<{ id: string }>) 
                 <option value="" key="0" />
                 {applicants
                   ? applicants.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
+              <ValidatedField
+                id="applicant-info-countryOfBirth"
+                name="countryOfBirth"
+                data-cy="countryOfBirth"
+                label="Country Of Birth"
+                type="select"
+              >
+                <option value="" key="0" />
+                {countries
+                  ? countries.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
+              <ValidatedField
+                label="Applicant Addresse"
+                id="applicant-info-applicantAddresse"
+                data-cy="applicantAddresse"
+                type="select"
+                multiple
+                name="applicantAddresses"
+              >
+                <option value="" key="0" />
+                {applicantAddresses
+                  ? applicantAddresses.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
+              <ValidatedField
+                label="Applicant Phone"
+                id="applicant-info-applicantPhone"
+                data-cy="applicantPhone"
+                type="select"
+                multiple
+                name="applicantPhones"
+              >
+                <option value="" key="0" />
+                {applicantPhones
+                  ? applicantPhones.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
+              <ValidatedField
+                label="Applicant Docs"
+                id="applicant-info-applicantDocs"
+                data-cy="applicantDocs"
+                type="select"
+                multiple
+                name="applicantDocs"
+              >
+                <option value="" key="0" />
+                {applicantDocs
+                  ? applicantDocs.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.id}
                       </option>

@@ -4,6 +4,8 @@ import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { ICountry } from 'app/shared/model/country.model';
+import { getEntities as getCountries } from 'app/entities/country/country.reducer';
 import { IApplicantInfo } from 'app/shared/model/applicant-info.model';
 import { getEntities as getApplicantInfos } from 'app/entities/applicant-info/applicant-info.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './applicant-docs.reducer';
@@ -19,6 +21,7 @@ export const ApplicantDocsUpdate = (props: RouteComponentProps<{ id: string }>) 
 
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
+  const countries = useAppSelector(state => state.country.entities);
   const applicantInfos = useAppSelector(state => state.applicantInfo.entities);
   const applicantDocsEntity = useAppSelector(state => state.applicantDocs.entity);
   const loading = useAppSelector(state => state.applicantDocs.loading);
@@ -37,6 +40,7 @@ export const ApplicantDocsUpdate = (props: RouteComponentProps<{ id: string }>) 
       dispatch(getEntity(props.match.params.id));
     }
 
+    dispatch(getCountries({}));
     dispatch(getApplicantInfos({}));
   }, []);
 
@@ -50,7 +54,7 @@ export const ApplicantDocsUpdate = (props: RouteComponentProps<{ id: string }>) 
     const entity = {
       ...applicantDocsEntity,
       ...values,
-      applicantInfo: applicantInfos.find(it => it.id.toString() === values.applicantInfo.toString()),
+      docsCountry: countries.find(it => it.id.toString() === values.docsCountry.toString()),
     };
 
     if (isNew) {
@@ -67,7 +71,7 @@ export const ApplicantDocsUpdate = (props: RouteComponentProps<{ id: string }>) 
           docType: 'ID_CARD',
           subTypes: 'FRONT_SIDE',
           ...applicantDocsEntity,
-          applicantInfo: applicantDocsEntity?.applicantInfo?.id,
+          docsCountry: applicantDocsEntity?.docsCountry?.id,
         };
 
   return (
@@ -109,16 +113,10 @@ export const ApplicantDocsUpdate = (props: RouteComponentProps<{ id: string }>) 
                 ))}
               </ValidatedField>
               <ValidatedField label="Image Trust" id="applicant-docs-imageTrust" name="imageTrust" data-cy="imageTrust" type="text" />
-              <ValidatedField
-                id="applicant-docs-applicantInfo"
-                name="applicantInfo"
-                data-cy="applicantInfo"
-                label="Applicant Info"
-                type="select"
-              >
+              <ValidatedField id="applicant-docs-docsCountry" name="docsCountry" data-cy="docsCountry" label="Docs Country" type="select">
                 <option value="" key="0" />
-                {applicantInfos
-                  ? applicantInfos.map(otherEntity => (
+                {countries
+                  ? countries.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.id}
                       </option>

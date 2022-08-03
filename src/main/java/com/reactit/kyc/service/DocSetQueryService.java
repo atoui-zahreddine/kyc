@@ -102,7 +102,7 @@ public class DocSetQueryService extends QueryService<DocSet> {
             if (criteria.getStepId() != null) {
                 specification =
                     specification.and(
-                        buildSpecification(criteria.getStepId(), root -> root.join(DocSet_.step, JoinType.LEFT).get(Step_.id))
+                        buildSpecification(criteria.getStepId(), root -> root.join(DocSet_.steps, JoinType.LEFT).get(Step_.id))
                     );
             }
         }

@@ -67,13 +67,13 @@ public class ApplicantInfoCriteria implements Serializable, Criteria {
 
     private LongFilter applicantId;
 
+    private LongFilter countryOfBirthId;
+
     private LongFilter applicantAddresseId;
 
     private LongFilter applicantPhoneId;
 
     private LongFilter applicantDocsId;
-
-    private LongFilter countryOfBirthId;
 
     private Boolean distinct;
 
@@ -92,10 +92,10 @@ public class ApplicantInfoCriteria implements Serializable, Criteria {
         this.nationality = other.nationality == null ? null : other.nationality.copy();
         this.gender = other.gender == null ? null : other.gender.copy();
         this.applicantId = other.applicantId == null ? null : other.applicantId.copy();
+        this.countryOfBirthId = other.countryOfBirthId == null ? null : other.countryOfBirthId.copy();
         this.applicantAddresseId = other.applicantAddresseId == null ? null : other.applicantAddresseId.copy();
         this.applicantPhoneId = other.applicantPhoneId == null ? null : other.applicantPhoneId.copy();
         this.applicantDocsId = other.applicantDocsId == null ? null : other.applicantDocsId.copy();
-        this.countryOfBirthId = other.countryOfBirthId == null ? null : other.countryOfBirthId.copy();
         this.distinct = other.distinct;
     }
 
@@ -284,6 +284,21 @@ public class ApplicantInfoCriteria implements Serializable, Criteria {
         this.applicantId = applicantId;
     }
 
+    public LongFilter getCountryOfBirthId() {
+        return countryOfBirthId;
+    }
+
+    public LongFilter countryOfBirthId() {
+        if (countryOfBirthId == null) {
+            countryOfBirthId = new LongFilter();
+        }
+        return countryOfBirthId;
+    }
+
+    public void setCountryOfBirthId(LongFilter countryOfBirthId) {
+        this.countryOfBirthId = countryOfBirthId;
+    }
+
     public LongFilter getApplicantAddresseId() {
         return applicantAddresseId;
     }
@@ -329,21 +344,6 @@ public class ApplicantInfoCriteria implements Serializable, Criteria {
         this.applicantDocsId = applicantDocsId;
     }
 
-    public LongFilter getCountryOfBirthId() {
-        return countryOfBirthId;
-    }
-
-    public LongFilter countryOfBirthId() {
-        if (countryOfBirthId == null) {
-            countryOfBirthId = new LongFilter();
-        }
-        return countryOfBirthId;
-    }
-
-    public void setCountryOfBirthId(LongFilter countryOfBirthId) {
-        this.countryOfBirthId = countryOfBirthId;
-    }
-
     public Boolean getDistinct() {
         return distinct;
     }
@@ -374,10 +374,10 @@ public class ApplicantInfoCriteria implements Serializable, Criteria {
             Objects.equals(nationality, that.nationality) &&
             Objects.equals(gender, that.gender) &&
             Objects.equals(applicantId, that.applicantId) &&
+            Objects.equals(countryOfBirthId, that.countryOfBirthId) &&
             Objects.equals(applicantAddresseId, that.applicantAddresseId) &&
             Objects.equals(applicantPhoneId, that.applicantPhoneId) &&
             Objects.equals(applicantDocsId, that.applicantDocsId) &&
-            Objects.equals(countryOfBirthId, that.countryOfBirthId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -397,10 +397,10 @@ public class ApplicantInfoCriteria implements Serializable, Criteria {
             nationality,
             gender,
             applicantId,
+            countryOfBirthId,
             applicantAddresseId,
             applicantPhoneId,
             applicantDocsId,
-            countryOfBirthId,
             distinct
         );
     }
@@ -421,10 +421,10 @@ public class ApplicantInfoCriteria implements Serializable, Criteria {
             (nationality != null ? "nationality=" + nationality + ", " : "") +
             (gender != null ? "gender=" + gender + ", " : "") +
             (applicantId != null ? "applicantId=" + applicantId + ", " : "") +
+            (countryOfBirthId != null ? "countryOfBirthId=" + countryOfBirthId + ", " : "") +
             (applicantAddresseId != null ? "applicantAddresseId=" + applicantAddresseId + ", " : "") +
             (applicantPhoneId != null ? "applicantPhoneId=" + applicantPhoneId + ", " : "") +
             (applicantDocsId != null ? "applicantDocsId=" + applicantDocsId + ", " : "") +
-            (countryOfBirthId != null ? "countryOfBirthId=" + countryOfBirthId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

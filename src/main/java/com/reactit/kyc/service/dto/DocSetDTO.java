@@ -19,8 +19,6 @@ public class DocSetDTO implements Serializable {
 
     private TypeDoc types;
 
-    private StepDTO step;
-
     public Long getId() {
         return id;
     }
@@ -53,14 +51,6 @@ public class DocSetDTO implements Serializable {
         this.types = types;
     }
 
-    public StepDTO getStep() {
-        return step;
-    }
-
-    public void setStep(StepDTO step) {
-        this.step = step;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -90,7 +80,6 @@ public class DocSetDTO implements Serializable {
             ", idDocSetType='" + getIdDocSetType() + "'" +
             ", subTypes='" + getSubTypes() + "'" +
             ", types='" + getTypes() + "'" +
-            ", step=" + getStep() +
             "}";
     }
 }
