@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Nav, INavLink, INavStyles, INavLinkGroup } from '@fluentui/react/lib/Nav';
-import { NavLink as RouterLink, useHistory } from 'react-router-dom';
-import { Link } from '@fluentui/react';
+import { useHistory } from 'react-router-dom';
+
+const DASHBOARD_PATH = '/dashboard';
 
 const navStyles: Partial<INavStyles> = {
   root: {
@@ -18,68 +19,68 @@ const navLinkGroups: INavLinkGroup[] = [
     links: [
       {
         name: 'Dashboard',
-        url: '/',
-        expandAriaLabel: 'Expand Home section',
-        key: 'dashboard',
+
+        key: DASHBOARD_PATH + '/',
+        url: DASHBOARD_PATH + '/',
       },
       {
         name: 'Applicants',
-        url: '/applicants',
-        key: 'applicants',
+        key: DASHBOARD_PATH + '/applicants',
+        url: DASHBOARD_PATH + '/applicants',
       },
       {
         name: 'Statistics',
-        url: '/statistics',
-        key: 'statistics',
+        key: DASHBOARD_PATH + '/statistics',
+        url: DASHBOARD_PATH + '/statistics',
       },
       {
         name: 'Integrations',
         url: '',
-        key: 'integrations',
+        key: DASHBOARD_PATH + '/integrations',
         isExpanded: true,
         links: [
           {
-            name: 'Application Levels',
-            url: '/applicant-levels',
-            key: 'application-level',
+            name: 'Applicant Levels',
+            key: DASHBOARD_PATH + '/applicant-levels',
+            url: DASHBOARD_PATH + '/applicant-levels',
           },
           {
             name: 'Questionnaires',
-            url: '/questionnaires',
-            key: 'questionnaires',
+            key: DASHBOARD_PATH + '/questionnaires',
+            url: DASHBOARD_PATH + '/questionnaires',
           },
           {
             name: 'Scoring Engine',
-            url: '/scoring-engine',
-            key: 'scoring-engine',
+            key: DASHBOARD_PATH + '/scoring-engine',
+            url: DASHBOARD_PATH + '/scoring-engine',
           },
         ],
       },
       {
         name: 'Dev Space',
         url: '',
-        key: 'dev-space',
+        key: DASHBOARD_PATH + '/dev-space',
         isExpanded: true,
         links: [
           {
             name: 'Webhooks',
-            url: '/webhooks',
-            key: 'webhooks',
+            key: DASHBOARD_PATH + '/webhooks',
+            url: DASHBOARD_PATH + '/webhooks',
           },
           {
             name: 'App Tokens',
-            url: '/app-tokens',
-            key: 'app-tokens',
+            key: DASHBOARD_PATH + '/app-tokens',
+            url: DASHBOARD_PATH + '/app-tokens',
           },
           {
             name: 'Docs',
-            url: '/docs',
-            key: 'docs',
+            key: DASHBOARD_PATH + '/docs',
+            url: DASHBOARD_PATH + '/docs',
           },
           {
             name: 'Api Logs',
-            url: '/api-logs',
-            key: 'api-logs',
+            key: DASHBOARD_PATH + '/api-logs',
+            url: DASHBOARD_PATH + '/api-logs',
           },
         ],
       },
@@ -87,16 +88,14 @@ const navLinkGroups: INavLinkGroup[] = [
   },
 ];
 
-const DASHBOARD_PATH = '/dashboard';
-
 const NavBasicExample: React.FunctionComponent = props => {
   const history = useHistory();
 
   const onNavClick = (ev?: React.MouseEvent<HTMLElement>, item?: INavLink) => {
     ev.preventDefault();
-    item && item?.url && history.push(DASHBOARD_PATH + item.url);
+    item && item?.url && history.push(item?.key);
   };
-  return <Nav onLinkClick={onNavClick} styles={navStyles} groups={navLinkGroups} />;
+  return <Nav onLinkClick={onNavClick} selectedKey={history.location.pathname} styles={navStyles} groups={navLinkGroups} />;
 };
 
 export default NavBasicExample;
