@@ -93,7 +93,7 @@ const NavBasicExample: React.FunctionComponent = props => {
 
   const onNavClick = (ev?: React.MouseEvent<HTMLElement>, item?: INavLink) => {
     ev.preventDefault();
-    item && item?.url && history.push(item?.key);
+    item && item?.url && history.push(item?.url);
   };
   return <Nav onLinkClick={onNavClick} selectedKey={history.location.pathname} styles={navStyles} groups={navLinkGroups} />;
 };

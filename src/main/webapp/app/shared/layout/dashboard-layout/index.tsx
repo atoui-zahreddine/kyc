@@ -7,7 +7,7 @@ const DashboardLayout = ({ children }) => {
   return (
     <Stack horizontal tokens={{ childrenGap: 32 }}>
       <Nav />
-      <div>{children}</div>
+      <div className="dashboard-main">{children}</div>
     </Stack>
   );
 };
