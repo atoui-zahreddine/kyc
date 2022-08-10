@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { initializeIcons } from '@fluentui/react';
 
 import getStore from './config/store';
 import setupAxiosInterceptors from './config/axios-interceptor';
@@ -16,6 +17,7 @@ const actions = bindActionCreators({ clearAuthentication }, store.dispatch);
 setupAxiosInterceptors(() => actions.clearAuthentication('login.error.unauthorized'));
 
 loadIcons();
+initializeIcons();
 
 const rootEl = document.getElementById('root');
 

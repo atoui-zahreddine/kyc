@@ -1,26 +1,22 @@
 import './applicant-level-list.scss';
 
-import React, { useEffect, useMemo } from 'react';
-import { RouteComponentProps, useHistory, Link, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
 import {
-  ShimmeredDetailsList,
   DetailsListLayoutMode,
   IColumn,
-  Text,
-  Stack,
-  IconButton,
-  initializeIcons,
   SelectionMode,
-  Callout,
-  Icon,
+  PrimaryButton,
+  ShimmeredDetailsList,
+  Stack,
+  Text,
+  mergeStyles,
 } from '@fluentui/react';
-import { useBoolean, useId } from '@fluentui/react-hooks';
 
-import { IDocument } from 'app/shared/model/applicant-level-list-column';
+import { IApplicantLevel } from 'app/shared/model/applicant-level.model';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getEntities } from 'app/entities/applicant-level/applicant-level.reducer';
-
-initializeIcons();
+import Controls from './components/controls';
 
 const columns: IColumn[] = [
   {
@@ -32,7 +28,7 @@ const columns: IColumn[] = [
     isResizable: true,
     isCollapsible: true,
     data: 'string',
-    onRender(item: IDocument) {
+    onRender(item: IApplicantLevel) {
       return <span>{item.levelName}</span>;
     },
     isPadded: true,
@@ -46,8 +42,8 @@ const columns: IColumn[] = [
     isResizable: true,
     isCollapsible: true,
     data: 'string',
-    onRender(item: IDocument) {
-      return <span>{item.steps}</span>;
+    onRender(item: IApplicantLevel) {
+      return <span>{item.steps?.length || 0}</span>;
     },
   },
   {
@@ -58,7 +54,7 @@ const columns: IColumn[] = [
     isResizable: true,
     isCollapsible: true,
     data: 'string',
-    onRender(item: IDocument) {
+    onRender(item: IApplicantLevel) {
       return <span>{item.createdAt}</span>;
     },
   },
@@ -70,7 +66,7 @@ const columns: IColumn[] = [
     isResizable: true,
     isCollapsible: true,
     data: 'string',
-    onRender(item: IDocument) {
+    onRender(item: IApplicantLevel) {
       return <span>{item.createdBy}</span>;
     },
   },
@@ -83,41 +79,24 @@ const columns: IColumn[] = [
     isCollapsible: true,
     data: '',
     className: 'more-icon-container',
-    onRender() {
-      const [isCalloutVisible, { toggle: toggleIsCalloutVisible }] = useBoolean(false);
-      const location = useLocation();
-      const buttonId = useId('callout-button');
-
-      return (
-        <>
-          <IconButton id={buttonId} iconProps={{ iconName: 'more' }} aria-label="More" onClick={toggleIsCalloutVisible} />
-          {isCalloutVisible && (
-            <Callout role="dialog" target={`#${buttonId}`} onDismiss={toggleIsCalloutVisible} setInitialFocus>
-              <Stack tokens={{ childrenGap: 16, padding: 8 }}>
-                <Icon iconName="ComplianceAudit" aria-label="Details" />
-                <Link to={`${location.pathname}/details`}>Details</Link>
-                <Link to={``}>delete</Link>
-              </Stack>
-            </Callout>
-          )}
-        </>
-      );
-    },
+    onRender: Controls,
   },
 ];
 
-export const ApplicantLevelList = (props: RouteComponentProps<{ url: string }>) => {
+const styles = mergeStyles({
+  color: 'white',
+  textDecoration: 'none',
+});
+
+export const ApplicantLevelList = () => {
   const dispatch = useAppDispatch();
   const applicantLevelList = useAppSelector(state => state.applicantLevel.entities);
   const loading = useAppSelector(state => state.applicantLevel.loading);
-  const applicantLevels = useMemo(() => {
-    return applicantLevelList.map<IDocument>(level => ({
-      levelName: level.levelName,
-      createdAt: level.createdAt,
-      createdBy: level.createdBy,
-      steps: level.steps?.length,
-    }));
-  }, [applicantLevelList]);
+  const router = useHistory();
+
+  const goToNewLevelPage = () => {
+    router.push(`${router.location.pathname}/new`);
+  };
 
   useEffect(() => {
     dispatch(getEntities({ page: 0, size: 5 }));
@@ -128,10 +107,15 @@ export const ApplicantLevelList = (props: RouteComponentProps<{ url: string }>) 
       <Text variant={'large'} nowrap block>
         Applicant Levels
       </Text>
+      <Stack styles={{ root: { alignItems: 'flex-end' } }}>
+        <PrimaryButton onClick={goToNewLevelPage} styles={{ root: { color: 'white' } }}>
+          New Applicant Level
+        </PrimaryButton>
+      </Stack>
       <ShimmeredDetailsList
         shimmerLines={5}
         enableShimmer={loading}
-        items={applicantLevels}
+        items={[...applicantLevelList]}
         columns={columns}
         selectionMode={SelectionMode.none}
         layoutMode={DetailsListLayoutMode.justified}
