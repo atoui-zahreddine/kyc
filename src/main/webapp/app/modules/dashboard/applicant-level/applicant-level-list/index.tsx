@@ -1,6 +1,6 @@
 import './applicant-level-list.scss';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
 import {
   DetailsListLayoutMode,
@@ -12,11 +12,14 @@ import {
   Text,
   mergeStyles,
 } from '@fluentui/react';
+import ReactPaginate from 'react-paginate';
 
 import { IApplicantLevel } from 'app/shared/model/applicant-level.model';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getEntities } from 'app/entities/applicant-level/applicant-level.reducer';
 import Controls from './components/controls';
+import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
+import Pagination from 'app/modules/dashboard/applicant-level/applicant-level-list/components/Pagination';
 
 const columns: IColumn[] = [
   {
@@ -88,19 +91,31 @@ const styles = mergeStyles({
   textDecoration: 'none',
 });
 
-export const ApplicantLevelList = () => {
+export const ApplicantLevelList = (props: RouteComponentProps) => {
   const dispatch = useAppDispatch();
+  const router = useHistory();
+
+  const [paginationState, setPaginationState] = useState({
+    activePage: 0,
+    itemsPerPage: ITEMS_PER_PAGE,
+    sort: 'id,asc',
+  });
+
   const applicantLevelList = useAppSelector(state => state.applicantLevel.entities);
   const loading = useAppSelector(state => state.applicantLevel.loading);
-  const router = useHistory();
+  const totalItems = useAppSelector(state => state.applicantLevel.totalItems);
 
   const goToNewLevelPage = () => {
     router.push(`${router.location.pathname}/new`);
   };
 
+  const onPageChange = ({ selected }: { selected: number }) => {
+    setPaginationState(p => ({ ...p, activePage: selected }));
+  };
+
   useEffect(() => {
-    dispatch(getEntities({ page: 0, size: 5 }));
-  }, []);
+    dispatch(getEntities({ page: paginationState.activePage, size: paginationState.itemsPerPage, sort: paginationState.sort }));
+  }, [paginationState.activePage]);
 
   return (
     <Stack tokens={{ childrenGap: 16 }}>
@@ -121,6 +136,7 @@ export const ApplicantLevelList = () => {
         layoutMode={DetailsListLayoutMode.justified}
         isHeaderVisible={true}
       />
+      <Pagination onPageChange={onPageChange} totalItems={totalItems} />
     </Stack>
   );
 };
