@@ -150,7 +150,7 @@ public class StepResource {
         StepCriteria criteria,
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
-        log.debug("REST request to get Steps by criteria: {}", criteria);
+        log.debug("REST request to get Index by criteria: {}", criteria);
         Page<StepDTO> page = stepQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -164,7 +164,7 @@ public class StepResource {
      */
     @GetMapping("/steps/count")
     public ResponseEntity<Long> countSteps(StepCriteria criteria) {
-        log.debug("REST request to count Steps by criteria: {}", criteria);
+        log.debug("REST request to count Index by criteria: {}", criteria);
         return ResponseEntity.ok().body(stepQueryService.countByCriteria(criteria));
     }
 

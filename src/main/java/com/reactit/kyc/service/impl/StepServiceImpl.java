@@ -57,7 +57,7 @@ public class StepServiceImpl implements StepService {
     @Override
     @Transactional(readOnly = true)
     public Page<StepDTO> findAll(Pageable pageable) {
-        log.debug("Request to get all Steps");
+        log.debug("Request to get all Index");
         return stepRepository.findAll(pageable).map(stepMapper::toDto);
     }
 
