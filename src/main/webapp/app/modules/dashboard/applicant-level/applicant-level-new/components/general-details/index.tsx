@@ -1,7 +1,5 @@
 import React from 'react';
 import { TextField } from '@fluentui/react';
-import CountriesDropdown from './components/CountriesDropdown';
-import TerritoryChoiceGroup from './components/territory-choice-group';
 
 const Index = ({ register, setValue, getValues }) => {
   return (
@@ -13,12 +11,12 @@ const Index = ({ register, setValue, getValues }) => {
       <TextField label="Level Name" {...register('levelName')} />
       <TextField label="Description" multiline autoAdjustHeight {...register('description')} />
 
-      <div>
-        <TerritoryChoiceGroup setValue={setValue} register={register} />
-        <CountriesDropdown register={register} getValues={getValues} setValue={setValue} />
-      </div>
+      {/* <div> */}
+      {/*  <TerritoryChoiceGroup setValue={setValue} register={register} /> */}
+      {/*  <CountriesDropdown register={register} getValues={getValues} setValue={setValue} /> */}
+      {/* </div> */}
 
-      <TextField label="Privacy note text" multiline autoAdjustHeight {...register('privacyNote')} />
+      {/* <TextField label="Privacy note text" multiline autoAdjustHeight {...register('privacyNote')} />*/}
     </div>
   );
 };

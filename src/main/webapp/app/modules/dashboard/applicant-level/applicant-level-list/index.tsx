@@ -1,18 +1,17 @@
 import './applicant-level-list.scss';
 
 import React, { useEffect, useState } from 'react';
-import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
+import { RouteComponentProps, useHistory } from 'react-router-dom';
 import {
   DetailsListLayoutMode,
   IColumn,
-  SelectionMode,
+  mergeStyles,
   PrimaryButton,
+  SelectionMode,
   ShimmeredDetailsList,
   Stack,
   Text,
-  mergeStyles,
 } from '@fluentui/react';
-import ReactPaginate from 'react-paginate';
 
 import { IApplicantLevel } from 'app/shared/model/applicant-level.model';
 import { useAppDispatch, useAppSelector } from 'app/config/store';

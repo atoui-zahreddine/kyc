@@ -43,7 +43,7 @@ public class ApplicantLevel implements Serializable {
     @Column(name = "modified_at")
     private Instant modifiedAt;
 
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.PERSIST })
     @JoinTable(
         name = "rel_applicant_level__step",
         joinColumns = @JoinColumn(name = "applicant_level_id"),

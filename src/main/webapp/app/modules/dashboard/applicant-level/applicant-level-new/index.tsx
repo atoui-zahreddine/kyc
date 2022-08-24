@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ITag, PrimaryButton, Stack } from '@fluentui/react';
+import { ITag, PrimaryButton, Spinner, SpinnerSize, Stack } from '@fluentui/react';
 
 import GeneralDetails from 'app/modules/dashboard/applicant-level/applicant-level-new/components/general-details';
 import Steps from 'app/modules/dashboard/applicant-level/applicant-level-new/components/steps';
@@ -12,17 +12,19 @@ import { TypeDoc } from 'app/shared/model/enumerations/type-doc.model';
 import './styles.scss';
 import { IDocSet } from 'app/shared/model/doc-set.model';
 import { IApplicantLevel } from 'app/shared/model/applicant-level.model';
-import { useAppDispatch } from 'app/config/store';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { createEntity } from 'app/entities/applicant-level/applicant-level.reducer';
+import { Redirect } from 'react-router-dom';
 
 const stepExample = {
   name: '',
   docSets: [],
 };
 
-const NewApplicantLevel = () => {
+const NewApplicantLevel = ({ match }) => {
   const { register, handleSubmit, getValues, setValue } = useForm();
   const [selectedSteps, setSelectedSteps] = useState<IStep[]>([{ ...stepExample }]);
+  const { updating, updateSuccess } = useAppSelector(state => state.applicantLevel);
   const dispatch = useAppDispatch();
 
   const submit = data => {
@@ -57,10 +59,12 @@ const NewApplicantLevel = () => {
     setSelectedSteps([...selectedSteps]);
   };
 
+  if (updateSuccess) return <Redirect to={match.url.replace('/new', '')} />;
+
   return (
     <Stack verticalFill tokens={{ childrenGap: '1rem' }}>
       <PrimaryButton styles={{ root: { alignSelf: 'flex-end' } }} onClick={handleSubmit(submit)}>
-        Submit
+        {!updating ? 'Submit' : <Spinner size={SpinnerSize.medium} />}
       </PrimaryButton>
       <form className="new-level" onSubmit={handleSubmit(submit)}>
         <GeneralDetails getValues={getValues} register={register} setValue={setValue} />
