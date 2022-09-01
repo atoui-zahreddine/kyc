@@ -55,7 +55,7 @@ public class ApplicantInfo implements Serializable {
     private Gender gender;
 
     @JsonIgnoreProperties(value = { "applicantLevel", "applicantInfo", "ipInfo", "userAgentInfo" }, allowSetters = true)
-    @OneToOne
+    @OneToOne(cascade = { CascadeType.PERSIST })
     @JoinColumn(unique = true)
     private Applicant applicant;
 
