@@ -32,24 +32,16 @@ const NewApplicantForm: FunctionComponent<NewApplicantFormProps> = ({ control, r
 
   const steps = {
     [`${IdDocSetType.IDENTITY}`]: (step: IStep) => <IdentiyDocuments step={step} control={control} onChangeHandler={onChange} />,
-    [`${IdDocSetType.SELFIE}`]: (step: IStep) => (
-      <SelfieDocuments step={step} setValue={setValue} control={control} onChangeHandler={onChange} />
-    ),
-    [`${IdDocSetType.PROOF_OF_RESIDENCE}`]: (step: IStep) => (
-      <ProofOfResidenceDocuments step={step} setValue={setValue} control={control} onChangeHandler={onChange} />
-    ),
-    [`${IdDocSetType.PHONE_VERIFICATION}`]: (step: IStep) => (
-      <PhoneRequiredInfo register={register} step={step} setValue={setValue} control={control} />
-    ),
-    [`${IdDocSetType.EMAIL_VERIFICATION}`]: (step: IStep) => (
-      <EmailRequiredInfo register={register} step={step} setValue={setValue} control={control} />
-    ),
+    [`${IdDocSetType.SELFIE}`]: () => <SelfieDocuments control={control} onChangeHandler={onChange} />,
+    [`${IdDocSetType.PROOF_OF_RESIDENCE}`]: () => <ProofOfResidenceDocuments control={control} onChangeHandler={onChange} />,
+    [`${IdDocSetType.PHONE_VERIFICATION}`]: () => <PhoneRequiredInfo control={control} />,
+    [`${IdDocSetType.EMAIL_VERIFICATION}`]: () => <EmailRequiredInfo control={control} />,
   };
 
   return (
     <div className="new-applicant__form">
       <h3>Applicant Card</h3>
-      <PersonalInfo register={register} onChange={onChange} setValue={setValue} />
+      <PersonalInfo onChange={onChange} control={control} />
       {level &&
         level.steps.map(step => {
           return (

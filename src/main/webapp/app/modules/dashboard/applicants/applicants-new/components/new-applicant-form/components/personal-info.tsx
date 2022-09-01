@@ -1,5 +1,6 @@
 import { ChoiceGroup, DatePicker, DayOfWeek, Dropdown, IChoiceGroupOption, Stack, TextField } from '@fluentui/react';
 import React from 'react';
+import { Controller } from 'react-hook-form';
 
 const inputStyle = { root: { flex: 1 } };
 const dropdownControlledExampleOptions = [
@@ -17,62 +18,120 @@ const options: IChoiceGroupOption[] = [
   { key: 'female', text: 'Female' },
 ];
 
-const PersonalInfo = ({ register, onChange, setValue }) => {
+const PersonalInfo = ({ onChange, control }) => {
   return (
     <div>
       <h6 className="subtitle">Personal Info</h6>
       <Stack horizontal wrap horizontalAlign="space-between" styles={{ inner: { gap: '1rem' } }}>
-        <TextField styles={inputStyle} label="First Name" {...register('firstName')} />
-        <TextField styles={inputStyle} label="Last Name" {...register('lastName')} />
-        <DatePicker
-          firstDayOfWeek={DayOfWeek.Monday}
-          label={'Birth Date'}
-          styles={inputStyle}
-          allowTextInput
-          showMonthPickerAsOverlay={false}
-          {...register('birthDate')}
-          onSelectDate={date => setValue('birthDate', date)}
-          placeholder="Select a date..."
-          ariaLabel="Select a date"
+        <Controller
+          control={control}
+          render={({ field: { ref, ...inputProps } }) => (
+            <TextField styles={inputStyle} label="First Name" componentRef={ref} {...inputProps} />
+          )}
+          name="firstName"
+        />
+        <Controller
+          control={control}
+          render={({ field: { ref, ...inputProps } }) => (
+            <TextField styles={inputStyle} label="Last Name" componentRef={ref} {...inputProps} />
+          )}
+          name="lastName"
+        />
+        <Controller
+          control={control}
+          render={({ field: { ref, name, ...inputProps } }) => (
+            <DatePicker
+              firstDayOfWeek={DayOfWeek.Monday}
+              label={'Birth Date'}
+              styles={inputStyle}
+              allowTextInput
+              showMonthPickerAsOverlay={false}
+              {...inputProps}
+              onSelectDate={date => onChange(date, name)}
+              placeholder="Select a date..."
+              ariaLabel="Select a date"
+            />
+          )}
+          name="birthDate"
         />
       </Stack>
       <Stack horizontal wrap horizontalAlign="space-between" styles={{ root: { marginTop: '1rem' }, inner: { gap: '3rem' } }}>
-        <TextField styles={inputStyle} label="Email" {...register('email')} />
-        <TextField styles={inputStyle} label="Phone" {...register('phone')} />
-      </Stack>
-      <Stack horizontal wrap horizontalAlign="space-between" styles={{ root: { marginTop: '1rem' }, inner: { gap: '3rem' } }}>
-        <Dropdown
-          label="Country"
-          {...register('country')}
-          onChange={(e, c) => onChange(c.key, 'country')}
-          placeholder="Select a Country"
-          options={dropdownControlledExampleOptions}
-          styles={inputStyle}
+        <Controller
+          control={control}
+          render={({ field: { ref, ...inputProps } }) => (
+            <TextField styles={inputStyle} label="Email" {...inputProps} componentRef={ref} {...inputProps} />
+          )}
+          name="email"
         />
-        <Dropdown
-          label="Country of Birth"
-          {...register('countryOfBirth')}
-          onChange={(e, c) => onChange(c.key, 'countryOfBirth')}
-          placeholder="Select a Country"
-          options={dropdownControlledExampleOptions}
-          styles={inputStyle}
-        />
-        <Dropdown
-          label="Nationality"
-          {...register('nationality')}
-          onChange={(e, c) => onChange(c.key, 'nationality')}
-          placeholder="Select a Nationality"
-          options={dropdownControlledExampleOptions}
-          styles={inputStyle}
+        <Controller
+          control={control}
+          render={({ field: { ref, ...inputProps } }) => (
+            <TextField styles={inputStyle} label="Phone" {...inputProps} componentRef={ref} {...inputProps} />
+          )}
+          name="phone"
         />
       </Stack>
       <Stack horizontal wrap horizontalAlign="space-between" styles={{ root: { marginTop: '1rem' }, inner: { gap: '3rem' } }}>
-        <ChoiceGroup
-          styles={{ flexContainer: { display: 'flex', gap: 16 } }}
-          {...register('gender')}
-          onChange={(e, c) => onChange(c.key, 'gender')}
-          options={options}
-          label="Gender"
+        <Controller
+          control={control}
+          render={({ field: { ref, name, ...inputProps } }) => (
+            <Dropdown
+              label="Country"
+              componentRef={ref}
+              {...inputProps}
+              onChange={(e, c) => onChange(c.key, name)}
+              placeholder="Select a Country"
+              options={dropdownControlledExampleOptions}
+              styles={inputStyle}
+            />
+          )}
+          name="country"
+        />
+        <Controller
+          control={control}
+          render={({ field: { ref, name, ...inputProps } }) => (
+            <Dropdown
+              label="Country of Birth"
+              componentRef={ref}
+              {...inputProps}
+              onChange={(e, c) => onChange(c.key, name)}
+              placeholder="Select a Country"
+              options={dropdownControlledExampleOptions}
+              styles={inputStyle}
+            />
+          )}
+          name="countryOfBirth"
+        />
+        <Controller
+          control={control}
+          render={({ field: { ref, name, ...inputProps } }) => (
+            <Dropdown
+              label="Nationality"
+              componentRef={ref}
+              {...inputProps}
+              onChange={(e, c) => onChange(c.key, name)}
+              placeholder="Select a Nationality"
+              options={dropdownControlledExampleOptions}
+              styles={inputStyle}
+            />
+          )}
+          name="nationality"
+        />
+      </Stack>
+      <Stack horizontal wrap horizontalAlign="space-between" styles={{ root: { marginTop: '1rem' }, inner: { gap: '3rem' } }}>
+        <Controller
+          control={control}
+          render={({ field: { ref, name, ...inputProps } }) => (
+            <ChoiceGroup
+              styles={{ flexContainer: { display: 'flex', gap: 16 } }}
+              componentRef={ref}
+              {...inputProps}
+              onChange={(e, c) => onChange(c.key, name)}
+              options={options}
+              label="Gender"
+            />
+          )}
+          name="gender"
         />
       </Stack>
     </div>

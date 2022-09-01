@@ -24,8 +24,6 @@ const labelStyle = mergeStyles({
 const inputStyle = { root: { flex: 1 } };
 
 interface ProofOfResidenceDocumentsProps {
-  step: any;
-  setValue: any;
   onChangeHandler: (option, target: string) => void;
   control: any;
 }
@@ -254,6 +252,7 @@ const OtpVerification = ({ control, otpFor, inputTarget, codeTarget }) => {
     </Stack>
   );
 };
+
 export const PhoneRequiredInfo: FunctionComponent<any> = ({ control }) => {
   return (
     <>
