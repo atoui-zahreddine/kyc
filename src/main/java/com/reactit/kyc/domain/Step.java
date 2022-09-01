@@ -40,7 +40,7 @@ public class Step implements Serializable {
     @Column(name = "modified_at")
     private Instant modifiedAt;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     @JoinTable(
         name = "rel_step__doc_set",
         joinColumns = @JoinColumn(name = "step_id"),
