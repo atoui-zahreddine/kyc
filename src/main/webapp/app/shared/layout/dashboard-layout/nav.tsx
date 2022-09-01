@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Nav, INavLink, INavStyles, INavLinkGroup } from '@fluentui/react/lib/Nav';
+import { INavLink, INavLinkGroup, INavStyles, Nav } from '@fluentui/react/lib/Nav';
 import { useHistory } from 'react-router-dom';
 
 const DASHBOARD_PATH = '/dashboard';
@@ -25,8 +25,8 @@ const navLinkGroups: INavLinkGroup[] = [
       },
       {
         name: 'Applicants',
-        key: DASHBOARD_PATH + '/applicants',
-        url: DASHBOARD_PATH + '/applicants',
+        key: DASHBOARD_PATH + '/applicants/new',
+        url: DASHBOARD_PATH + '/applicants/new',
       },
       {
         name: 'Statistics',
