@@ -1,15 +1,34 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { TextField } from '@fluentui/react';
+import { Controller } from 'react-hook-form';
 
-const Index = ({ register, setValue, getValues }) => {
+interface GeneralDetailsProps {
+  register: (name: string, RegisterOptions?) => { onChange; onBlur; name; ref };
+  setValue: (name: string, value: unknown, config?: any) => void;
+  getValues: (payload?: string | string[]) => any;
+  control: any;
+}
+
+const GeneralDetails: FunctionComponent<GeneralDetailsProps> = ({ register, control, setValue, getValues }) => {
   return (
     <div className="new-level_general-details">
       <div className="new-level_general-details_title">
         <h3>General </h3>
       </div>
 
-      <TextField label="Level Name" {...register('levelName')} />
-      <TextField label="Description" multiline autoAdjustHeight {...register('description')} />
+      <Controller
+        control={control}
+        render={({ field: { ref, ...inputProps } }) => <TextField label="Level Name" {...inputProps} componentRef={ref} />}
+        name="levelName"
+      />
+
+      <Controller
+        control={control}
+        render={({ field: { ref, ...inputProps } }) => (
+          <TextField label="Description" multiline autoAdjustHeight {...inputProps} componentRef={ref} />
+        )}
+        name="description"
+      />
 
       {/* <div> */}
       {/*  <TerritoryChoiceGroup setValue={setValue} register={register} /> */}
@@ -21,4 +40,4 @@ const Index = ({ register, setValue, getValues }) => {
   );
 };
 
-export default Index;
+export default GeneralDetails;

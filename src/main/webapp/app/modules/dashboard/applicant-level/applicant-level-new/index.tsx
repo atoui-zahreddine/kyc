@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ITag, PrimaryButton, Spinner, SpinnerSize, Stack } from '@fluentui/react';
 
@@ -13,8 +13,9 @@ import './styles.scss';
 import { IDocSet } from 'app/shared/model/doc-set.model';
 import { IApplicantLevel } from 'app/shared/model/applicant-level.model';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { createEntity } from 'app/entities/applicant-level/applicant-level.reducer';
+import { createEntity, getEntity, updateEntity } from 'app/entities/applicant-level/applicant-level.reducer';
 import { Redirect } from 'react-router-dom';
+import _ from 'lodash';
 
 const stepExample = {
   name: '',
@@ -22,18 +23,54 @@ const stepExample = {
 };
 
 const NewApplicantLevel = ({ match }) => {
-  const { register, handleSubmit, getValues, setValue } = useForm();
+  const { register, handleSubmit, getValues, setValue, control } = useForm();
   const [selectedSteps, setSelectedSteps] = useState<IStep[]>([{ ...stepExample }]);
-  const { updating, updateSuccess } = useAppSelector(state => state.applicantLevel);
+  const { updating, updateSuccess, entities, entity } = useAppSelector(state => state.applicantLevel);
   const dispatch = useAppDispatch();
 
+  const isUpdate = !!match.params.id;
+
+  const getLevelFromStore = (id: number): IApplicantLevel => {
+    const foundLevel = entities.filter(e => e.id === id);
+    return foundLevel[0] || null;
+  };
+
+  const setLevelValues = (levelData: IApplicantLevel) => {
+    setValue('id', levelData.id);
+    setValue('levelName', levelData.levelName);
+    setValue('description', levelData.description);
+    setSelectedSteps(_.cloneDeep(levelData.steps));
+  };
+
+  const getLevel = levelId => {
+    if (!levelId) return;
+    const storeLevel = getLevelFromStore(levelId);
+    if (!storeLevel) return dispatch(getEntity(levelId));
+
+    setLevelValues(storeLevel);
+  };
+
+  useEffect(() => {
+    const levelId = match.params.id;
+    getLevel(levelId);
+  }, [match.params.id]);
+
+  useEffect(() => {
+    if (entity?.id) {
+      setLevelValues(entity);
+    }
+  }, [entity]);
+
   const submit = data => {
-    const level: IApplicantLevel = {
+    const id = data?.id ? { id: data.id } : {};
+    const levelData: IApplicantLevel = {
+      ...id,
       levelName: data.levelName,
       description: data.description,
       steps: selectedSteps,
     };
-    dispatch(createEntity(level));
+    if (!isUpdate) dispatch(createEntity(levelData));
+    else dispatch(updateEntity(levelData));
   };
 
   const addStep = () => {
@@ -59,15 +96,15 @@ const NewApplicantLevel = ({ match }) => {
     setSelectedSteps([...selectedSteps]);
   };
 
-  if (updateSuccess) return <Redirect to={match.url.replace('/new', '')} />;
+  if (updateSuccess) return <Redirect to={'/dashboard/applicant-levels'} />;
 
   return (
     <Stack verticalFill tokens={{ childrenGap: '1rem' }}>
       <PrimaryButton styles={{ root: { alignSelf: 'flex-end' } }} onClick={handleSubmit(submit)}>
-        {!updating ? 'Submit' : <Spinner size={SpinnerSize.medium} />}
+        {!updating ? match.params.id ? 'Update' : 'Submit' : <Spinner size={SpinnerSize.medium} />}
       </PrimaryButton>
       <form className="new-level" onSubmit={handleSubmit(submit)}>
-        <GeneralDetails getValues={getValues} register={register} setValue={setValue} />
+        <GeneralDetails control={control} getValues={getValues} register={register} setValue={setValue} />
         <Steps
           updateStepDocSet={updateStepDocSet}
           deleteStep={deleteStep}

@@ -97,7 +97,7 @@ export const ApplicantLevelList = (props: RouteComponentProps) => {
   const [paginationState, setPaginationState] = useState({
     activePage: 0,
     itemsPerPage: ITEMS_PER_PAGE,
-    sort: 'id,asc',
+    sort: 'id,desc',
   });
 
   const applicantLevelList = useAppSelector(state => state.applicantLevel.entities);
