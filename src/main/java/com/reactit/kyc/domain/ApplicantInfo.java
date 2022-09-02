@@ -59,11 +59,11 @@ public class ApplicantInfo implements Serializable {
     @JoinColumn(unique = true)
     private Applicant applicant;
 
-    @ManyToOne
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     @JsonIgnoreProperties(value = { "addresses", "docs", "applicants", "phones" }, allowSetters = true)
     private Country countryOfBirth;
 
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     @JoinTable(
         name = "rel_applicant_info__applicant_addresse",
         joinColumns = @JoinColumn(name = "applicant_info_id"),
@@ -72,7 +72,7 @@ public class ApplicantInfo implements Serializable {
     @JsonIgnoreProperties(value = { "addresseCountry", "applicantInfos" }, allowSetters = true)
     private Set<ApplicantAddresse> applicantAddresses = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     @JoinTable(
         name = "rel_applicant_info__applicant_phone",
         joinColumns = @JoinColumn(name = "applicant_info_id"),
@@ -81,7 +81,7 @@ public class ApplicantInfo implements Serializable {
     @JsonIgnoreProperties(value = { "phoneCountry", "applicantInfos" }, allowSetters = true)
     private Set<ApplicantPhone> applicantPhones = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     @JoinTable(
         name = "rel_applicant_info__applicant_docs",
         joinColumns = @JoinColumn(name = "applicant_info_id"),

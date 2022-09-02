@@ -74,7 +74,6 @@ const UploadDocSetFile = ({ control, onChangeHandler, name, id, target }) => {
         control={control}
         render={({ field: { name: inputName, onBlur, value, ref } }) => (
           <Dropdown
-            label="Country"
             componentRef={ref}
             onBlur={onBlur}
             selectedKey={value ?? ''}

@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import Level from './components/level';
 import NewApplicantForm from './components/new-applicant-form';
 import './styles.scss';
+import { IApplicantInfo } from 'app/shared/model/applicant-info.model';
+import { createEntity } from 'app/entities/applicant-info/applicant-info.reducer';
 
 const NewApplicant = props => {
   const { updating, updateSuccess } = useAppSelector(state => state.applicant);
@@ -19,16 +21,38 @@ const NewApplicant = props => {
   } = useForm();
 
   const onSubmit = data => {
-    console.warn(data);
-    // const applicantInfo: IApplicantInfo = {
-    //   firstName: data.firstName,
-    //   lastName: data.lastName,
-    //   dateOfBirth: data.birthDate,
-    //   applicant: {
-    //     applicantLevel: data.level,
-    //   },
-    // };
-    // dispatch(createEntity(applicantInfo));
+    // console.warn(data);
+    const applicantAddresses = data?.address
+      ? {
+          applicantAddresses: [
+            {
+              state: data.address.city,
+              postCode: data.address.zipCode,
+              street: data.address.street,
+              addresseCountry: {
+                name: data.address.country,
+              },
+            },
+          ],
+        }
+      : null;
+
+    const applicantInfo: IApplicantInfo = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      dateOfBirth: data.birthDate,
+      nationality: data.nationality,
+      gender: data.gender,
+      ...applicantAddresses,
+      countryOfBirth: {
+        name: data.countryOfBirth,
+      },
+      applicant: {
+        applicantLevel: data.level,
+      },
+    };
+    console.warn(applicantInfo);
+    dispatch(createEntity(applicantInfo));
   };
 
   return (

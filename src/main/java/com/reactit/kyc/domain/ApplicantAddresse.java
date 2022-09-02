@@ -39,7 +39,7 @@ public class ApplicantAddresse implements Serializable {
     @Column(name = "enabled")
     private Boolean enabled;
 
-    @ManyToOne
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     @JsonIgnoreProperties(value = { "addresses", "docs", "applicants", "phones" }, allowSetters = true)
     private Country addresseCountry;
 

@@ -1,4 +1,5 @@
 import { ChoiceGroup, DatePicker, DayOfWeek, Dropdown, IChoiceGroupOption, Stack, TextField } from '@fluentui/react';
+import { Gender } from 'app/shared/model/enumerations/gender.model';
 import React from 'react';
 import { Controller } from 'react-hook-form';
 
@@ -14,8 +15,8 @@ const dropdownControlledExampleOptions = [
 ];
 
 const options: IChoiceGroupOption[] = [
-  { key: 'male', text: 'Male' },
-  { key: 'female', text: 'Female' },
+  { key: Gender.MALE, text: 'Male' },
+  { key: Gender.FEMALE, text: 'Female' },
 ];
 
 const PersonalInfo = ({ onChange, control }) => {
