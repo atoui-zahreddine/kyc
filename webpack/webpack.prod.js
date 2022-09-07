@@ -26,6 +26,10 @@ module.exports = async () =>
     module: {
       rules: [
         {
+          test: /\.(png|jpg|jpeg|gif)$/i,
+          type: 'asset/resource',
+        },
+        {
           test: /\.(sa|sc|c)ss$/,
           use: [
             {

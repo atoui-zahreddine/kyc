@@ -27,6 +27,10 @@ module.exports = async options =>
     module: {
       rules: [
         {
+          test: /\.(png|jpg|jpeg|gif)$/i,
+          type: 'asset/resource',
+        },
+        {
           test: /\.(sa|sc|c)ss$/,
           use: [
             'style-loader',
