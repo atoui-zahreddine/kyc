@@ -7,33 +7,23 @@ import Level from './components/level';
 import NewApplicantForm from './components/new-applicant-form';
 import './styles.scss';
 import { IApplicantInfo } from 'app/shared/model/applicant-info.model';
+import { IdDocSetType } from 'app/shared/model/enumerations/id-doc-set-type.model';
+import { IApplicantAddresse } from 'app/shared/model/applicant-addresse.model';
 import { createEntity } from 'app/entities/applicant-info/applicant-info.reducer';
 
-const NewApplicant = props => {
+const NewApplicant = () => {
   const { updating, updateSuccess } = useAppSelector(state => state.applicant);
   const dispatch = useAppDispatch();
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-    control,
-  } = useForm();
+  const { handleSubmit, setValue, control, register } = useForm();
 
   const onSubmit = data => {
-    // console.warn(data);
-    const applicantAddresses = data?.address
+    const applicantAddresses = data[`${IdDocSetType.PROOF_OF_RESIDENCE}`]
       ? {
           applicantAddresses: [
             {
-              state: data.address.city,
-              postCode: data.address.zipCode,
-              street: data.address.street,
-              addresseCountry: {
-                name: data.address.country,
-              },
+              ...data[`${IdDocSetType.PROOF_OF_RESIDENCE}`],
             },
-          ],
+          ] as IApplicantAddresse[],
         }
       : null;
 
@@ -43,7 +33,13 @@ const NewApplicant = props => {
       dateOfBirth: data.birthDate,
       nationality: data.nationality,
       gender: data.gender,
+      email: data.email,
       ...applicantAddresses,
+      applicantPhones: [
+        {
+          number: data.phone,
+        },
+      ],
       countryOfBirth: {
         name: data.countryOfBirth,
       },
@@ -51,7 +47,6 @@ const NewApplicant = props => {
         applicantLevel: data.level,
       },
     };
-    console.warn(applicantInfo);
     dispatch(createEntity(applicantInfo));
   };
 
@@ -63,8 +58,8 @@ const NewApplicant = props => {
         </PrimaryButton>
       </Stack>
       <div className="new-applicant">
-        <Level setValue={setValue} register={register} errors={errors} />
-        <NewApplicantForm setValue={setValue} register={register} errors={errors} control={control} />
+        <Level setValue={setValue} register={register} />
+        <NewApplicantForm setValue={setValue} control={control} />
       </div>
     </div>
   );

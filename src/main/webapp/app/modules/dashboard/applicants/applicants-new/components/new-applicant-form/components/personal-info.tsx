@@ -45,12 +45,10 @@ const PersonalInfo = ({ onChange, control }) => {
               firstDayOfWeek={DayOfWeek.Monday}
               label={'Birth Date'}
               styles={inputStyle}
-              allowTextInput
-              showMonthPickerAsOverlay={false}
-              {...inputProps}
               onSelectDate={date => onChange(date, name)}
               placeholder="Select a date..."
               ariaLabel="Select a date"
+              {...inputProps}
             />
           )}
           name="birthDate"

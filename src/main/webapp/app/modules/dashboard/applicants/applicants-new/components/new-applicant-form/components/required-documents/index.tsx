@@ -121,7 +121,7 @@ export const SelfieDocuments: FunctionComponent<any> = ({ control, onChangeHandl
       >
         <span>Selfie</span>
         <UploadFile
-          id="address.file"
+          id="selfie.file"
           control={control}
           onChangeHandler={onChangeHandler}
           target={`files.${IdDocSetType.SELFIE}.${TypeDoc.SELFIE}`}
@@ -139,17 +139,17 @@ export const ProofOfResidenceDocuments: FunctionComponent<ProofOfResidenceDocume
         <Controller
           control={control}
           render={({ field: { onChange, onBlur, value, name, ref } }) => (
-            <TextField label="Address" onChange={onChange} value={value} onBlur={onBlur} componentRef={ref} styles={inputStyle} />
+            <TextField label="Street" onChange={onChange} value={value} onBlur={onBlur} componentRef={ref} styles={inputStyle} />
           )}
-          name="address.address"
+          name={`${IdDocSetType.PROOF_OF_RESIDENCE}.street`}
         />
 
         <Controller
           control={control}
           render={({ field: { onChange, onBlur, value, name, ref } }) => (
-            <TextField label="Street" onChange={onChange} value={value} onBlur={onBlur} componentRef={ref} styles={inputStyle} />
+            <TextField label="Sub Street" onChange={onChange} value={value} onBlur={onBlur} componentRef={ref} styles={inputStyle} />
           )}
-          name="address.street"
+          name={`${IdDocSetType.PROOF_OF_RESIDENCE}.subStreet`}
         />
       </Stack>
       <Stack horizontal wrap horizontalAlign="space-between" styles={{ root: { marginTop: '1rem' }, inner: { gap: '3rem' } }}>
@@ -167,13 +167,13 @@ export const ProofOfResidenceDocuments: FunctionComponent<ProofOfResidenceDocume
               styles={inputStyle}
             />
           )}
-          name="address.country"
+          name={`${IdDocSetType.PROOF_OF_RESIDENCE}.addresseCountry.name`}
         />
         <Controller
           control={control}
           render={({ field: { onBlur, value, name, ref } }) => (
             <Dropdown
-              label="City"
+              label="State"
               onBlur={onBlur}
               selectedKey={value ?? ''}
               componentRef={ref}
@@ -183,7 +183,7 @@ export const ProofOfResidenceDocuments: FunctionComponent<ProofOfResidenceDocume
               styles={inputStyle}
             />
           )}
-          name="address.city"
+          name={`${IdDocSetType.PROOF_OF_RESIDENCE}.state`}
         />
         <Controller
           control={control}
@@ -201,7 +201,7 @@ export const ProofOfResidenceDocuments: FunctionComponent<ProofOfResidenceDocume
               styles={inputStyle}
             />
           )}
-          name="address.zipCode"
+          name={`${IdDocSetType.PROOF_OF_RESIDENCE}.postCode`}
         />
       </Stack>
 
@@ -256,7 +256,12 @@ export const PhoneRequiredInfo: FunctionComponent<any> = ({ control }) => {
   return (
     <>
       <h5 className="subtitle">Phone Verification</h5>
-      <OtpVerification control={control} otpFor="Phone Number" codeTarget={'phone.code'} inputTarget={'phone.phoneNumber'} />
+      <OtpVerification
+        control={control}
+        otpFor="Phone Number"
+        codeTarget={'phone.code'}
+        inputTarget={`${IdDocSetType.PHONE_VERIFICATION}.phoneNumber`}
+      />
     </>
   );
 };
@@ -265,7 +270,12 @@ export const EmailRequiredInfo: FunctionComponent<any> = ({ control }) => {
   return (
     <>
       <h5 className="subtitle">Email Verification</h5>
-      <OtpVerification control={control} otpFor="Email" codeTarget={'email.code'} inputTarget={'email.email'} />
+      <OtpVerification
+        control={control}
+        otpFor="Email"
+        codeTarget={'email.code'}
+        inputTarget={`${IdDocSetType.EMAIL_VERIFICATION}.email`}
+      />
     </>
   );
 };

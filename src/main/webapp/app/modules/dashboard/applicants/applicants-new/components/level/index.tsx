@@ -11,14 +11,13 @@ import { Link } from 'react-router-dom';
 interface LevelProps {
   register: (name: string, options?: RegisterOptions) => UseFormRegisterReturn;
   setValue: any;
-  errors: any;
 }
 
 const dropdownStyles: Partial<IDropdownStyles> = {
   dropdown: { marginTop: '1rem' },
 };
 
-const Level: FunctionComponent<LevelProps> = ({ register, setValue, errors }) => {
+const Level: FunctionComponent<LevelProps> = ({ register, setValue }) => {
   const levels = useAppSelector(state => state.applicantLevel.entities);
   const [selectedLevel, setSelectedLevel] = useState<IApplicantLevel>();
   const dispatch = useAppDispatch();

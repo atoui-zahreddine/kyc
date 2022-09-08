@@ -1,7 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import { useWatch } from 'react-hook-form';
-import { UseFormRegisterReturn } from 'react-hook-form/dist/types/form';
-import { RegisterOptions } from 'react-hook-form/dist/types/validator';
 
 import { IdDocSetType } from 'app/shared/model/enumerations/id-doc-set-type.model';
 import { IApplicantLevel } from 'app/shared/model/applicant-level.model';
@@ -16,17 +14,14 @@ import {
 import { IStep } from 'app/shared/model/step.model';
 
 interface NewApplicantFormProps {
-  register: (name: string, options?: RegisterOptions) => UseFormRegisterReturn;
   setValue: any;
   control: any;
-  errors: any;
 }
 
-const NewApplicantForm: FunctionComponent<NewApplicantFormProps> = ({ control, register, setValue, errors }) => {
+const NewApplicantForm: FunctionComponent<NewApplicantFormProps> = ({ control, setValue }) => {
   const level = useWatch({ control, name: 'level' }) as IApplicantLevel;
 
   const onChange = (value, target: string) => {
-    console.warn(value, target);
     setValue(target, value);
   };
 
