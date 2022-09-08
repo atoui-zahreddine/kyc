@@ -47,6 +47,7 @@ const NewApplicant = () => {
         applicantLevel: data.level,
       },
     };
+
     dispatch(createEntity(applicantInfo));
   };
 

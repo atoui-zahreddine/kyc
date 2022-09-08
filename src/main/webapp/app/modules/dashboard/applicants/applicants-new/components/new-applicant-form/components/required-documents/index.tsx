@@ -51,8 +51,9 @@ const UploadFile = ({ id, control, target, onChangeHandler }) => {
       </label>
       <Controller
         control={control}
-        render={({ field: { name } }) => (
-          <input type="file" id={id} className={fileStyle} onChange={e => onFileChange(e.target.files[0], name)} />
+        rules={{ required: true }}
+        render={({ fieldState: { invalid }, field: { name } }) => (
+          <input type="file" id={id} className={fileStyle} onChange={e => onFileChange(e.target.files[0], name)} required={invalid} />
         )}
         name={`${target}.file`}
       />
@@ -72,9 +73,11 @@ const UploadDocSetFile = ({ control, onChangeHandler, name, id, target }) => {
       <span>{name}</span>
       <Controller
         control={control}
-        render={({ field: { name: inputName, onBlur, value, ref } }) => (
+        rules={{ required: true }}
+        render={({ fieldState: { invalid }, field: { name: inputName, onBlur, value, ref } }) => (
           <Dropdown
             componentRef={ref}
+            errorMessage={invalid ? 'Field is required' : ''}
             onBlur={onBlur}
             selectedKey={value ?? ''}
             onChange={(e, c) => onChangeHandler(c.key, inputName as string)}
@@ -137,17 +140,35 @@ export const ProofOfResidenceDocuments: FunctionComponent<ProofOfResidenceDocume
       <h5 className="subtitle">Proof Of Residence Documents</h5>
       <Stack horizontal wrap horizontalAlign="space-between" styles={{ root: { marginTop: '1rem' }, inner: { gap: '3rem' } }}>
         <Controller
+          rules={{ required: true }}
           control={control}
-          render={({ field: { onChange, onBlur, value, name, ref } }) => (
-            <TextField label="Street" onChange={onChange} value={value} onBlur={onBlur} componentRef={ref} styles={inputStyle} />
+          render={({ fieldState: { invalid }, field: { onChange, onBlur, value, name, ref } }) => (
+            <TextField
+              label="Street"
+              errorMessage={invalid ? 'Field is Required' : ''}
+              onChange={onChange}
+              value={value}
+              onBlur={onBlur}
+              componentRef={ref}
+              styles={inputStyle}
+            />
           )}
           name={`${IdDocSetType.PROOF_OF_RESIDENCE}.street`}
         />
 
         <Controller
           control={control}
-          render={({ field: { onChange, onBlur, value, name, ref } }) => (
-            <TextField label="Sub Street" onChange={onChange} value={value} onBlur={onBlur} componentRef={ref} styles={inputStyle} />
+          rules={{ required: true }}
+          render={({ fieldState: { invalid }, field: { onChange, onBlur, value, name, ref } }) => (
+            <TextField
+              label="Sub Street"
+              errorMessage={invalid ? 'Field is required' : ''}
+              onChange={onChange}
+              value={value}
+              onBlur={onBlur}
+              componentRef={ref}
+              styles={inputStyle}
+            />
           )}
           name={`${IdDocSetType.PROOF_OF_RESIDENCE}.subStreet`}
         />
@@ -155,9 +176,11 @@ export const ProofOfResidenceDocuments: FunctionComponent<ProofOfResidenceDocume
       <Stack horizontal wrap horizontalAlign="space-between" styles={{ root: { marginTop: '1rem' }, inner: { gap: '3rem' } }}>
         <Controller
           control={control}
-          render={({ field: { name, onBlur, value, ref } }) => (
+          rules={{ required: true }}
+          render={({ fieldState: { invalid }, field: { name, onBlur, value, ref } }) => (
             <Dropdown
               label="Country"
+              errorMessage={invalid ? 'Field is required' : ''}
               componentRef={ref}
               onBlur={onBlur}
               selectedKey={value ?? ''}
@@ -171,9 +194,11 @@ export const ProofOfResidenceDocuments: FunctionComponent<ProofOfResidenceDocume
         />
         <Controller
           control={control}
-          render={({ field: { onBlur, value, name, ref } }) => (
+          rules={{ required: true }}
+          render={({ fieldState: { invalid }, field: { onBlur, value, name, ref } }) => (
             <Dropdown
               label="State"
+              errorMessage={invalid ? 'Field is required' : ''}
               onBlur={onBlur}
               selectedKey={value ?? ''}
               componentRef={ref}
@@ -187,9 +212,11 @@ export const ProofOfResidenceDocuments: FunctionComponent<ProofOfResidenceDocume
         />
         <Controller
           control={control}
-          render={({ field: { onBlur, value, name, ref } }) => (
+          rules={{ required: true }}
+          render={({ fieldState: { invalid }, field: { onBlur, value, name, ref } }) => (
             <Dropdown
               label="Postal/ZIP"
+              errorMessage={invalid ? 'Field is required' : ''}
               onBlur={onBlur}
               selectedKey={value ?? ''}
               componentRef={ref}
@@ -227,17 +254,28 @@ const OtpVerification = ({ control, otpFor, inputTarget, codeTarget }) => {
     >
       <Controller
         control={control}
-        render={({ field: { onChange, onBlur, value, name, ref } }) => (
-          <TextField label={otpFor} onChange={onChange} value={value} onBlur={onBlur} componentRef={ref} styles={inputStyle} />
+        rules={{ required: true }}
+        render={({ fieldState: { invalid }, field: { onChange, onBlur, value, name, ref } }) => (
+          <TextField
+            errorMessage={invalid ? 'Field is required' : ''}
+            label={otpFor}
+            onChange={onChange}
+            value={value}
+            onBlur={onBlur}
+            componentRef={ref}
+            styles={inputStyle}
+          />
         )}
         name={inputTarget}
       />
 
       <Controller
         control={control}
-        render={({ field: { onChange, onBlur, value, name, ref } }) => (
+        rules={{ required: true }}
+        render={({ fieldState: { invalid }, field: { onChange, onBlur, value, name, ref } }) => (
           <TextField
             label="Code"
+            errorMessage={invalid ? 'Field is required' : ''}
             onChange={onChange}
             value={value}
             onBlur={onBlur}
@@ -259,7 +297,7 @@ export const PhoneRequiredInfo: FunctionComponent<any> = ({ control }) => {
       <OtpVerification
         control={control}
         otpFor="Phone Number"
-        codeTarget={'phone.code'}
+        codeTarget={`${IdDocSetType.PHONE_VERIFICATION}.code`}
         inputTarget={`${IdDocSetType.PHONE_VERIFICATION}.phoneNumber`}
       />
     </>
@@ -273,7 +311,7 @@ export const EmailRequiredInfo: FunctionComponent<any> = ({ control }) => {
       <OtpVerification
         control={control}
         otpFor="Email"
-        codeTarget={'email.code'}
+        codeTarget={`${IdDocSetType.EMAIL_VERIFICATION}.code`}
         inputTarget={`${IdDocSetType.EMAIL_VERIFICATION}.email`}
       />
     </>
