@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/files")
+@RequestMapping("/api")
 public class UploadResource {
 
     @Autowired
     private MinioService minioService;
 
-    @PostMapping
+    @PostMapping("/files")
     public FileDTO uploadFile(@ModelAttribute FileDTO fileDTO) throws Exception {
         return minioService.uploadFile(fileDTO);
     }

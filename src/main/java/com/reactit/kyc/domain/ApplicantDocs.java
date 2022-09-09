@@ -53,7 +53,7 @@ public class ApplicantDocs implements Serializable {
     @Column(name = "image_trust")
     private String imageTrust;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = { "addresses", "docs", "applicants", "phones" }, allowSetters = true)
     private Country docsCountry;
 

@@ -9,14 +9,48 @@ import './styles.scss';
 import { IApplicantInfo } from 'app/shared/model/applicant-info.model';
 import { IdDocSetType } from 'app/shared/model/enumerations/id-doc-set-type.model';
 import { IApplicantAddresse } from 'app/shared/model/applicant-addresse.model';
+import { IApplicantLevel } from 'app/shared/model/applicant-level.model';
+import axios from 'axios';
+import { IApplicantDocs } from 'app/shared/model/applicant-docs.model';
+import { TypeDoc } from 'app/shared/model/enumerations/type-doc.model';
 import { createEntity } from 'app/entities/applicant-info/applicant-info.reducer';
+
+const uploadDocs = async (level: IApplicantLevel, data) => {
+  const applicantDocs: IApplicantDocs[] = [];
+
+  for (const step of level.steps)
+    for (const docSet of step.docSets) {
+      try {
+        const fileToUpload = data.files[`${IdDocSetType[docSet.idDocSetType]}`][`${TypeDoc[docSet.types]}`];
+        console.warn(fileToUpload);
+        console.warn(data);
+        if (!fileToUpload.file) {
+          continue;
+        }
+        const file = new FormData();
+        file.append('file', fileToUpload.file);
+        const headers = {
+          'content-type': 'multipart/form-data',
+        };
+        const result = await axios.post('/api/files', file, { headers });
+        applicantDocs.push({
+          docType: docSet.types,
+          imageUrl: result.data.url,
+          docsCountry: { name: data.files[`${IdDocSetType[docSet.idDocSetType]}`][`${TypeDoc[docSet.types]}`].country },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  return applicantDocs;
+};
 
 const NewApplicant = () => {
   const { updating, updateSuccess } = useAppSelector(state => state.applicant);
   const dispatch = useAppDispatch();
   const { handleSubmit, setValue, control, register } = useForm();
 
-  const onSubmit = data => {
+  const onSubmit = async data => {
     const applicantAddresses = data[`${IdDocSetType.PROOF_OF_RESIDENCE}`]
       ? {
           applicantAddresses: [
@@ -27,6 +61,7 @@ const NewApplicant = () => {
         }
       : null;
 
+    const applicantDocs = await uploadDocs(data.level, data);
     const applicantInfo: IApplicantInfo = {
       firstName: data.firstName,
       lastName: data.lastName,
@@ -46,8 +81,9 @@ const NewApplicant = () => {
       applicant: {
         applicantLevel: data.level,
       },
+      applicantDocs,
     };
-
+    console.warn(applicantInfo);
     dispatch(createEntity(applicantInfo));
   };
 
