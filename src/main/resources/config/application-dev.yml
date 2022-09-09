@@ -119,3 +119,10 @@ jhipster:
 # ===================================================================
 
 # application:
+minio:
+  bucket:
+    name: kyc-docs
+  access:
+    key: AKIAIOSFODNN7EXAMPLE
+    secret: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+  url: http://172.17.0.2:9000
