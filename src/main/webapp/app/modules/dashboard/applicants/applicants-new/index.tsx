@@ -14,6 +14,7 @@ import axios from 'axios';
 import { IApplicantDocs } from 'app/shared/model/applicant-docs.model';
 import { TypeDoc } from 'app/shared/model/enumerations/type-doc.model';
 import { createEntity } from 'app/entities/applicant-info/applicant-info.reducer';
+import { Redirect } from 'react-router-dom';
 
 const uploadDocs = async (level: IApplicantLevel, data) => {
   const applicantDocs: IApplicantDocs[] = [];
@@ -45,8 +46,8 @@ const uploadDocs = async (level: IApplicantLevel, data) => {
   return applicantDocs;
 };
 
-const NewApplicant = () => {
-  const { updating, updateSuccess } = useAppSelector(state => state.applicant);
+const NewApplicant = ({ match }) => {
+  const { updating, updateSuccess, entity } = useAppSelector(state => state.applicantInfo);
   const dispatch = useAppDispatch();
   const { handleSubmit, setValue, control, register } = useForm();
 
@@ -86,7 +87,7 @@ const NewApplicant = () => {
     console.warn(applicantInfo);
     dispatch(createEntity(applicantInfo));
   };
-
+  if (updateSuccess) return <Redirect to={`${match.url.replace('new', 'screening')}/${entity.id}`} />;
   return (
     <div>
       <Stack verticalFill styles={{ root: { height: 50 } }}>

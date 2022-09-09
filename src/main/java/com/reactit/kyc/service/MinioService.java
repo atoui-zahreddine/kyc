@@ -6,8 +6,11 @@ import io.minio.messages.Item;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,24 +36,33 @@ public class MinioService {
         return objects;
     }
 
-    public InputStream getObject(String filename) throws Exception {
-        InputStream stream;
+    public ResponseEntity<byte[]> getObject(String filename) throws Exception {
+        GetObjectResponse objectResponse;
         try {
-            stream = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(filename).build());
+            objectResponse = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(filename).build());
         } catch (Exception e) {
             throw new Exception("Happened error when get list objects from minio: ");
         }
-
-        return stream;
+        var contentType = objectResponse.headers().get("Content-Type");
+        if (contentType == null) {
+            contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
+        }
+        InputStream stream = objectResponse;
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).body(IOUtils.toByteArray(stream));
     }
 
     public FileDTO uploadFile(FileDTO request) throws Exception {
         try {
+            var contentType = request.getFile().getContentType();
+            if (contentType == null) {
+                contentType = "application/octet-stream";
+            }
             minioClient.putObject(
                 PutObjectArgs
                     .builder()
                     .bucket(bucketName)
                     .object(request.getFile().getOriginalFilename())
+                    .contentType(contentType)
                     .stream(request.getFile().getInputStream(), request.getFile().getSize(), -1)
                     .build()
             );
