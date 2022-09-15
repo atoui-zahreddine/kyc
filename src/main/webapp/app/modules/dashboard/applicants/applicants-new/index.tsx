@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { PrimaryButton, Spinner, SpinnerSize, Stack } from '@fluentui/react';
 import { useForm } from 'react-hook-form';
 
@@ -13,10 +13,10 @@ import { IApplicantLevel } from 'app/shared/model/applicant-level.model';
 import axios from 'axios';
 import { IApplicantDocs } from 'app/shared/model/applicant-docs.model';
 import { TypeDoc } from 'app/shared/model/enumerations/type-doc.model';
-import { createEntity } from 'app/entities/applicant-info/applicant-info.reducer';
+import { createEntity, updateEntity } from 'app/entities/applicant-info/applicant-info.reducer';
 import { Redirect } from 'react-router-dom';
 
-const uploadDocs = async (level: IApplicantLevel, data) => {
+const uploadDocs = async (level: IApplicantLevel, data, applicantInfoId) => {
   const applicantDocs: IApplicantDocs[] = [];
 
   for (const step of level.steps)
@@ -30,6 +30,7 @@ const uploadDocs = async (level: IApplicantLevel, data) => {
         }
         const file = new FormData();
         file.append('file', fileToUpload.file);
+        file.append('prePath', `${IdDocSetType[docSet.idDocSetType]}/${TypeDoc[docSet.types]}/${applicantInfoId}`);
         const headers = {
           'content-type': 'multipart/form-data',
         };
@@ -49,9 +50,11 @@ const uploadDocs = async (level: IApplicantLevel, data) => {
 const NewApplicant = ({ match }) => {
   const { updating, updateSuccess, entity } = useAppSelector(state => state.applicantInfo);
   const dispatch = useAppDispatch();
-  const { handleSubmit, setValue, control, register } = useForm();
+  const { handleSubmit, setValue, control, register, getValues } = useForm();
+  const [isApplicantInfoDocsUpdated, setIsApplicantInfoDocsUpdated] = useState(false);
+  const [shouldUploadDocs, setShouldUploadDocs] = useState(false);
 
-  const onSubmit = async data => {
+  const onSubmit = data => {
     const applicantAddresses = data[`${IdDocSetType.PROOF_OF_RESIDENCE}`]
       ? {
           applicantAddresses: [
@@ -62,7 +65,6 @@ const NewApplicant = ({ match }) => {
         }
       : null;
 
-    const applicantDocs = await uploadDocs(data.level, data);
     const applicantInfo: IApplicantInfo = {
       firstName: data.firstName,
       lastName: data.lastName,
@@ -82,12 +84,30 @@ const NewApplicant = ({ match }) => {
       applicant: {
         applicantLevel: data.level,
       },
-      applicantDocs,
     };
-    console.warn(applicantInfo);
+
     dispatch(createEntity(applicantInfo));
+    setShouldUploadDocs(true);
   };
-  if (updateSuccess) return <Redirect to={`${match.url.replace('new', 'screening')}/${entity.id}`} />;
+
+  async function updateApplicantInfoDocs() {
+    if (shouldUploadDocs && entity.applicantDocs?.length === 0) {
+      console.warn('updateApplicantInfoDocs ...');
+      const data = getValues();
+      const applicantDocs = await uploadDocs(data.level, data, entity.id);
+      const newApplicantInfo: IApplicantInfo = { ...entity, applicantDocs };
+      dispatch(updateEntity(newApplicantInfo));
+      setIsApplicantInfoDocsUpdated(true);
+    }
+  }
+
+  useEffect(() => {
+    if (isApplicantInfoDocsUpdated) return;
+    updateApplicantInfoDocs().catch(e => console.error(e));
+  }, [entity]);
+
+  if (updateSuccess && isApplicantInfoDocsUpdated) return <Redirect to={`${match.url.replace('new', 'screening')}/${entity.id}`} />;
+
   return (
     <div>
       <Stack verticalFill styles={{ root: { height: 50 } }}>

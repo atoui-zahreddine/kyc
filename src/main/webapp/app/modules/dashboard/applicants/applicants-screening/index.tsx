@@ -71,8 +71,8 @@ const ApplicantsScreening = ({ match }) => {
       <RiskLevel />
       <Checks checksData={checksData} />
       <WatchList watchListData={watchListData} />
-      <IdentityDocuments />
-      <Liveness />
+      <IdentityDocuments applicantDocs={applicantInfo.applicantDocs} />
+      <Liveness applicantDocs={applicantInfo.applicantDocs} />
     </div>
   );
 };

@@ -41,19 +41,26 @@ const UploadFile = ({ id, control, target, onChangeHandler }) => {
   };
   return (
     <>
-      <label htmlFor={id} className={labelStyle}>
-        <CommandBarButton
-          styles={{ root: { background: 'transparent', alignSelf: 'stretch', height: '100%' } }}
-          iconProps={{ iconName: 'CloudUpload' }}
-          text={file ? file.name : 'Upload File'}
-          onClick={() => document.getElementById(id).click()}
-        />
-      </label>
       <Controller
         control={control}
         rules={{ required: true }}
-        render={({ fieldState: { invalid }, field: { name } }) => (
-          <input type="file" id={id} className={fileStyle} onChange={e => onFileChange(e.target.files[0], name)} required={invalid} />
+        render={({ fieldState: { invalid }, field: { name, value, ...props } }) => (
+          <div>
+            <label htmlFor={id} className={labelStyle}>
+              <CommandBarButton
+                styles={{ root: { background: 'transparent', alignSelf: 'stretch', height: '100%' } }}
+                iconProps={{ iconName: 'CloudUpload' }}
+                text={value ? value.name : 'Upload File'}
+                onClick={() => document.getElementById(id).click()}
+              />
+            </label>
+            <input type="file" id={id} className={fileStyle} {...props} onChange={e => onFileChange(e.target.files[0], name)} />
+            {invalid && (
+              <div role="alert" className="error-message">
+                Field is required
+              </div>
+            )}
+          </div>
         )}
         name={`${target}.file`}
       />

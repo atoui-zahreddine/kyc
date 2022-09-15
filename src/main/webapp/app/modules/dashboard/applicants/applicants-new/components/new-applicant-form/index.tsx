@@ -22,7 +22,7 @@ const NewApplicantForm: FunctionComponent<NewApplicantFormProps> = ({ control, s
   const level = useWatch({ control, name: 'level' }) as IApplicantLevel;
 
   const onChange = (value, target: string) => {
-    setValue(target, value);
+    setValue(target, value, { shouldValidate: true });
   };
 
   const steps = {

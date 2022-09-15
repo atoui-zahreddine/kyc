@@ -57,11 +57,11 @@ public class MinioService {
             if (contentType == null) {
                 contentType = "application/octet-stream";
             }
-            minioClient.putObject(
+            var ObjectResponse = minioClient.putObject(
                 PutObjectArgs
                     .builder()
                     .bucket(bucketName)
-                    .object(request.getFile().getOriginalFilename())
+                    .object(String.join("/", request.getPrePath(), request.getFile().getOriginalFilename()))
                     .contentType(contentType)
                     .stream(request.getFile().getInputStream(), request.getFile().getSize(), -1)
                     .build()
@@ -72,7 +72,7 @@ public class MinioService {
         return new FileDTO(
             request.getFile().getOriginalFilename(),
             request.getFile().getSize(),
-            getPreSignedUrl(request.getFile().getOriginalFilename())
+            getPreSignedUrl(String.join("/", request.getPrePath(), request.getFile().getOriginalFilename()))
         );
     }
 

@@ -12,7 +12,7 @@ public class FileDTO implements Serializable {
 
     private static final long serialVersionUID = 232836038145089522L;
 
-    private String title;
+    private String prePath;
 
     private String description;
 
@@ -31,12 +31,12 @@ public class FileDTO implements Serializable {
         this.filename = filename;
     }
 
-    public String getTitle() {
-        return title;
+    public String getPrePath() {
+        return prePath;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setPrePath(String prePath) {
+        this.prePath = prePath;
     }
 
     public String getDescription() {

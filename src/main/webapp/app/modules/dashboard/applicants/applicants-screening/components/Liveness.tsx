@@ -1,12 +1,21 @@
 import { Text } from '@fluentui/react';
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import DocumentCheckResultContainer from './common/document-check-result-container';
+import { IApplicantDocs } from 'app/shared/model/applicant-docs.model';
+import { TypeDoc } from 'app/shared/model/enumerations/type-doc.model';
 
-const Liveness = () => {
+interface LivenessProps {
+  applicantDocs: IApplicantDocs[];
+}
+
+const Liveness: FunctionComponent<LivenessProps> = ({ applicantDocs = [] }) => {
+  const livenessDocs = applicantDocs.filter(doc => doc.docType === TypeDoc.SELFIE);
   return (
     <div>
       <Text variant="large">Liveness</Text>
-      <DocumentCheckResultContainer name="Selfie" />
+      {livenessDocs.map(doc => (
+        <DocumentCheckResultContainer key={doc.id} doc={doc} name="Selfie" />
+      ))}
     </div>
   );
 };
