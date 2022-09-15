@@ -1,66 +1,65 @@
-import './applicant-level-list.scss';
-
 import React, { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { useHistory } from 'react-router-dom';
 import { DetailsListLayoutMode, IColumn, PrimaryButton, SelectionMode, ShimmeredDetailsList, Stack, Text } from '@fluentui/react';
 
-import { IApplicantLevel } from 'app/shared/model/applicant-level.model';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getEntities } from 'app/entities/applicant-level/applicant-level.reducer';
-import Controls from './components/controls';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import Pagination from 'app/modules/dashboard/applicant-level/applicant-level-list/components/Pagination';
+import { IApplicantInfo } from 'app/shared/model/applicant-info.model';
+import { getEntities } from 'app/entities/applicant-info/applicant-info.reducer';
+import Controls from 'app/modules/dashboard/applicant-level/applicant-level-list/components/controls';
 
 const columns: IColumn[] = [
   {
-    key: 'levelName',
-    name: 'Level Name',
-    fieldName: 'levelName',
-    minWidth: 150,
-    maxWidth: 250,
-    isResizable: true,
-    isCollapsible: true,
-    data: 'string',
-    onRender(item: IApplicantLevel) {
-      return <span>{item.levelName}</span>;
-    },
-    isPadded: true,
-  },
-  {
-    key: 'steps',
-    name: 'steps',
-    fieldName: 'steps',
+    key: 'id',
+    name: 'Id',
+    fieldName: 'id',
     minWidth: 70,
     maxWidth: 130,
     isResizable: true,
     isCollapsible: true,
     data: 'string',
-    onRender(item: IApplicantLevel) {
-      return <span>{item.steps?.length || 0}</span>;
+    onRender(item: IApplicantInfo) {
+      return <span>{item.id}</span>;
     },
   },
   {
-    key: 'createdAt',
-    name: 'Created',
-    fieldName: 'createdAt',
+    key: 'firstName',
+    name: 'First Name',
+    fieldName: 'firstName',
+    minWidth: 150,
+    maxWidth: 250,
+    isResizable: true,
+    isCollapsible: true,
+    data: 'string',
+    onRender(item: IApplicantInfo) {
+      return <span>{item.firstName}</span>;
+    },
+    isPadded: true,
+  },
+  {
+    key: 'firstName',
+    name: 'Last Name',
+    fieldName: 'firstName',
+    minWidth: 70,
+    maxWidth: 130,
+    isResizable: true,
+    isCollapsible: true,
+    data: 'string',
+    onRender(item: IApplicantInfo) {
+      return <span>{item.lastName}</span>;
+    },
+  },
+  {
+    key: 'dateOfBirth',
+    name: 'Date Of Birth',
+    fieldName: 'dateOfBirth',
     minWidth: 70,
     isResizable: true,
     isCollapsible: true,
     data: 'string',
-    onRender(item: IApplicantLevel) {
-      return <span>{item.createdAt}</span>;
-    },
-  },
-  {
-    key: 'createdBy',
-    name: 'Created By',
-    fieldName: 'createdBy',
-    minWidth: 70,
-    isResizable: true,
-    isCollapsible: true,
-    data: 'string',
-    onRender(item: IApplicantLevel) {
-      return <span>{item.createdBy}</span>;
+    onRender(item: IApplicantInfo) {
+      return <span>{item.dateOfBirth}</span>;
     },
   },
   {
@@ -76,7 +75,7 @@ const columns: IColumn[] = [
   },
 ];
 
-export const ApplicantLevelList = () => {
+const ApplicantsList = () => {
   const dispatch = useAppDispatch();
   const router = useHistory();
 
@@ -86,9 +85,9 @@ export const ApplicantLevelList = () => {
     sort: 'id,desc',
   });
 
-  const applicantLevelList = useAppSelector(state => state.applicantLevel.entities);
-  const loading = useAppSelector(state => state.applicantLevel.loading);
-  const totalItems = useAppSelector(state => state.applicantLevel.totalItems);
+  const applicantLevelList = useAppSelector(state => state.applicantInfo.entities);
+  const loading = useAppSelector(state => state.applicantInfo.loading);
+  const totalItems = useAppSelector(state => state.applicantInfo.totalItems);
 
   const goToNewLevelPage = () => {
     router.push(`${router.location.pathname}/new`);
@@ -105,11 +104,11 @@ export const ApplicantLevelList = () => {
   return (
     <Stack tokens={{ childrenGap: 16 }}>
       <Text variant={'large'} nowrap block>
-        Applicant Levels
+        Applicants
       </Text>
       <Stack styles={{ root: { alignItems: 'flex-end' } }}>
         <PrimaryButton onClick={goToNewLevelPage} styles={{ root: { color: 'white' } }}>
-          New Applicant Level
+          New Applicant
         </PrimaryButton>
       </Stack>
       <ShimmeredDetailsList
@@ -126,4 +125,4 @@ export const ApplicantLevelList = () => {
   );
 };
 
-export default ApplicantLevelList;
+export default ApplicantsList;

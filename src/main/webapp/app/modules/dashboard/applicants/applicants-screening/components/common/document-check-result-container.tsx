@@ -1,8 +1,7 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Label, Pivot, PivotItem, Stack, Text } from '@fluentui/react';
 import { IApplicantDocs } from 'app/shared/model/applicant-docs.model';
-import { Buffer } from 'buffer';
-import axios from 'axios';
+import useProtectedFiles from 'app/shared/hooks/useProtectedFiles';
 
 interface DocumentCheckResultContainerProps {
   isTwoSides?: boolean;
@@ -10,23 +9,9 @@ interface DocumentCheckResultContainerProps {
   doc: IApplicantDocs;
 }
 
-function useProtectedFiles(imageUrl: string) {
-  const [fileBase64, setFileBase64] = useState<string>('');
-  useEffect(() => {
-    axios
-      .get(`/api/files/${imageUrl}`, { responseType: 'arraybuffer' })
-      .then(({ data, headers }) => {
-        const base64 = Buffer.from(data, 'binary').toString('base64');
-        const file = 'data:' + headers['content-type'] + ';base64,' + base64;
-        setFileBase64(`data:image/png;base64,${base64}`);
-      })
-      .catch(console.error);
-  }, [imageUrl]);
-  return { fileBase64 };
-}
-
 const DocumentCheckResultContainer: FunctionComponent<DocumentCheckResultContainerProps> = ({ isTwoSides, name, doc }) => {
   const { fileBase64 } = useProtectedFiles(doc.imageUrl);
+
   return (
     <Stack horizontal horizontalAlign="space-between" styles={{ root: { gap: '7rem', marginTop: '1rem' } }}>
       <Stack verticalAlign="space-between" verticalFill styles={{ root: { flex: 1, gap: '1rem' } }}>

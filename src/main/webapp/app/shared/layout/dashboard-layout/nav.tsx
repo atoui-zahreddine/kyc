@@ -25,8 +25,8 @@ const navLinkGroups: INavLinkGroup[] = [
       },
       {
         name: 'Applicants',
-        key: DASHBOARD_PATH + '/applicants/new',
-        url: DASHBOARD_PATH + '/applicants/new',
+        key: DASHBOARD_PATH + '/applicants',
+        url: DASHBOARD_PATH + '/applicants',
       },
       {
         name: 'Statistics',
@@ -88,7 +88,7 @@ const navLinkGroups: INavLinkGroup[] = [
   },
 ];
 
-const NavBasicExample: React.FunctionComponent = props => {
+const NavBasicExample: React.FunctionComponent = () => {
   const history = useHistory();
 
   const onNavClick = (ev?: React.MouseEvent<HTMLElement>, item?: INavLink) => {

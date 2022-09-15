@@ -2,9 +2,8 @@ import React from 'react';
 import { useBoolean, useId } from '@fluentui/react-hooks';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { Callout, Icon, IconButton, Link, Stack } from '@fluentui/react';
-import { IApplicantLevel } from 'app/shared/model/applicant-level.model';
 
-const Controls = (level: IApplicantLevel) => {
+const Controls = level => {
   const [isCalloutVisible, { toggle: toggleIsCalloutVisible }] = useBoolean(false);
   const location = useLocation();
   const buttonId = useId('callout-button');
