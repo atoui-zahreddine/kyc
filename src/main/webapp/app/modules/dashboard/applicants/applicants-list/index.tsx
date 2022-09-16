@@ -7,7 +7,7 @@ import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import Pagination from 'app/modules/dashboard/applicant-level/applicant-level-list/components/Pagination';
 import { IApplicantInfo } from 'app/shared/model/applicant-info.model';
 import { getEntities } from 'app/entities/applicant-info/applicant-info.reducer';
-import Controls from 'app/modules/dashboard/applicant-level/applicant-level-list/components/controls';
+import Controls from 'app/shared/Table/controls';
 
 const columns: IColumn[] = [
   {

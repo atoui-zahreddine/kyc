@@ -30,7 +30,7 @@ public class MinioService {
                 objects.add(new FileDTO(item.get().objectName(), item.get().size(), getPreSignedUrl(item.get().objectName())));
             }
         } catch (Exception e) {
-            throw new Exception("Happened error when get list objects from minio: ");
+            throw new Exception("Happened error when get list objects from minio: " + e.getMessage());
         }
 
         return objects;
@@ -41,7 +41,7 @@ public class MinioService {
         try {
             objectResponse = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(filename).build());
         } catch (Exception e) {
-            throw new Exception("Happened error when get list objects from minio: ");
+            throw new Exception("Happened error when get list objects from minio: " + e.getMessage());
         }
         var contentType = objectResponse.headers().get("Content-Type");
         if (contentType == null) {
@@ -57,7 +57,7 @@ public class MinioService {
             if (contentType == null) {
                 contentType = "application/octet-stream";
             }
-            var ObjectResponse = minioClient.putObject(
+            minioClient.putObject(
                 PutObjectArgs
                     .builder()
                     .bucket(bucketName)

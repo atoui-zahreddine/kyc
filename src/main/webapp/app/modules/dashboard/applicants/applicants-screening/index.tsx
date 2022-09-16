@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getEntity } from 'app/entities/applicant-info/applicant-info.reducer';
@@ -10,6 +10,8 @@ import IdentityDocuments from './components/IdentityDocuments';
 import Liveness from './components/Liveness';
 
 import './styles.scss';
+import Sanctions from './components/sanctions';
+import useDilisenseSanctionApi from 'app/shared/hooks/useDilisenseSanctionApi';
 
 const watchListData = [
   {
@@ -58,6 +60,14 @@ const checksData = [
 
 const ApplicantsScreening = ({ match }) => {
   const { entity: applicantInfo } = useAppSelector(state => state.applicantInfo);
+  const [revision, setRevision] = useState(0);
+  const query = applicantInfo.firstName ? `${applicantInfo.firstName} ${applicantInfo.lastName ?? ''}` : '';
+  const { result, loading } = useDilisenseSanctionApi(query, revision);
+  result?.found_records?.length !== 0 ? (watchListData[1].warnings = 'SUSPICIOUS') : (watchListData[1].warnings = 'CLEAN');
+
+  const rerunCheck = () => {
+    setRevision(prevRevision => prevRevision + 1);
+  };
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -71,6 +81,7 @@ const ApplicantsScreening = ({ match }) => {
       <RiskLevel />
       <Checks checksData={checksData} />
       <WatchList watchListData={watchListData} />
+      <Sanctions result={result} loading={loading} rerunCheck={rerunCheck} />
       <IdentityDocuments applicantDocs={applicantInfo.applicantDocs} />
       <Liveness applicantDocs={applicantInfo.applicantDocs} />
     </div>

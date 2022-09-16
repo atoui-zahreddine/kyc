@@ -7,7 +7,7 @@ import { DetailsListLayoutMode, IColumn, PrimaryButton, SelectionMode, Shimmered
 import { IApplicantLevel } from 'app/shared/model/applicant-level.model';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getEntities } from 'app/entities/applicant-level/applicant-level.reducer';
-import Controls from './components/controls';
+import Controls from 'app/shared/Table/controls';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import Pagination from 'app/modules/dashboard/applicant-level/applicant-level-list/components/Pagination';
 

@@ -8,8 +8,13 @@ interface ResultContainerProps {
   status?: string;
 }
 const ResultContainer: FunctionComponent<ResultContainerProps> = ({ name, status, warnings, searchDate }) => {
+  const goToSection = () => {
+    const section = document.getElementById(name);
+    section?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <Stack verticalAlign="center" horizontal wrap styles={{ inner: { gap: '6rem' } }}>
+    <Stack onClick={goToSection} verticalAlign="center" horizontal wrap styles={{ root: { cursor: 'pointer' }, inner: { gap: '6rem' } }}>
       <Stack verticalAlign="center" verticalFill styles={{ inner: { gap: '1rem' } }}>
         <Text variant="medium">{name}</Text>
         <Text
